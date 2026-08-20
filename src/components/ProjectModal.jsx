@@ -1,0 +1,113 @@
+import React, { useEffect } from 'react';
+import { X, Sparkles, Cpu, Layers, ExternalLink, Calendar, CheckCircle2, Award, Zap, Code2 } from 'lucide-react';
+
+export default function ProjectModal({ project, onClose, playSound }) {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  if (!project) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-fadeIn">
+      <div
+        className="relative w-full max-w-3xl glass-panel-glow bg-[#0d0f18] rounded-2xl border border-cyan-500/30 p-6 sm:p-8 text-left shadow-2xl shadow-cyan-950/50 max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => {
+            playSound?.('click');
+            onClose();
+          }}
+          className="absolute top-5 right-5 p-2 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-cyan-400 text-slate-400 hover:text-white transition-all"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* Header Badges */}
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+            {project.category}
+          </span>
+          <span className="px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-purple-500/10 text-purple-300 border border-purple-500/30">
+            {project.date}
+          </span>
+          {project.highlight && (
+            <span className="px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+              <Award className="w-3.5 h-3.5" />
+              {project.highlight}
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <h2 className="text-2xl sm:text-3xl font-display font-bold text-white mb-2">
+          {project.title}
+        </h2>
+        <p className="text-sm sm:text-base text-cyan-300/90 font-mono mb-6">
+          {project.subtitle}
+        </p>
+
+        {/* Metrics Grid */}
+        {project.metrics && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+            {project.metrics.map((metric, i) => (
+              <div key={i} className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col">
+                <span className="text-xs font-mono text-slate-400">{metric.label}</span>
+                <span className="text-lg font-bold font-display text-white mt-0.5">{metric.value}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Detailed Breakdown */}
+        <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-light">
+          {project.description.split('\n\n').map((paragraph, index) => (
+            <p key={index} className="whitespace-pre-line">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        {/* Tech Stack Tags */}
+        <div className="pt-4 border-t border-slate-800">
+          <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
+            <Code2 className="w-4 h-4 text-cyan-400" />
+            Technologies & Frameworks
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2.5 py-1 text-xs rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60 font-mono"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer Actions */}
+        <div className="mt-8 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs font-mono text-slate-400">
+            Author: <strong className="text-slate-200">Shuvam Singh</strong>
+          </span>
+          <button
+            onClick={() => {
+              playSound?.('click');
+              onClose();
+            }}
+            className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-white transition-all"
+          >
+            Close Viewer
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
