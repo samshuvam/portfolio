@@ -157,7 +157,7 @@ export default function InteractiveDemos({ playSound }) {
               </div>
 
               <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-800/40 text-xs font-mono text-purple-200 leading-relaxed">
-                💡 <strong>Mathematical Formulation:</strong> \(R(t) = e^{(-t / S)}\) where stability \(S\) increases proportionally with sleep consolidation & synaptic vector reinforcement, preventing catastrophic forgetting in LoRA layers.
+                💡 <strong>Mathematical Formulation:</strong> <span className="text-cyan-300 font-semibold">R(t) = e^(-t / S)</span> where stability <span className="text-purple-300 font-semibold">S</span> increases proportionally with sleep consolidation &amp; synaptic vector reinforcement, preventing catastrophic forgetting in LoRA layers.
               </div>
             </div>
 

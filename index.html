@@ -31,7 +31,28 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Orbitron:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#090a0f] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black min-h-screen overflow-x-hidden">
-    <div id="root"></div>
+    <div id="root">
+      <div id="loading-indicator" style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:#00f5d4;font-family:monospace;font-size:18px;">
+        Loading...
+      </div>
+    </div>
+    <div id="error-display" style="display:none;position:fixed;top:0;left:0;right:0;padding:20px;background:#ff000033;color:#ff6b6b;font-family:monospace;font-size:14px;z-index:99999;white-space:pre-wrap;"></div>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        var el = document.getElementById('error-display');
+        if (el) {
+          el.style.display = 'block';
+          el.textContent = 'JS Error: ' + msg + '\nAt: ' + url + ':' + line + ':' + col + '\n' + (error && error.stack ? error.stack : '');
+        }
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        var el = document.getElementById('error-display');
+        if (el) {
+          el.style.display = 'block';
+          el.textContent = 'Unhandled Promise Rejection: ' + event.reason;
+        }
+      });
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
