@@ -59,7 +59,7 @@ export default function TerminalModal({ isOpen, onClose, playSound }) {
             type: 'response',
             text: `Identity: ${personalInfo.name}
 Role: ${personalInfo.title}
-Education: SRM University - AP (B.Tech CSE Big Data) | CGPA: ${personalInfo.cgpa}
+Education: SRM University (B.Tech CSE Big Data) | CGPA: ${personalInfo.cgpa}
 Location: ${personalInfo.location}
 IELTS: ${personalInfo.ielts} (Scientific Writing & Tech Presentation)`
           });
