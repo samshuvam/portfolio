@@ -3,7 +3,7 @@ import { Aperture, Camera, FolderPlus, ChevronDown, ChevronUp } from 'lucide-rea
 
 // Add images to this folder; Vite picks up every aspect ratio at build time.
 const photos = import.meta.glob('../assets/photography/*.{jpg,jpeg,png,webp,avif}', { eager: true, query: '?url', import: 'default' });
-const ROW_SIZE = 3;
+const ROW_SIZE = 4;
 
 export default function Photography() {
   const items = useMemo(() => Object.entries(photos).map(([path, src], index) => ({ src, index, name: path.split('/').pop() })), []);
