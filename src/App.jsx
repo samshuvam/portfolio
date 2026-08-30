@@ -11,11 +11,33 @@ import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import ProjectModal from './components/ProjectModal';
 import TerminalModal from './components/TerminalModal';
+import VideoShowcase from './components/VideoShowcase';
+import Photography from './components/Photography';
+import NowAndGlossary from './components/NowAndGlossary';
+import SocialProof from './components/SocialProof';
+import Struggle from './components/Struggle';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  const [noise, setNoise] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const sequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
+    let index = 0;
+    const onKey = (event) => {
+      index = event.key.toLowerCase() === sequence[index] ? index + 1 : 0;
+      if (index === sequence.length) { document.documentElement.classList.toggle('geo-mode'); index = 0; }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   // Audio synthesis helper via Web Audio API (Zero external assets required)
   const playSound = useCallback((type = 'click') => {
@@ -80,7 +102,7 @@ export default function App() {
   }, [playSound]);
 
   return (
-    <div className="relative min-h-screen bg-[#090a0f] text-slate-100 selection:bg-cyan-500 selection:text-black">
+    <div data-theme={theme} className={`relative min-h-screen bg-[#090a0f] text-slate-100 selection:bg-cyan-500 selection:text-black ${noise ? 'synapse-noise' : ''}`}>
       {/* Background Interactive Canvas Particle Field */}
       <CanvasBackground />
 
@@ -94,6 +116,10 @@ export default function App() {
           soundEnabled={soundEnabled}
           setSoundEnabled={setSoundEnabled}
           playSound={playSound}
+          theme={theme}
+          setTheme={setTheme}
+          noise={noise}
+          setNoise={setNoise}
         />
 
         <main className="flex-1">
@@ -101,11 +127,18 @@ export default function App() {
             onOpenTerminal={() => setTerminalOpen(true)}
             playSound={playSound}
           />
+          <VideoShowcase playSound={playSound} />
+
+          <Photography />
 
           <ResearchProjects
             onSelectProject={(project) => setSelectedProject(project)}
             playSound={playSound}
           />
+
+          <SocialProof />
+
+          <Struggle />
 
           <InteractiveDemos playSound={playSound} />
 
@@ -114,6 +147,8 @@ export default function App() {
           <Publications playSound={playSound} />
 
           <SkillsMatrix playSound={playSound} />
+
+          <NowAndGlossary />
 
           <ContactSection playSound={playSound} />
         </main>

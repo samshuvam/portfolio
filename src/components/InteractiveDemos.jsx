@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Orbit, Activity, ShieldAlert, Cpu, Sparkles, Sliders, RefreshCw, CheckCircle, Navigation, Radio, Database } from 'lucide-react';
+import { Cpu, Sparkles, Navigation, Radio, Database, Gamepad2 } from 'lucide-react';
 
 export default function InteractiveDemos({ playSound }) {
   const [activeTab, setActiveTab] = useState('biomemory');
@@ -20,6 +20,10 @@ export default function InteractiveDemos({ playSound }) {
   const [radarConflict, setRadarConflict] = useState(false);
   const [droneCount, setDroneCount] = useState(6);
   const [radarScanAngle, setRadarScanAngle] = useState(0);
+  const [drone, setDrone] = useState({ x: 12, y: 72 });
+  const [gameState, setGameState] = useState('ready');
+  const [score, setScore] = useState(0);
+  const buildings = [{ x: 32, y: 20, w: 11, h: 46 }, { x: 58, y: 44, w: 12, h: 45 }, { x: 82, y: 12, w: 9, h: 52 }];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,6 +31,25 @@ export default function InteractiveDemos({ playSound }) {
     }, 50);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const move = (event) => {
+      if (activeTab !== 'game' || gameState === 'crashed' || gameState === 'won') return;
+      const delta = { ArrowUp: [0, -5], ArrowDown: [0, 5], ArrowLeft: [-5, 0], ArrowRight: [5, 0] }[event.key];
+      if (!delta) return;
+      event.preventDefault();
+      setGameState('flying');
+      setDrone((current) => {
+        const next = { x: Math.max(2, Math.min(96, current.x + delta[0])), y: Math.max(4, Math.min(94, current.y + delta[1])) };
+        const hit = buildings.some((b) => next.x > b.x && next.x < b.x + b.w && next.y > b.y && next.y < b.y + b.h);
+        if (hit) { setGameState('crashed'); return next; }
+        if (next.x >= 94) { setGameState('won'); setScore((s) => s + 1); }
+        return next;
+      });
+    };
+    window.addEventListener('keydown', move);
+    return () => window.removeEventListener('keydown', move);
+  }, [activeTab, gameState]);
 
   // RAG Token Budget State
   const [tokenBudget, setTokenBudget] = useState(1024);
@@ -65,6 +88,7 @@ export default function InteractiveDemos({ playSound }) {
           <Cpu className="w-4 h-4 text-purple-300" />
           <span>Bio-Memory & Forgetting Curve</span>
         </button>
+        <button onClick={() => { playSound?.('click'); setActiveTab('game'); }} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${activeTab === 'game' ? 'bg-amber-400 text-slate-950 font-bold shadow-lg shadow-amber-400/30' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'}`}><Gamepad2 className="w-4 h-4" /><span>eVTOL Mini-Game</span></button>
 
         <button
           onClick={() => {
@@ -350,6 +374,19 @@ export default function InteractiveDemos({ playSound }) {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'game' && (
+        <div className="glass-panel-glow bg-[#0d0f18] rounded-3xl p-6 sm:p-8 border border-amber-400/30 max-w-5xl mx-auto shadow-2xl">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5"><div><p className="text-xs font-mono text-amber-200">FLIGHT TRAINING SIMULATION</p><h3 className="text-2xl font-bold text-white mt-1">Dodge the buildings.</h3><p className="text-sm text-slate-400 mt-1">Arrow keys steer the eVTOL through the city. Reach the right edge safely.</p></div><div className="text-sm font-mono text-cyan-300">SAFE ARRIVALS: {score}</div></div>
+          <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-cyan-400/25 bg-[linear-gradient(180deg,rgba(14,116,144,.22),rgba(2,6,23,.95))]" tabIndex="0">
+            <div className="absolute inset-0 opacity-20 bg-[linear-gradient(90deg,transparent_49%,#67e8f9_50%,transparent_51%)] bg-[length:40px_40px]" />
+            {buildings.map((building, index) => <div key={index} className="absolute bg-slate-700 border border-slate-500/70 rounded-t-sm" style={{ left: `${building.x}%`, top: `${building.y}%`, width: `${building.w}%`, height: `${building.h}%` }} />)}
+            <div className="absolute transition-all duration-150 text-xl" style={{ left: `${drone.x}%`, top: `${drone.y}%`, transform: 'translate(-50%, -50%)' }}>🛸</div>
+            <div className="absolute left-3 top-3 text-[10px] font-mono text-cyan-100 bg-slate-950/70 p-2 rounded">HUD · ALT 120m · GIMBAL +12°<br />STATUS: {gameState.toUpperCase()}</div>
+            {(gameState === 'crashed' || gameState === 'won') && <div className="absolute inset-0 flex items-center justify-center bg-slate-950/60"><div className="text-center p-5 rounded-2xl bg-slate-900 border border-amber-300/30"><p className="text-white font-bold">{gameState === 'crashed' ? 'Conflict Resolution Failed.' : 'Safe landing confirmed.'}</p><button onClick={() => { setDrone({ x: 12, y: 72 }); setGameState('ready'); }} className="mt-3 px-3 py-2 rounded-lg text-xs font-bold bg-amber-300 text-slate-950">Try again</button></div></div>}
           </div>
         </div>
       )}

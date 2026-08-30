@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Terminal, FileText, ArrowRight, ShieldCheck, Cpu, Orbit, Layers, ExternalLink, Globe, Compass } from 'lucide-react';
+import { Terminal, ArrowRight, Cpu, Orbit } from 'lucide-react';
 import { personalInfo, heroStats } from '../data/portfolioData';
 
 export default function Hero({ onOpenTerminal, onOpenBioModal, playSound }) {
@@ -24,15 +24,17 @@ export default function Hero({ onOpenTerminal, onOpenBioModal, playSound }) {
 
         {/* Main Headline */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-white max-w-5xl leading-[1.15] mb-6">
-          Architecting <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,245,212,0.3)]">Bio-Memory</span> &{' '}
-          <span className="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(139,92,246,0.3)]">Aerospace AI</span> Systems
+          AI, Aviation and <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,245,212,0.3)]">Everything</span> in Between
         </h1>
+
+        <p className="text-cyan-200/90 uppercase tracking-[.18em] text-xs sm:text-sm font-mono mb-5">Exploring intelligence across domains and beyond.</p>
 
         {/* Subtitle / Bio */}
         <p className="text-slate-300 text-base sm:text-lg md:text-xl max-w-3xl font-light leading-relaxed mb-10 text-center">
-          Hey, I'm <strong className="text-white font-semibold">Shuvam Singh</strong>. Computer Science & Big Data Engineer from SRM University - AP.
+          Hey, I'm <strong className="text-white font-semibold">Shuvam Singh</strong>. Computer Science Engineer from SRM University with a specialization in Big Data.
           Specializing in <span className="text-cyan-300 font-medium">Bio-Inspired Continual Learning</span>, <span className="text-purple-300 font-medium">Deterministic Context Orchestration</span>, and <span className="text-blue-300 font-medium">4D Autonomous Air Traffic Control (eVTOL & UAM)</span>.
         </p>
+        <p className="max-w-2xl rounded-xl border border-cyan-500/20 bg-cyan-500/5 px-4 py-3 text-sm text-slate-200 mb-8">TL;DR — I build AI systems that remember like humans, protect data by design, and help autonomous vehicles move safely through complex spaces.</p>
 
         {/* CTA Button Array */}
         <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
@@ -88,17 +90,6 @@ export default function Hero({ onOpenTerminal, onOpenBioModal, playSound }) {
           ))}
         </div>
 
-        {/* Domain Verification Badge */}
-        <div className="mt-8 flex items-center gap-2 text-xs font-mono text-slate-400">
-          <Globe className="w-3.5 h-3.5 text-cyan-400" />
-          <span>Target Production Host:</span>
-          <span className="text-cyan-300 font-semibold underline decoration-cyan-500/30">
-            https://{personalInfo.domain}
-          </span>
-          <span className="px-1.5 py-0.2 rounded text-[10px] bg-purple-500/10 text-purple-300 border border-purple-500/20">
-            Cloudflare DNS Ready
-          </span>
-        </div>
       </div>
     </section>
   );

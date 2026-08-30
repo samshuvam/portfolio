@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Volume2, VolumeX, Menu, X, FileText, Sparkles, Cpu, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Terminal, Volume2, VolumeX, Menu, X, FileText, Cpu, Sun, Moon, BrainCircuit } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 
-export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, playSound }) {
+export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, playSound, theme, setTheme, noise, setNoise }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -15,11 +15,13 @@ export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, 
   }, []);
 
   const navLinks = [
+    { name: 'Watch', href: '#watch' },
+    { name: 'Photography', href: '#photography' },
     { name: 'Research & AI', href: '#research' },
     { name: 'Live Demos', href: '#demos' },
     { name: 'Experience', href: '#experience' },
     { name: 'Publications', href: '#publications' },
-    { name: 'Skills Matrix', href: '#skills' },
+    { name: 'Now', href: '#now' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -96,6 +98,8 @@ export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, 
           >
             {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4" />}
           </button>
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} title="Toggle light/dark mode" className="p-2 rounded-lg bg-slate-900/80 border border-slate-700/60 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">{theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}</button>
+          <button onClick={() => setNoise(!noise)} title={noise ? 'Restore Synapses' : 'Inject Noise'} className="p-2 rounded-lg bg-slate-900/80 border border-slate-700/60 text-slate-400 hover:text-purple-300 hover:border-purple-500/40 transition-all"><BrainCircuit className="w-4 h-4" /></button>
 
           {/* Terminal Trigger */}
           <button

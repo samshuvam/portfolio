@@ -1,0 +1,6 @@
+import React from 'react';
+import { Gauge, Wrench } from 'lucide-react';
+
+export default function Struggle() {
+  return <section className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"><div className="rounded-3xl p-6 sm:p-9 border border-amber-400/20 bg-gradient-to-br from-amber-500/10 to-slate-950/50"><div className="grid md:grid-cols-[auto_1fr] gap-5"><div className="w-12 h-12 rounded-2xl bg-amber-300/10 border border-amber-300/20 flex items-center justify-center"><Wrench className="w-6 h-6 text-amber-300" /></div><div><p className="text-xs font-mono text-amber-200">THE STRUGGLE / ENGINEERING NOTES</p><h2 className="text-2xl font-bold text-white mt-2">The hard part is usually the handoff between systems.</h2><p className="text-slate-300 mt-3 max-w-3xl leading-relaxed">Whether it is fitting reliable evidence into a limited context window, resolving trajectories in a crowded airspace, or replacing a legacy operational workflow, the bottleneck is rarely a single model. I break the failure point into measurable stages, add observability, and iterate until the system is understandable as well as fast.</p><div className="flex items-center gap-2 mt-5 text-sm text-amber-100"><Gauge className="w-4 h-4" /> Constraint → instrumentation → iteration → a result people can trust.</div></div></div></div></section>;
+}

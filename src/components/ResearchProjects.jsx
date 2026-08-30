@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Cpu, ArrowUpRight, Sparkles, Layers, Award, Terminal, Filter, Zap, BookOpen } from 'lucide-react';
+import { Cpu, ArrowUpRight, Award, Play, BookOpen } from 'lucide-react';
 import { researchProjects } from '../data/portfolioData';
 
 export default function ResearchProjects({ onSelectProject, playSound }) {
@@ -53,7 +53,7 @@ export default function ResearchProjects({ onSelectProject, playSound }) {
       </div>
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 before:hidden lg:before:block lg:before:absolute lg:before:left-1/2 lg:before:top-0 lg:before:bottom-0 lg:before:w-px lg:before:bg-gradient-to-b lg:before:from-cyan-400/0 lg:before:via-cyan-400/30 lg:before:to-cyan-400/0">
         {filteredProjects.map((project) => (
           <div
             key={project.id}
@@ -67,6 +67,7 @@ export default function ResearchProjects({ onSelectProject, playSound }) {
           >
             {/* Top Accent Bar */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ProjectMotion kind={project.visual} />
 
             <div>
               {/* Badges */}
@@ -100,6 +101,7 @@ export default function ResearchProjects({ onSelectProject, playSound }) {
               <p className="text-slate-300 text-xs sm:text-sm font-light leading-relaxed mb-5 line-clamp-3">
                 {project.summary}
               </p>
+              <a href="#glossary" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 text-[11px] text-cyan-300 hover:text-white mb-4"><BookOpen className="w-3 h-3" /> Need a plain-English explainer?</a>
             </div>
 
             <div>
@@ -136,7 +138,7 @@ export default function ResearchProjects({ onSelectProject, playSound }) {
               <button
                 className="w-full py-2 px-3 text-xs font-mono rounded-lg bg-slate-800/80 hover:bg-cyan-500/20 hover:text-cyan-300 text-slate-300 border border-slate-700 hover:border-cyan-500/40 transition-all flex items-center justify-center gap-1.5"
               >
-                <span>Inspect Technical Architecture</span>
+                <Play className="w-3 h-3" /><span>Play the project walkthrough</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -145,4 +147,10 @@ export default function ResearchProjects({ onSelectProject, playSound }) {
       </div>
     </section>
   );
+}
+
+function ProjectMotion({ kind }) {
+  if (kind === 'nodes' || kind === 'signal') return <div className="project-motion motion-nodes pointer-events-none absolute right-4 top-14 opacity-0 group-hover:opacity-100"><i /><i /><i /></div>;
+  if (kind === 'route' || kind === 'evtol-uam-atc') return <div className="project-motion motion-route pointer-events-none absolute right-4 top-14 opacity-0 group-hover:opacity-100"><span>✦</span><b /></div>;
+  return null;
 }

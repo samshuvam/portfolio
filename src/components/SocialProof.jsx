@@ -1,0 +1,4 @@
+import React from 'react';
+import { Quote, MessageCircle } from 'lucide-react';
+import { testimonialDrafts } from '../data/portfolioData';
+export default function SocialProof() { return <section className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"><div className="grid md:grid-cols-2 gap-5">{testimonialDrafts.map((item) => <blockquote key={item.context} className="glass-card rounded-2xl p-6 border-slate-800"><Quote className="w-6 h-6 text-cyan-300 mb-3" /><p className="text-lg text-slate-100 leading-relaxed">{item.quote}</p><footer className="mt-4 text-xs font-mono text-slate-500">{item.context} · {item.source}</footer></blockquote>)}</div><a href="#contact" className="mt-6 inline-flex items-center gap-2 text-sm text-cyan-300 hover:text-white"><MessageCircle className="w-4 h-4" /> Want to discuss an architecture? Let’s talk.</a></section>; }

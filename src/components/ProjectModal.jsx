@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
-import { X, Sparkles, Cpu, Layers, ExternalLink, Calendar, CheckCircle2, Award, Zap, Code2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, Award, Code2, Play, RotateCcw, WandSparkles, Quote } from 'lucide-react';
 
 export default function ProjectModal({ project, onClose, playSound }) {
+  const [step, setStep] = useState(0);
+  const [hallucination, setHallucination] = useState(false);
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -11,6 +13,7 @@ export default function ProjectModal({ project, onClose, playSound }) {
   }, [onClose]);
 
   if (!project) return null;
+  const walkthrough = project.caseStudy || { challenge: 'A technical problem made approachable through a structured system design.', steps: ['Define the constraint', 'Model the system', 'Test the edge cases', 'Measure and refine'] };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-fadeIn">
@@ -67,12 +70,21 @@ export default function ProjectModal({ project, onClose, playSound }) {
 
         {/* Detailed Breakdown */}
         <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-light">
-          {project.description.split('\n\n').map((paragraph, index) => (
+          {(hallucination ? [`Absolutely not the real abstract: this system trained a fleet of philosophical pigeons to optimise aviation routes with quantum spaghetti. Restore reality to see the actual project.`] : project.description.split('\n\n')).map((paragraph, index) => (
             <p key={index} className="whitespace-pre-line">
               {paragraph}
             </p>
           ))}
         </div>
+
+        <div className="rounded-2xl p-5 bg-cyan-500/5 border border-cyan-500/20 mb-6">
+          <div className="flex items-center justify-between gap-3"><h3 className="text-sm font-semibold text-white flex items-center gap-2"><Play className="w-4 h-4 text-cyan-300" /> Playable architecture walkthrough</h3><button onClick={() => setStep(0)} className="text-xs text-slate-400 hover:text-white flex items-center gap-1"><RotateCcw className="w-3 h-3" /> Reset</button></div>
+          <p className="text-sm text-slate-300 mt-3"><strong className="text-cyan-200">The constraint:</strong> {walkthrough.challenge}</p>
+          <div className="flex flex-wrap gap-2 mt-4">{walkthrough.steps.map((item, i) => <button key={item} onClick={() => { setStep(i); playSound?.('click'); }} className={`px-3 py-2 rounded-lg text-xs border transition-all ${step === i ? 'bg-cyan-400 text-slate-950 border-cyan-300' : 'bg-slate-900 text-slate-300 border-slate-700 hover:border-cyan-400'}`}>{i + 1}. {item}</button>)}</div>
+          <div className="mt-4 rounded-xl bg-slate-950/70 p-4 text-sm text-cyan-100 border border-slate-800"><span className="text-xs font-mono text-slate-500">ACTIVE STAGE {step + 1}/{walkthrough.steps.length}</span><p className="mt-1">{walkthrough.steps[step]}</p></div>
+        </div>
+
+        <div className="flex flex-wrap gap-3 items-center mb-6"><button onClick={() => setHallucination(!hallucination)} className="text-xs px-3 py-2 rounded-lg border border-purple-500/30 text-purple-200 bg-purple-500/10 hover:bg-purple-500/20 flex gap-1.5"><WandSparkles className="w-3.5 h-3.5" /> {hallucination ? 'Restore the real abstract' : 'Let LLM hallucinate'}</button><span className="text-xs text-slate-500">A deliberately silly portfolio easter egg.</span></div>
 
         {/* Tech Stack Tags */}
         <div className="pt-4 border-t border-slate-800">
@@ -91,6 +103,8 @@ export default function ProjectModal({ project, onClose, playSound }) {
             ))}
           </div>
         </div>
+
+        <div className="mt-5 rounded-xl bg-slate-900/60 border border-slate-800 p-4 text-sm"><Quote className="w-4 h-4 text-cyan-300 mb-2" /><p className="text-slate-200">“A draft testimonial for this kind of work will live here once approved.”</p><p className="text-xs text-slate-500 mt-2">Placeholder — replace with an attributed quote before publication.</p></div>
 
         {/* Footer Actions */}
         <div className="mt-8 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">

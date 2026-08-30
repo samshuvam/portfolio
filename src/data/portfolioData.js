@@ -1,7 +1,7 @@
 export const personalInfo = {
   name: "Shuvam Singh",
-  title: "AI Systems Architect & Big Data Engineer",
-  tagline: "Pioneering Adaptive Bio-Memory Architectures, Dynamic RAG Orchestration & Autonomous Aerospace Systems",
+  title: "AI, Aviation and Everything in Between",
+  tagline: "Exploring intelligence across domains and beyond.",
   location: "Sanepa - 02, Indrayani Marg, Lalitpur, Nepal",
   secondaryLocation: "SRM University - AP, Andhra Pradesh, India",
   email: "suvmith@gmail.com",
@@ -27,6 +27,66 @@ export const heroStats = [
 ];
 
 export const researchProjects = [
+  {
+    id: "federated-learning-privacy",
+    title: "Federated Learning for Privacy-Preserving AI",
+    subtitle: "Collaborative models that learn without centralising sensitive data",
+    category: "AI & LLM Systems",
+    date: "Applied Research",
+    highlight: "Privacy-First ML",
+    summary: "Applied federated-learning patterns in privacy-sensitive project work, keeping source data local while exchanging model updates to support data-minimisation and compliance-aware system design.",
+    description: `Explored federated learning as a practical way to build useful AI systems without pooling raw personal or organisational data in one place. Instead, participating devices or environments train locally and share protected model updates for aggregation.\n\nKey ideas:\n• **Local Training**: Sensitive data stays where it originates; only learned updates move through the system.\n• **Privacy-Aware Aggregation**: Model updates can be combined with safeguards such as secure aggregation and differential privacy.\n• **Compliance-Oriented Design**: This pattern is useful when a project needs to minimise data exposure while still benefiting from collective learning.`,
+    tags: ["Federated Learning", "Privacy Engineering", "Secure Aggregation", "Differential Privacy", "Python"],
+    metrics: [
+      { label: "Data movement", value: "Minimised" },
+      { label: "Training", value: "Distributed" },
+      { label: "Focus", value: "Privacy" }
+    ],
+    status: "Applied Research",
+    featured: true,
+    visual: "nodes",
+    caseStudy: { challenge: "How can a model improve across environments without turning sensitive source data into a central dataset?", steps: ["Train inside each approved environment", "Share protected model updates", "Aggregate the learning signal", "Return an improved global model"] }
+  },
+  {
+    id: "information-retrieval-multistage",
+    title: "Multi-Stage Information Retrieval Engine",
+    subtitle: "Domain-aware web, video, and transcript retrieval for grounded answers",
+    category: "AI & LLM Systems",
+    date: "Information Retrieval",
+    highlight: "Multi-Source Query Processing",
+    summary: "Built a multi-stage query pipeline that discovers relevant domain sources and YouTube material, then uses OpenAI Whisper and FFmpeg-based preparation to transcribe and process video evidence for result retrieval.",
+    description: `Designed an information-retrieval workflow that treats a query as an investigation rather than a single search. It gathers sources from relevant websites and video material, prepares videos for transcription, and ranks evidence before composing results.\n\nKey stages:\n• **Query Planning**: Breaks a broad question into search intents and source constraints.\n• **Multimodal Ingestion**: Collects credible pages and relevant YouTube videos; FFmpeg prepares audio and Whisper produces searchable transcripts.\n• **Evidence Ranking**: Scores passages and transcript segments so the final result is linked to the most relevant, authentic material.`,
+    tags: ["Information Retrieval", "OpenAI Whisper", "FFmpeg", "Ranking", "NLP", "YouTube"],
+    metrics: [
+      { label: "Sources", value: "Web + video" },
+      { label: "Pipeline", value: "Multi-stage" },
+      { label: "Output", value: "Grounded" }
+    ],
+    status: "Completed",
+    featured: true,
+    visual: "signal",
+    caseStudy: { challenge: "A single search result misses relevant context hidden in technical video and fragmented authoritative sources.", steps: ["Decompose the query", "Retrieve domain sources", "Transcribe video evidence", "Rank, cite, and synthesise"] }
+  },
+  {
+    id: "smart-bus-system",
+    title: "Smart Bus Tracking & Booking System",
+    subtitle: "A first-year transport platform with dynamic pricing and seat preferences",
+    category: "Systems & ERP",
+    date: "First-Year Project",
+    highlight: "Built Before External APIs",
+    summary: "Built a detailed smart-bus tracking and booking experience without depending on third-party APIs, modelling routes, preferred seats, availability, and dynamic pricing with a MongoDB Atlas-backed workflow.",
+    description: `An early full-stack project focused on making ordinary bus travel easier to plan. The system models route progress and booking state directly rather than relying on a live external tracking API.\n\nKey capabilities:\n• **Route and Tracking Model**: Presents detailed trip progress from structured route data.\n• **Booking Flow**: Lets riders choose preferred seats and keeps availability consistent as bookings change.\n• **Dynamic Pricing**: Applies simple pricing logic based on availability and trip conditions.\n• **Cloud Data Layer**: Uses MongoDB Atlas to persist bookings and operational data.`,
+    tags: ["MongoDB Atlas", "Dynamic Pricing", "Seat Booking", "JavaScript", "Transport Systems"],
+    metrics: [
+      { label: "Tracking", value: "Modelled" },
+      { label: "Booking", value: "Seat-aware" },
+      { label: "Storage", value: "MongoDB Atlas" }
+    ],
+    status: "Completed",
+    featured: false,
+    visual: "route",
+    caseStudy: { challenge: "Make a useful booking and tracking experience even when live transport APIs are unavailable.", steps: ["Model routes and stops", "Reserve a preferred seat", "Calculate a fare", "Persist the booking in Atlas"] }
+  },
   {
     id: "dynamic-template-rag",
     title: "Dynamic Template Guided Segmented Generation",
@@ -350,4 +410,38 @@ export const leadershipAndAchievements = [
     desc: "Certified high-proficiency English communication for international research collaborations and technical publications.",
     badge: "Global Communication"
   }
+];
+
+// Paste YouTube links here as they are published. The player automatically expands
+// into a playlist when more than one entry is added.
+export const videoPlaylist = [
+  // { id: 'federated-learning', title: 'Federated Learning', url: 'https://www.youtube.com/watch?v=VIDEO_ID', description: 'A practical introduction to privacy-preserving collaborative learning.' },
+];
+
+// These are intentionally labelled as drafts until an attributed approval is supplied.
+export const testimonialDrafts = [
+  { context: 'Industry systems', quote: '“Shuvam’s ERP migration saved us countless hours and brought clarity to a complex operational workflow.”', source: 'Draft testimonial — United Lubricants' },
+  { context: 'Research', quote: '“One of the most rigorous undergraduate researchers I have mentored.”', source: 'Draft testimonial — SRM-AP' },
+];
+
+export const nowEntries = [
+  { date: 'This week', label: 'Now', text: 'Refining research systems, documenting experiments, and turning technical work into clearer public explanations.' },
+  { date: 'Next', label: 'Planned', text: 'Publish short build notes, expand the federated-learning work, and continue advancing autonomous airspace research.' },
+];
+
+export const glossaryTerms = [
+  { term: 'RAG', definition: 'Retrieval-augmented generation: an AI first looks up useful source material, then writes an answer using it.' },
+  { term: 'LLM', definition: 'A large language model: software trained to understand and generate human-like language.' },
+  { term: 'LoRA', definition: 'A lightweight way to adapt a large AI model without retraining every part of it.' },
+  { term: 'Federated Learning', definition: 'A way for many devices or organisations to improve one shared model while keeping their raw data local.' },
+  { term: 'Differential Privacy', definition: 'A mathematical privacy layer that adds carefully controlled noise so individual records are harder to identify.' },
+  { term: 'Vector Database', definition: 'A database that stores the meaning of text, images, or audio as numbers so similar items can be found quickly.' },
+  { term: 'eVTOL', definition: 'An electric aircraft that can take off and land vertically, like a drone scaled for passenger or cargo use.' },
+  { term: 'UAM', definition: 'Urban air mobility: moving people or goods through low-altitude city airspace.' },
+  { term: '4D Trajectory', definition: 'A flight path described by latitude, longitude, altitude, and time.' },
+  { term: 'Continual Learning', definition: 'Teaching an AI new things over time while helping it retain important earlier knowledge.' },
+  { term: 'Ebbinghaus Forgetting Curve', definition: 'A simple model of how memory fades over time unless it is revisited and reinforced.' },
+  { term: 'Whisper', definition: 'A speech-to-text model that turns spoken audio into searchable written transcripts.' },
+  { term: 'FFmpeg', definition: 'A widely used tool for converting, extracting, and preparing audio and video files.' },
+  { term: 'MongoDB Atlas', definition: 'A managed cloud service for storing application data in MongoDB.' },
 ];

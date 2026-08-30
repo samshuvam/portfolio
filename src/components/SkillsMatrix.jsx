@@ -1,8 +1,14 @@
-import React from 'react';
-import { Cpu, Code2, Database, Layers, Terminal, Sparkles, Server, Compass, BrainCircuit } from 'lucide-react';
+import React, { useState } from 'react';
+import { Cpu, Code2, Server, Compass, BrainCircuit, ChevronDown } from 'lucide-react';
 import { technicalSkills } from '../data/portfolioData';
 
 export default function SkillsMatrix({ playSound }) {
+  const [open, setOpen] = useState('Languages & Core');
+  const groups = [
+    { title: 'Languages & Core', icon: Code2, tone: 'cyan', items: technicalSkills.languages },
+    { title: 'AI & LLM Architecture', icon: Cpu, tone: 'purple', items: technicalSkills.aiAndSystems },
+    { title: 'Systems & Infrastructure', icon: Server, tone: 'blue', items: technicalSkills.infrastructure },
+  ];
   return (
     <section id="skills" className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Header */}
@@ -19,88 +25,7 @@ export default function SkillsMatrix({ playSound }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Languages & Core */}
-        <div className="glass-card rounded-2xl p-6 border-slate-800">
-          <div className="flex items-center gap-2.5 mb-5">
-            <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-              <Code2 className="w-5 h-5 text-cyan-400" />
-            </div>
-            <h3 className="text-lg font-display font-bold text-white">Languages & Core</h3>
-          </div>
-
-          <div className="space-y-4">
-            {technicalSkills.languages.map((lang) => (
-              <div key={lang.name}>
-                <div className="flex justify-between text-xs font-mono mb-1.5">
-                  <span className="text-slate-200 font-medium">{lang.name}</span>
-                  <span className="text-cyan-400">{lang.level}%</span>
-                </div>
-                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
-                    style={{ width: `${lang.level}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* AI & LLM Systems */}
-        <div className="glass-card rounded-2xl p-6 border-slate-800">
-          <div className="flex items-center gap-2.5 mb-5">
-            <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30">
-              <Cpu className="w-5 h-5 text-purple-400" />
-            </div>
-            <h3 className="text-lg font-display font-bold text-white">AI & LLM Architecture</h3>
-          </div>
-
-          <div className="space-y-4">
-            {technicalSkills.aiAndSystems.map((item) => (
-              <div key={item.name}>
-                <div className="flex justify-between text-xs font-mono mb-1.5">
-                  <span className="text-slate-200 font-medium">{item.name}</span>
-                  <span className="text-purple-400">{item.level}%</span>
-                </div>
-                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                    style={{ width: `${item.level}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Systems & Cloud */}
-        <div className="glass-card rounded-2xl p-6 border-slate-800">
-          <div className="flex items-center gap-2.5 mb-5">
-            <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/30">
-              <Server className="w-5 h-5 text-blue-400" />
-            </div>
-            <h3 className="text-lg font-display font-bold text-white">Systems & Infrastructure</h3>
-          </div>
-
-          <div className="space-y-4">
-            {technicalSkills.infrastructure.map((item) => (
-              <div key={item.name}>
-                <div className="flex justify-between text-xs font-mono mb-1.5">
-                  <span className="text-slate-200 font-medium">{item.name}</span>
-                  <span className="text-blue-400">{item.level}%</span>
-                </div>
-                <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-                    style={{ width: `${item.level}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <div className="max-w-4xl mx-auto space-y-3">{groups.map(({ title, icon: Icon, tone, items }) => <div key={title} className="glass-card rounded-2xl border-slate-800 overflow-hidden"><button onClick={() => setOpen(open === title ? '' : title)} className="w-full p-5 flex items-center justify-between text-left"><span className="flex items-center gap-3"><span className={`p-2 rounded-lg bg-${tone}-500/10 border border-${tone}-500/30`}><Icon className={`w-5 h-5 text-${tone}-400`} /></span><span className="text-lg font-bold text-white">{title}</span></span><ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${open === title ? 'rotate-180' : ''}`} /></button>{open === title && <div className="px-5 pb-5 grid sm:grid-cols-2 gap-4">{items.map((item) => <div key={item.name}><div className="flex justify-between text-xs font-mono mb-1.5"><span className="text-slate-200">{item.name}</span><span className="text-cyan-300">{item.level}%</span></div><div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full" style={{ width: `${item.level}%` }} /></div></div>)}</div>}</div>)}</div>
 
       {/* Deep Research Domains Badge Grid */}
       <div className="mt-10 p-6 rounded-2xl glass-panel-glow bg-[#0d0f18] border border-cyan-500/30">

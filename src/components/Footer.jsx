@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Globe, ArrowUp, Cpu, Heart, Terminal } from 'lucide-react';
+import { ArrowUp, Terminal } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Footer({ onOpenTerminal, playSound }) {
@@ -36,11 +36,6 @@ export default function Footer({ onOpenTerminal, playSound }) {
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-slate-200 font-semibold">{personalInfo.name}</span>
           </div>
-          <span className="hidden sm:inline text-slate-600">|</span>
-          <span className="text-slate-400">
-            Target Host: <strong className="text-cyan-300">https://{personalInfo.domain}</strong>
-          </span>
-          <span className="hidden sm:inline text-slate-600">|</span>
           <span className="text-purple-300">{timeStr}</span>
         </div>
 
@@ -69,7 +64,7 @@ export default function Footer({ onOpenTerminal, playSound }) {
 
       <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-900/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500 font-mono">
         <div>
-          © {new Date().getFullYear()} Shuvam Singh. All rights reserved. Cloudflare NS: <code className="text-slate-400">sima & vick.ns.cloudflare.com</code>
+          © {new Date().getFullYear()} Shuvam Singh. All rights reserved.
         </div>
         <div className="flex items-center gap-1">
           <span>Engineered with React, Vite & Tailwind CSS</span>
