@@ -206,7 +206,7 @@ export default function ContactSection({ playSound }) {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Dr. Alex Chen / Recruiter"
+                      placeholder="Miss Kalyani"
                       className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none text-slate-200 text-sm font-mono placeholder:text-slate-600 transition-all"
                     />
                   </div>
@@ -217,7 +217,7 @@ export default function ContactSection({ playSound }) {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="alex@research-lab.org"
+                      placeholder="Shuvams@kalyani.org"
                       className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none text-slate-200 text-sm font-mono placeholder:text-slate-600 transition-all"
                     />
                   </div>
