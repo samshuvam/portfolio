@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Copy, Check, MessageSquare, FileText, Sparkles, ExternalLink, Globe } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Copy, Check, MessageSquare, FileText, Sparkles, ExternalLink, Camera } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { personalInfo } from '../data/portfolioData';
 
@@ -18,6 +18,8 @@ export default function ContactSection({ playSound }) {
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formStatus, setFormStatus] = useState('idle');
+  const [formError, setFormError] = useState('');
 
   const handleCopyEmail = () => {
     playSound?.('click');
@@ -33,21 +35,28 @@ export default function ContactSection({ playSound }) {
     setTimeout(() => setCopiedPhone(false), 2000);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     playSound?.('synth');
-    setFormSubmitted(true);
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.7 }
-    });
-
-    const mailtoUrl = `mailto:${personalInfo.email}?subject=Collaboration%20Inquiry%20from%20${encodeURIComponent(
-      formData.name
-    )}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
-
-    window.open(mailtoUrl, '_blank');
+    setFormStatus('sending');
+    setFormError('');
+    try {
+      const payload = new FormData();
+      payload.append('name', formData.name);
+      payload.append('email', formData.email);
+      payload.append('message', formData.message);
+      payload.append('_subject', `Portfolio inquiry from ${formData.name}`);
+      payload.append('_template', 'table');
+      payload.append('_captcha', 'false');
+      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, { method: 'POST', body: payload, headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('The email relay rejected the request.');
+      setFormSubmitted(true);
+      setFormStatus('sent');
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 } });
+    } catch (error) {
+      setFormStatus('error');
+      setFormError('The relay could not deliver this yet. Please email directly or try again.');
+    }
   };
 
   return (
@@ -140,6 +149,10 @@ export default function ContactSection({ playSound }) {
             <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
           </a>
 
+          <a href="https://www.instagram.com/sam.shuvam" target="_blank" rel="noopener noreferrer" onClick={() => playSound?.('click')} className="glass-card rounded-2xl p-5 border-slate-800 flex items-center justify-between group hover:border-pink-500/40 transition-all block">
+            <div className="flex items-center gap-3.5"><div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-300"><Camera className="w-5 h-5" /></div><div><span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Instagram</span><div className="text-sm font-semibold text-white font-mono">@sam.shuvam</div></div></div><ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-pink-300 transition-colors" />
+          </a>
+
           {/* Location & Domicile */}
           <div className="glass-card rounded-2xl p-5 border-slate-800">
             <div className="flex items-center gap-3.5 mb-2">
@@ -177,7 +190,7 @@ export default function ContactSection({ playSound }) {
               <span>Send Direct Inquiry</span>
             </h3>
             <p className="text-xs text-slate-400 font-mono mb-6">
-              Transmits directly to <strong className="text-slate-300">{personalInfo.email}</strong>
+              Secure relay → <strong className="text-slate-300">{personalInfo.email}</strong> · your email is used only for replying
             </p>
 
             {formSubmitted ? (
@@ -237,11 +250,13 @@ export default function ContactSection({ playSound }) {
 
                 <button
                   type="submit"
+                  disabled={formStatus === 'sending'}
                   className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-slate-950 font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/35 transition-all flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  <span>Transmit Direct Message</span>
+                  <span>{formStatus === 'sending' ? 'Sending securely…' : 'Send to Shuvam’s inbox'}</span>
                 </button>
+                {formStatus === 'error' && <p className="text-xs text-rose-300" role="alert">{formError}</p>}
               </form>
             )}
           </div>

@@ -16,6 +16,7 @@ import Photography from './components/Photography';
 import NowAndGlossary from './components/NowAndGlossary';
 import SocialProof from './components/SocialProof';
 import Struggle from './components/Struggle';
+import AnonymousInbox from './components/AnonymousInbox';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -152,6 +153,7 @@ export default function App() {
           <NowAndGlossary />
 
           <ContactSection playSound={playSound} />
+          <AnonymousInbox />
         </main>
 
         <Footer
