@@ -32,7 +32,7 @@ export default function Hero({ onOpenTerminal, onOpenBioModal, playSound }) {
         {/* Subtitle / Bio */}
         <p className="text-slate-300 text-base sm:text-lg md:text-xl max-w-3xl font-light leading-relaxed mb-10 text-center">
           Hey, I'm <strong className="text-white font-semibold">Shuvam Singh</strong>. Computer Science Engineer from SRM University with a specialization in Big Data.
-          Specializing in <span className="text-cyan-300 font-medium">Bio-Inspired Continual Learning</span>, <span className="text-purple-300 font-medium">Deterministic Context Orchestration</span>, and <span className="text-blue-300 font-medium">4D Autonomous Air Traffic Control (eVTOL & UAM)</span>.
+          </span>.
         </p>
         <p className="max-w-2xl rounded-xl border border-cyan-500/20 bg-cyan-500/5 px-4 py-3 text-sm text-slate-200 mb-8">TL;DR — I build AI systems that remember like humans, protect data by design, and help autonomous vehicles move safely through complex spaces.</p>
 
