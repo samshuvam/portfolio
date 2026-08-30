@@ -14,9 +14,9 @@ export const personalInfo = {
   status: "Available for AI Research & High-Impact Systems Engineering",
   cgpa: "8.61",
   ielts: "Band 7.5",
-  aboutBio: `I am an AI Systems Engineer and Big Data Researcher currently completing my B.Tech in Computer Science & Engineering (Big Data Specialization) at SRM University - AP. My research focuses on the intersection of Bio-Inspired Cognitive Memory Models, Dynamic RAG Context Orchestration, and AI-Native 4D Air Traffic Control for eVTOLs and Urban Air Mobility.
+  aboutBio: `I am an AI Systems Engineer and Big Data Researcher currently completing my B.Tech in Computer Science & Engineering (Big Data Specialization) at SRM University - AP. My research focuses on topics around Aviation and efficint AI systems.
 
-With 2 accepted research papers at IEEE ICAII 2026 and ICAAsT 2024, I combine rigorous theoretical exploration with full-stack systems engineering—from migrating enterprise ERP infrastructures to designing token-budget-optimized deterministic LLM pipelines and autonomous vehicle world models.`
+With 2 accepted research papers at IEEE ICAII 2026 and ICAAsT 2024, I combine rigorous theoretical exploration with full stack systems engineering from migrating enterprise ERP infrastructures to designing token budget optimized deterministic LLM pipelines and autonomous vehicle world models.`
 };
 
 export const heroStats = [
@@ -28,14 +28,14 @@ export const heroStats = [
 
 export const researchProjects = [
   {
-    id: "federated-learning-privacy",
+    id: "federated learning privacy",
     title: "Federated Learning for Privacy-Preserving AI",
     subtitle: "Collaborative models that learn without centralising sensitive data",
     category: "AI & LLM Systems",
     date: "Applied Research",
     highlight: "Privacy-First ML",
-    summary: "Applied federated-learning patterns in privacy-sensitive project work, keeping source data local while exchanging model updates to support data-minimisation and compliance-aware system design.",
-    description: `Explored federated learning as a practical way to build useful AI systems without pooling raw personal or organisational data in one place. Instead, participating devices or environments train locally and share protected model updates for aggregation.\n\nKey ideas:\n• **Local Training**: Sensitive data stays where it originates; only learned updates move through the system.\n• **Privacy-Aware Aggregation**: Model updates can be combined with safeguards such as secure aggregation and differential privacy.\n• **Compliance-Oriented Design**: This pattern is useful when a project needs to minimise data exposure while still benefiting from collective learning.`,
+    summary: "Applied federated learning patterns in privacy sensitive project work, keeping source data local while exchanging model updates to support data minimisation and compliance aware system design.",
+    description: `Explored federated learning as a practical way to build useful AI systems without pooling raw personal or organisational data in one place. Instead, participating devices or environments train locally and share protected model updates for aggregation.\n\nKey ideas:\n• **Local Training**: Sensitive data stays where it originates; only learned updates move through the system.\n• **Privacy Aware Aggregation**: Model updates can be combined with safeguards such as secure aggregation and differential privacy.\n• **Compliance Oriented Design**: This pattern is useful when a project needs to minimise data exposure while still benefiting from collective learning.`,
     tags: ["Federated Learning", "Privacy Engineering", "Secure Aggregation", "Differential Privacy", "Python"],
     metrics: [
       { label: "Data movement", value: "Minimised" },
@@ -48,14 +48,14 @@ export const researchProjects = [
     caseStudy: { challenge: "How can a model improve across environments without turning sensitive source data into a central dataset?", steps: ["Train inside each approved environment", "Share protected model updates", "Aggregate the learning signal", "Return an improved global model"] }
   },
   {
-    id: "information-retrieval-multistage",
-    title: "Multi-Stage Information Retrieval Engine",
-    subtitle: "Domain-aware web, video, and transcript retrieval for grounded answers",
+    id: "information retrieval multistage",
+    title: "Multi Stage Information Retrieval Engine",
+    subtitle: "Domain aware web, video and transcript retrieval for grounded answers",
     category: "AI & LLM Systems",
     date: "Information Retrieval",
-    highlight: "Multi-Source Query Processing",
-    summary: "Built a multi-stage query pipeline that discovers relevant domain sources and YouTube material, then uses OpenAI Whisper and FFmpeg-based preparation to transcribe and process video evidence for result retrieval.",
-    description: `Designed an information-retrieval workflow that treats a query as an investigation rather than a single search. It gathers sources from relevant websites and video material, prepares videos for transcription, and ranks evidence before composing results.\n\nKey stages:\n• **Query Planning**: Breaks a broad question into search intents and source constraints.\n• **Multimodal Ingestion**: Collects credible pages and relevant YouTube videos; FFmpeg prepares audio and Whisper produces searchable transcripts.\n• **Evidence Ranking**: Scores passages and transcript segments so the final result is linked to the most relevant, authentic material.`,
+    highlight: "Multi Source Query Processing",
+    summary: "Built a multi stage query pipeline that discovers relevant domain sources and YouTube material, then uses OpenAI Whisper and FFmpeg based preparation to transcribe and process video evidence for result retrieval.",
+    description: `Designed an information retrieval workflow that treats a query as an investigation rather than a single search. It gathers sources from relevant websites and video material, prepares videos for transcription, and ranks evidence before composing results.\n\nKey stages:\n• **Query Planning**: Breaks a broad question into search intents and source constraints.\n• **Multimodal Ingestion**: Collects credible pages and relevant YouTube videos; FFmpeg prepares audio and Whisper produces searchable transcripts.\n• **Evidence Ranking**: Scores passages and transcript segments so the final result is linked to the most relevant, authentic material.`,
     tags: ["Information Retrieval", "OpenAI Whisper", "FFmpeg", "Ranking", "NLP", "YouTube"],
     metrics: [
       { label: "Sources", value: "Web + video" },
@@ -70,12 +70,12 @@ export const researchProjects = [
   {
     id: "smart-bus-system",
     title: "Smart Bus Tracking & Booking System",
-    subtitle: "A first-year transport platform with dynamic pricing and seat preferences",
+    subtitle: "A first year transport platform with dynamic pricing and seat preferences",
     category: "Systems & ERP",
-    date: "First-Year Project",
+    date: "First Year Project",
     highlight: "Built Before External APIs",
-    summary: "Built a detailed smart-bus tracking and booking experience without depending on third-party APIs, modelling routes, preferred seats, availability, and dynamic pricing with a MongoDB Atlas-backed workflow.",
-    description: `An early full-stack project focused on making ordinary bus travel easier to plan. The system models route progress and booking state directly rather than relying on a live external tracking API.\n\nKey capabilities:\n• **Route and Tracking Model**: Presents detailed trip progress from structured route data.\n• **Booking Flow**: Lets riders choose preferred seats and keeps availability consistent as bookings change.\n• **Dynamic Pricing**: Applies simple pricing logic based on availability and trip conditions.\n• **Cloud Data Layer**: Uses MongoDB Atlas to persist bookings and operational data.`,
+    summary: "Built a detailed smart bus tracking and booking experience without depending on third party APIs, modelling routes, preferred seats, availability and dynamic pricing with a MongoDB Atlas backed workflow.",
+    description: `An early full stack project focused on making ordinary bus travel easier to plan. The system models route progress and booking state directly rather than relying on a live external tracking API.\n\nKey capabilities:\n• **Route and Tracking Model**: Presents detailed trip progress from structured route data.\n• **Booking Flow**: Lets riders choose preferred seats and keeps availability consistent as bookings change.\n• **Dynamic Pricing**: Applies simple pricing logic based on availability and trip conditions.\n• **Cloud Data Layer**: Uses MongoDB Atlas to persist bookings and operational data.`,
     tags: ["MongoDB Atlas", "Dynamic Pricing", "Seat Booking", "JavaScript", "Transport Systems"],
     metrics: [
       { label: "Tracking", value: "Modelled" },
@@ -85,17 +85,17 @@ export const researchProjects = [
     status: "Completed",
     featured: false,
     visual: "route",
-    caseStudy: { challenge: "Make a useful booking and tracking experience even when live transport APIs are unavailable.", steps: ["Model routes and stops", "Reserve a preferred seat", "Calculate a fare", "Persist the booking in Atlas"] }
+    caseStudy: { challenge: "Make a useful booking and tracking experience even when live transport APIs are unavailable(I used realtime Lat/Long points and used google maps loopehole to trace and upadte live location)", steps: ["Model routes and stops", "Reserve a preferred seat", "Calculate a fare", "Persist the booking in Atlas"] }
   },
   {
     id: "dynamic-template-rag",
     title: "Dynamic Template Guided Segmented Generation",
-    subtitle: "Deterministic Context Orchestration for Resource-Constrained LLMs",
+    subtitle: "Deterministic Context Orchestration for Resource Constrained LLMs",
     category: "AI & LLM Systems",
     date: "Jun. 2026",
-    highlight: "203% Benchmark Improvement",
-    summary: "Engineered an end-to-end context orchestration pipeline for long-form generation under strict token budgets using dynamic template planning, Iterative Full Window Injection, and structured graph state memory.",
-    description: `Designed a deterministic context orchestration architecture specifically optimized for resource-constrained LLMs. By combining dynamic template planning with segment-aware retrieval, the system achieves consistent multi-step synthesis without losing factual coherence.
+    highlight: "203% Benchmark Improvement(vs naive LLM)",
+    summary: "Engineered an end to end context orchestration pipeline for long form generation under strict token budgets using dynamic template planning, Iterative Full Window Injection, and structured graph state memory.",
+    description: `Designed a deterministic context orchestration architecture specifically optimized for resource constrained LLMs. By combining dynamic template planning with segment-aware retrieval, the system achieves consistent multi-step synthesis without losing factual coherence.
     
 Key innovations include:
 • **Iterative Full Window Injection**: Maximizes context window utilization while preventing context drift across complex generation stages.
@@ -111,19 +111,19 @@ Key innovations include:
     featured: true
   },
   {
-    id: "bio-memory-cognitive-arch",
+    id: "Bio memory cognitive arch",
     title: "Self Evolving Cognitive Architecture & Bio Memory Model",
     subtitle: "Lifelong Continual Learning without Full Retraining",
     category: "AI & LLM Systems",
     date: "Jan. 2026",
     highlight: "IEEE ICAII 2026 Accepted",
-    summary: "A modular lifelong learning architecture combining semantic vector memory, knowledge graphs, LoRA parameter-efficient continual learning, Ebbinghaus forgetting curve simulation, and sleep-phase memory consolidation.",
+    summary: "A modular lifelong learning architecture combining semantic vector memory, knowledge graphs, LoRA parameter efficient continual learning, Ebbinghaus forgetting curve simulation, and sleep phase memory consolidation.",
     description: `Accepted for presentation at the IEEE 4th International Conference on AI Innovation (ICAII 2026).
     
 This project bridges neuroscience memory models with LLM continual adaptation:
-• **Bio-Inspired Memory Management**: Integrates the mathematical Ebbinghaus forgetting curve, retrieval-induced reinforcement, and sleep-phase memory consolidation to intelligently retain critical facts while pruning redundant representations.
-• **LoRA-Based Continual Personalization**: Modulates weights through parameter-efficient fine-tuning (PEFT) without catastrophic forgetting or full retraining.
-• **Asynchronous Hallucination Validation**: Employs real-time web verification and confidence feedback loops running efficiently on consumer-grade hardware.`,
+• **Bio Inspired Memory Management**: Integrates the mathematical Ebbinghaus forgetting curve, retrieval induced reinforcement, and sleep phase memory consolidation to intelligently retain critical facts while pruning redundant representations.
+• **LoRA Based Continual Personalization**: Modulates weights through parameter efficient fine tuning (PEFT) without catastrophic forgetting or full retraining.
+• **Asynchronous Hallucination Validation**: Employs real time web verification and confidence feedback loops running efficiently on consumer grade hardware.`,
     tags: ["LLMs", "LoRA", "ChromaDB", "PEFT", "Ebbinghaus Curve", "Cognitive AI", "Continual Learning"],
     metrics: [
       { label: "Conference", value: "IEEE ICAII 2026" },
@@ -313,7 +313,7 @@ export const educationData = [
   {
     degree: "Bachelor of Technology (B.Tech)",
     field: "Computer Science and Engineering (Big Data Specialization)",
-    institution: "SRM University - AP",
+    institution: "SRM University",
     location: "Andhra Pradesh, India",
     period: "2022 – 2026",
     grade: "CGPA: 8.61 / 10.0",
@@ -325,7 +325,7 @@ export const educationData = [
       "Software Engineering",
       "UI/UX Architecture"
     ],
-    researchFocus: "Recommendation Systems, Commercial Aviation Systems, Adaptive AI, RAG, Bio-Memory, Data Science, Social Network Analysis (SNA)"
+    researchFocus: "Recommendation Systems, Commercial Aviation Systems, Adaptive AI, RAG, Bio Memory, Data Science, Social Network Analysis"
   }
 ];
 
@@ -334,7 +334,7 @@ export const publications = [
     title: "Self Evolving Cognitive Architecture & Bio Memory Model for Continual Learning",
     conference: "IEEE 4th International Conference on AI Innovation (ICAII 2026)",
     year: "2026",
-    authors: "Shuvam Singh, et al.",
+    authors: "Shuvam Singh, A, R et al.",
     type: "Conference Paper (Accepted for Presentation)",
     abstract: "Proposes a modular architecture combining semantic vector memory, knowledge graphs, and LoRA-based parameter-efficient fine-tuning. Incorporates mathematical formulations of the Ebbinghaus forgetting curve and sleep-phase memory consolidation to enable lifelong personalization without catastrophic forgetting or full retraining on consumer-grade compute.",
     tags: ["IEEE", "Continual Learning", "Bio-Memory", "LoRA", "Cognitive AI"]
@@ -352,11 +352,11 @@ export const publications = [
 
 export const technicalSkills = {
   languages: [
-    { name: "Python", level: 95, icon: "Code2" },
-    { name: "SQL", level: 90, icon: "Database" },
-    { name: "C / C++", level: 82, icon: "Cpu" },
-    { name: "JavaScript / TypeScript", level: 88, icon: "FileCode" },
-    { name: "HTML5 / CSS3", level: 92, icon: "Layout" }
+    { name: "Python", level: 90, icon: "Code2" },
+    { name: "SQL", level: 80, icon: "Database" },
+    { name: "C / C++", level: 85, icon: "Cpu" },
+    { name: "JavaScript / TypeScript", level: 70, icon: "FileCode" },
+    { name: "HTML5 / CSS3", level: 70, icon: "Layout" }
   ],
   aiAndSystems: [
     { name: "RAG & Context Engineering", level: 96 },
@@ -376,7 +376,7 @@ export const technicalSkills = {
   ],
   researchDomains: [
     "Artificial General Intelligence (AGI)",
-    "Bio-Inspired Memory Architectures",
+    "Bio Inspired Memory Architectures",
     "Urban Air Mobility (UAM) & eVTOL ATC",
     "Deterministic Symbolic Processing (Elser)",
     "Commercial Aviation Systems",
@@ -387,27 +387,27 @@ export const technicalSkills = {
 export const leadershipAndAchievements = [
   {
     title: "2 Accepted International Research Papers",
-    desc: "Accepted for presentation at IEEE ICAII 2026 (Cognitive Bio-Memory) and ICAAsT 2024 (Aerospace 4D Trajectory).",
+    desc: "Accepted for presentation at IEEE ICAII 2026 (Cognitive Bio Memory) and ICAAsT 2024 (Aerospace 4D Trajectory).",
     badge: "Research Excellence"
   },
   {
     title: "Autonomous Delivery Rover (Phase I)",
-    desc: "Contributed to world model learning and real-world beta testing across rugged terrain in Nepal.",
+    desc: "Contributed to world model learning and real world beta testing across rugged terrain in Nepal.",
     badge: "Robotics & AI"
   },
   {
     title: "EV Manufacturing Market Strategy",
-    desc: "Formulated data-driven product intelligence strategies analyzing 100+ HS codes for United Lubricants & SatyaDip.",
+    desc: "Formulated data driven product intelligence strategies analyzing 300+ HS codes for United Lubricants & SatyaDip.",
     badge: "Industry Impact"
   },
   {
     title: "Student Council Member & Photography Club",
-    desc: "Active member in campus leadership, event organization, and professional photography initiatives at SRM-AP.",
+    desc: "Active member in campus leadership, event organization and professional photography initiatives at SRM.",
     badge: "Leadership & Arts"
   },
   {
     title: "IELTS Band 7.5",
-    desc: "Certified high-proficiency English communication for international research collaborations and technical publications.",
+    desc: "Certified high proficiency English communication for international research collaborations and technical publications.",
     badge: "Global Communication"
   }
 ];
@@ -415,18 +415,19 @@ export const leadershipAndAchievements = [
 // Paste YouTube links here as they are published. The player automatically expands
 // into a playlist when more than one entry is added.
 export const videoPlaylist = [
-  { id: 'federated-learning', title: 'Federated Learning', url: 'https://www.youtube.com/watch?v=Ewa8DXRcki4', description: 'A practical introduction to privacy-preserving collaborative learning.' },
+  { id: 'federated-learning', title: 'Federated Learning', url: 'https://www.youtube.com/watch?v=Ewa8DXRcki4', description: 'A practical introduction to privacy preserving collaborative learning.' },
+  { id: '8K', title: '8K video test', url: 'https://www.youtube.com/watch?v=pD4S0JUZlVY', description: 'Was testing out 8k video capabilities of my scamsung' },
 ];
 
 // These are intentionally labelled as drafts until an attributed approval is supplied.
 export const testimonialDrafts = [
-  { context: 'Industry systems', quote: '“Shuvam’s ERP migration saved us countless hours and brought clarity to a complex operational workflow.”', source: 'Draft testimonial — United Lubricants' },
-  { context: 'Research', quote: '“One of the most rigorous undergraduate researchers I have mentored.”', source: 'Draft testimonial — SRM-AP' },
+  { context: 'Industry systems', quote: '“Shuvam’s smart loaction based option saved us and retailers countless hours and brought clarity to a complex operational workflow.”', source: 'Draft testimonial — United Lubricants' },
+  { context: 'Research', quote: '“One of the most rigorous undergraduate researchers I have mentored.”', source: 'Draft testimonial — SRM' },
 ];
 
 export const nowEntries = [
-  { date: 'This week', label: 'Now', text: 'Refining research systems, documenting experiments, and turning technical work into clearer public explanations.' },
-  { date: 'Next', label: 'Planned', text: 'Publish short build notes, expand the federated-learning work, and continue advancing autonomous airspace research.' },
+  { date: 'This week', label: 'Now', text: 'Refining research systems, documenting experiments, and turning technical work into clearer public explanations along side my work , ofcourse' },
+  { date: 'Next', label: 'Planned', text: 'Sleeping and waiting for Dashain and Dipawali and Chhath and enjoy this waiting period...' },
 ];
 
 export const glossaryTerms = [
