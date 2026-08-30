@@ -152,7 +152,7 @@ export default function ContactSection({ playSound }) {
               </div>
             </div>
             <p className="text-xs text-slate-400 pl-12 font-mono">
-              Also active at: {personalInfo.secondaryLocation}
+              
             </p>
           </div>
 
