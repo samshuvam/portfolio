@@ -32,7 +32,8 @@ export default function App() {
     const sequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
     let index = 0;
     const onKey = (event) => {
-      index = event.key.toLowerCase() === sequence[index] ? index + 1 : 0;
+      const key = String(event.key || '').toLowerCase();
+      index = key === sequence[index] ? index + 1 : 0;
       if (index === sequence.length) { document.documentElement.classList.toggle('geo-mode'); index = 0; }
     };
     window.addEventListener('keydown', onKey);
@@ -91,7 +92,7 @@ export default function App() {
   // Global keyboard shortcut for Terminal (Cmd+K / Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      if ((e.metaKey || e.ctrlKey) && String(e.key || '').toLowerCase() === 'k') {
         e.preventDefault();
         setTerminalOpen((prev) => !prev);
         playSound('terminal');
