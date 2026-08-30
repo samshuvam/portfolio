@@ -415,7 +415,7 @@ export const leadershipAndAchievements = [
 // Paste YouTube links here as they are published. The player automatically expands
 // into a playlist when more than one entry is added.
 export const videoPlaylist = [
-  // { id: 'federated-learning', title: 'Federated Learning', url: 'https://www.youtube.com/watch?v=VIDEO_ID', description: 'A practical introduction to privacy-preserving collaborative learning.' },
+  { id: 'federated-learning', title: 'Federated Learning', url: 'https://www.youtube.com/watch?v=Ewa8DXRcki4', description: 'A practical introduction to privacy-preserving collaborative learning.' },
 ];
 
 // These are intentionally labelled as drafts until an attributed approval is supplied.
