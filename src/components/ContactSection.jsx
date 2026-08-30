@@ -44,6 +44,7 @@ export default function ContactSection({ playSound }) {
       const payload = new FormData();
       payload.append('name', formData.name);
       payload.append('email', formData.email);
+      payload.append('_replyto', formData.email);
       payload.append('message', formData.message);
       payload.append('_subject', `Portfolio inquiry from ${formData.name}`);
       payload.append('_template', 'table');
