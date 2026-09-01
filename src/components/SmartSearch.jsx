@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Bot, Search, X } from 'lucide-react';
-import { personalInfo, researchProjects, publications, technicalSkills, glossaryTerms } from '../data/portfolioData';
+import { personalInfo, researchProjects, publications, technicalSkills, glossaryTerms, experienceData, educationData } from '../data/portfolioData';
 
 const notes = import.meta.glob('../knowledge/*.{md,txt}', { eager: true, query: '?raw', import: 'default' });
 
@@ -12,6 +12,8 @@ const facts = [
   { aliases: ['phone', 'whatsapp', 'number'], response: `Shuvam’s phone and WhatsApp number is ${personalInfo.phone}.` },
   { aliases: ['instagram', 'insta'], response: 'Instagram: @sam.shuvam — https://www.instagram.com/sam.shuvam' },
   { aliases: ['papers', 'publications', 'research papers', 'conference'], response: 'Shuvam has 2 accepted international research papers: IEEE ICAII 2026 on Bio-Memory continual learning and ICAAsT 2024 on aerospace 4D trajectory conflict detection.' },
+  { aliases: ['experience', 'work experience', 'internship', 'employment', 'job', 'united lubricants', 'satyadip'], response: `Shuvam’s industry experience includes ${experienceData[0].role} at ${experienceData[0].company} in ${experienceData[0].location} (${experienceData[0].period}). His work includes Odoo ERP migration, workflow automation, smart inventory, LLM analytics, and RAG systems.` },
+  { aliases: ['academic experience', 'academic background', 'coursework'], response: `${educationData[0].degree} in ${educationData[0].field} at ${educationData[0].institution}. Key coursework includes ${educationData[0].coursework.slice(0, 4).join(', ')}.` },
 ];
 
 function buildCorpus() {

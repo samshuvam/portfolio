@@ -23,12 +23,16 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  const [palette, setPalette] = useState(() => localStorage.getItem('portfolio-palette') || 'aqua');
+  const [surface, setSurface] = useState(() => localStorage.getItem('portfolio-surface') || 'void');
   const [noise, setNoise] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    localStorage.setItem('portfolio-palette', palette);
+  }, [palette]);
+  useEffect(() => {
+    localStorage.setItem('portfolio-surface', surface);
+  }, [surface]);
 
   useEffect(() => {
     const sequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
@@ -105,7 +109,7 @@ export default function App() {
   }, [playSound]);
 
   return (
-    <div data-theme={theme} className={`relative min-h-screen bg-[#090a0f] text-slate-100 selection:bg-cyan-500 selection:text-black ${noise ? 'synapse-noise' : ''}`}>
+    <div data-palette={palette} data-surface={surface} className={`theme-shell relative min-h-screen bg-[#090a0f] text-slate-100 selection:bg-cyan-500 selection:text-black ${noise ? 'synapse-noise' : ''}`}>
       {/* Background Interactive Canvas Particle Field */}
       <CanvasBackground />
 
@@ -119,8 +123,10 @@ export default function App() {
           soundEnabled={soundEnabled}
           setSoundEnabled={setSoundEnabled}
           playSound={playSound}
-          theme={theme}
-          setTheme={setTheme}
+          palette={palette}
+          setPalette={setPalette}
+          surface={surface}
+          setSurface={setSurface}
           noise={noise}
           setNoise={setNoise}
         />

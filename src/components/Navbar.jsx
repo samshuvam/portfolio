@@ -1,10 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Volume2, VolumeX, Menu, X, FileText, Cpu, Sun, Moon, BrainCircuit } from 'lucide-react';
+import { Terminal, Volume2, VolumeX, Menu, X, FileText, Cpu, BrainCircuit, Palette, RotateCcw, Check } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 
-export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, playSound, theme, setTheme, noise, setNoise }) {
+const palettes = [
+  { id: 'aqua', name: 'Aqua', colors: ['#22d3ee', '#2563eb', '#a855f7'] },
+  { id: 'violet', name: 'Violet', colors: ['#c084fc', '#8b5cf6', '#ec4899'] },
+  { id: 'ember', name: 'Ember', colors: ['#fb7185', '#f97316', '#facc15'] },
+  { id: 'forest', name: 'Forest', colors: ['#34d399', '#14b8a6', '#84cc16'] },
+  { id: 'sunset', name: 'Sunset', colors: ['#f59e0b', '#ef4444', '#db2777'] },
+  { id: 'ocean', name: 'Ocean', colors: ['#38bdf8', '#0ea5e9', '#2dd4bf'] },
+  { id: 'rose', name: 'Rose', colors: ['#fb7185', '#f43f5e', '#a855f7'] },
+  { id: 'lime', name: 'Lime', colors: ['#a3e635', '#22c55e', '#06b6d4'] },
+  { id: 'gold', name: 'Gold', colors: ['#facc15', '#f59e0b', '#fb7185'] },
+  { id: 'mono', name: 'Monochrome', colors: ['#e2e8f0', '#94a3b8', '#64748b'] },
+];
+
+const surfaces = [
+  { id: 'void', name: 'Void' }, { id: 'aurora', name: 'Aurora' }, { id: 'graphite', name: 'Graphite' },
+];
+
+export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, playSound, palette, setPalette, surface, setSurface, noise, setNoise }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [themeStudioOpen, setThemeStudioOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,7 +116,7 @@ export default function Navbar({ onOpenTerminal, soundEnabled, setSoundEnabled, 
           >
             {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4" />}
           </button>
-          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} title="Toggle light/dark mode" className="p-2 rounded-lg bg-slate-900/80 border border-slate-700/60 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">{theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}</button>
+          <div className="relative"><button onClick={() => setThemeStudioOpen(!themeStudioOpen)} title="Open theme studio" className="p-2 rounded-lg bg-slate-900/80 border border-slate-700/60 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"><Palette className="w-4 h-4" /></button>{themeStudioOpen && <div className="theme-studio absolute right-0 top-11 w-80 rounded-2xl border border-slate-700 bg-[#0d0f18]/95 p-4 shadow-2xl backdrop-blur-xl"><div className="flex items-center justify-between mb-3"><span className="text-xs font-mono text-slate-300">COLOR SPECTRUM</span><button onClick={() => { setPalette('aqua'); setSurface('void'); }} className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-white"><RotateCcw className="w-3.5 h-3.5" /> Reset</button></div><div className="grid grid-cols-5 gap-2">{palettes.map((item) => <button key={item.id} onClick={() => setPalette(item.id)} title={item.name} className={`theme-swatch ${palette === item.id ? 'is-selected' : ''}`} style={{ background: `linear-gradient(135deg, ${item.colors.join(', ')})` }}>{palette === item.id && <Check className="w-3.5 h-3.5 text-white" />}</button>)}</div><div className="mt-4 pt-3 border-t border-slate-800"><span className="text-[11px] font-mono text-slate-400">BACKGROUND</span><div className="grid grid-cols-3 gap-2 mt-2">{surfaces.map((item) => <button key={item.id} onClick={() => setSurface(item.id)} className={`theme-surface theme-surface-${item.id} ${surface === item.id ? 'is-selected' : ''}`}>{item.name}</button>)}</div></div></div>}</div>
           <button onClick={() => setNoise(!noise)} title={noise ? 'Restore Synapses' : 'Inject Noise'} className="p-2 rounded-lg bg-slate-900/80 border border-slate-700/60 text-slate-400 hover:text-purple-300 hover:border-purple-500/40 transition-all"><BrainCircuit className="w-4 h-4" /></button>
 
           {/* Terminal Trigger */}
