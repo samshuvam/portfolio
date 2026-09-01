@@ -50,6 +50,9 @@ body {
 .geo-mode { font-family: "Comic Sans MS", cursive !important; background: #060093 !important; color: #fffb00 !important; }
 .geo-mode * { border-radius: 0 !important; text-shadow: 2px 2px #f0f !important; }
 .geo-mode::before { content: '★ YOU ARE VISITOR #402 ★'; position: fixed; z-index: 100; top: 0; left: 50%; transform: translateX(-50%); padding: 5px 15px; color: #ff0; background: #f0f; font: bold 12px monospace; }
+.smart-search-trigger { position: fixed; right: 1rem; bottom: 1rem; z-index: 35; display: inline-flex; align-items: center; gap: .45rem; border: 1px solid rgba(34,211,238,.35); border-radius: 999px; background: rgba(8,47,73,.92); color: #a5f3fc; padding: .65rem .9rem; font: 600 .75rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; box-shadow: 0 8px 24px rgba(0,0,0,.25); transition: transform .2s ease, border-color .2s ease; }
+.smart-search-trigger:hover { transform: translateY(-2px); border-color: rgba(103,232,249,.8); }
+.smart-search-panel { background: rgba(13,15,24,.97); }
 
 /* Custom Cyber & Glassmorphism Utilities */
 .glass-panel {

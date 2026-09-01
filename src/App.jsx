@@ -17,6 +17,7 @@ import NowAndGlossary from './components/NowAndGlossary';
 import SocialProof from './components/SocialProof';
 import Struggle from './components/Struggle';
 import AnonymousInbox from './components/AnonymousInbox';
+import SmartSearch from './components/SmartSearch';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -160,6 +161,7 @@ export default function App() {
           onOpenTerminal={() => setTerminalOpen(true)}
           playSound={playSound}
         />
+        <SmartSearch />
       </div>
 
       {/* Modals */}
