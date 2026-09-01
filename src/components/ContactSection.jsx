@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Copy, Check, MessageSquare, FileText, Sparkles, ExternalLink, Camera } from 'lucide-react';
+import { Send, Copy, Check, MessageSquare, FileText, Sparkles, ExternalLink } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { personalInfo } from '../data/portfolioData';
 
@@ -11,6 +11,15 @@ function GitHubIcon({ className }) {
       <path d="M9 18c-4.51 2-5-2-7-2" />
     </svg>
   );
+}
+
+function BrandIcon({ brand, className = 'w-5 h-5' }) {
+  const common = { className, viewBox: '0 0 24 24', role: 'img', 'aria-hidden': true };
+  if (brand === 'whatsapp') return <svg {...common} fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.06 0C5.53 0 .22 5.3.22 11.84c0 2.09.55 4.14 1.6 5.94L.12 24l6.37-1.67a11.84 11.84 0 0 0 5.57 1.42h.01c6.53 0 11.84-5.31 11.84-11.84 0-3.17-1.23-6.14-3.41-8.41ZM12.07 21.7h-.01a9.83 9.83 0 0 1-5.01-1.37l-.36-.21-3.78.99 1.01-3.68-.23-.38a9.82 9.82 0 1 1 8.38 4.65Zm5.39-7.37c-.3-.15-1.76-.87-2.03-.96-.27-.1-.47-.15-.67.15-.2.3-.76.96-.93 1.16-.17.2-.34.22-.63.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.34.44-.51.15-.17.2-.3.3-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.91-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.47s1.06 2.87 1.2 3.07c.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.61.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.34Z" /></svg>;
+  if (brand === 'instagram') return <svg {...common} fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>;
+  if (brand === 'gmail') return <svg {...common} fill="none" strokeWidth="2"><path stroke="#ea4335" d="M3 6.5 12 13l9-6.5"/><path stroke="#4285f4" d="M3 6.5V19h18V6.5"/><path stroke="#34a853" d="M3 19V6.5"/><path stroke="#fbbc04" d="M21 19V6.5"/></svg>;
+  if (brand === 'maps') return <svg {...common}><path fill="#4285f4" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Z"/><path fill="#34a853" d="M12 2a7 7 0 0 0-7 7c0 1.2.35 2.47 1 3.8L12 20V2Z"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>;
+  return null;
 }
 
 export default function ContactSection({ playSound }) {
@@ -83,7 +92,7 @@ export default function ContactSection({ playSound }) {
           <div className="glass-card rounded-2xl p-5 border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3.5">
               <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-                <Mail className="w-5 h-5" />
+                <BrandIcon brand="gmail" />
               </div>
               <div>
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Primary Email</span>
@@ -103,7 +112,7 @@ export default function ContactSection({ playSound }) {
           <div className="glass-card rounded-2xl p-5 border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3.5">
               <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400">
-                <Phone className="w-5 h-5" />
+                <BrandIcon brand="whatsapp" />
               </div>
               <div>
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Phone & WhatsApp</span>
@@ -118,7 +127,7 @@ export default function ContactSection({ playSound }) {
                 className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-600/40 text-emerald-400 hover:bg-emerald-900/50 transition-all"
                 title="Chat on WhatsApp"
               >
-                <ExternalLink className="w-4 h-4" />
+                <BrandIcon brand="whatsapp" className="w-4 h-4" />
               </a>
               <button
                 onClick={handleCopyPhone}
@@ -151,14 +160,14 @@ export default function ContactSection({ playSound }) {
           </a>
 
           <a href="https://www.instagram.com/sam.shuvam" target="_blank" rel="noopener noreferrer" onClick={() => playSound?.('click')} className="glass-card rounded-2xl p-5 border-slate-800 flex items-center justify-between group hover:border-pink-500/40 transition-all block">
-            <div className="flex items-center gap-3.5"><div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-300"><Camera className="w-5 h-5" /></div><div><span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Instagram</span><div className="text-sm font-semibold text-white font-mono">@sam.shuvam</div></div></div><ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-pink-300 transition-colors" />
+            <div className="flex items-center gap-3.5"><div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-300"><BrandIcon brand="instagram" /></div><div><span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Instagram</span><div className="text-sm font-semibold text-white font-mono">@sam.shuvam</div></div></div><ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-pink-300 transition-colors" />
           </a>
 
           {/* Location & Domicile */}
           <div className="glass-card rounded-2xl p-5 border-slate-800">
             <div className="flex items-center gap-3.5 mb-2">
               <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400">
-                <MapPin className="w-5 h-5" />
+                <BrandIcon brand="maps" />
               </div>
               <div>
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Location</span>

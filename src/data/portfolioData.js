@@ -2,7 +2,7 @@ export const personalInfo = {
   name: "Shuvam Singh",
   title: "AI, Aviation and Everything in Between",
   tagline: "Exploring intelligence across domains and beyond.",
-  location: "Sanepa - 02, Indrayani Marg, Lalitpur, Nepal",
+  location: "Sanepa - Lalitpur, Nepal",
   secondaryLocation: "SRM University - AP, Andhra Pradesh, India",
   email: "suvmith@gmail.com",
   altEmail: "shuvamishra15937@gmail.com",
