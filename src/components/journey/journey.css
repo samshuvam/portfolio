@@ -1,0 +1,326 @@
+.journey {
+  padding-bottom: 0;
+}
+.journey-head {
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.journey-stage {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  background: #8fb8e0;
+  isolation: isolate;
+}
+.journey-stage[data-phase='night'] {
+  background: #0b1026;
+}
+.journey-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.journey-cards {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.jcard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+.jcard-inner {
+  position: absolute;
+  left: -150px;
+  width: 300px;
+  padding: 0.75rem 0.75rem 1rem;
+  border-radius: 20px;
+  background: color-mix(in oklab, var(--surface-2) 94%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.55), 0 8px 18px -10px rgb(0 0 0 / 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: auto;
+  transition: transform 0.6s var(--ease-out), box-shadow 0.4s;
+}
+.jcard.is-up .jcard-inner {
+  bottom: 26px;
+}
+.jcard.is-down .jcard-inner {
+  top: 26px;
+}
+.jcard.is-active .jcard-inner {
+  transform: scale(1.04);
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.6), 0 0 0 2px var(--accent);
+}
+.jcard-stem {
+  position: absolute;
+  left: -1px;
+  width: 2px;
+  height: 26px;
+  background: var(--accent);
+}
+.jcard.is-up .jcard-stem {
+  bottom: 0;
+}
+.jcard.is-down .jcard-stem {
+  top: 0;
+}
+.jcard-stem::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 35%, transparent);
+}
+.jcard.is-up .jcard-stem::after {
+  bottom: -5px;
+}
+.jcard.is-down .jcard-stem::after {
+  top: -5px;
+}
+.jcard-photo {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 13px;
+  margin-bottom: 0.7rem;
+}
+.jcard-when {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0 0.25rem;
+  font: 500 0.72rem/1.3 var(--font-mono);
+  color: var(--ink-3);
+}
+.jcard-when span:first-child {
+  color: var(--accent-fg);
+  font-weight: 600;
+}
+.jcard-title {
+  margin-top: 0.35rem;
+  padding: 0 0.25rem;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.jcard-text {
+  margin-top: 0.4rem;
+  padding: 0 0.25rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.jcard-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.7rem 0.25rem 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-fg);
+  font: 600 0.82rem/1 var(--font-sans);
+}
+
+.journey-controls {
+  position: absolute;
+  top: clamp(1rem, 3vh, 1.75rem);
+  left: var(--gutter);
+  z-index: 2;
+  display: grid;
+  gap: 0.6rem;
+  max-width: min(560px, calc(100% - 2 * var(--gutter)));
+  padding: 0.5rem 0.55rem 0.5rem 0.9rem;
+  border-radius: 22px;
+  background: color-mix(in oklab, var(--surface-2) 82%, transparent);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: var(--shadow);
+}
+.journey-live {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font: 500 0.8rem/1.3 var(--font-mono);
+  color: var(--ink);
+}
+.journey-live > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-right: 0.35rem;
+}
+.journey-toggle {
+  padding: 0.38rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 600 0.74rem/1 var(--font-sans);
+}
+.journey-toggle:hover {
+  border-color: var(--ink);
+}
+.journey-pickers {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.2rem 0.35rem 0.35rem 0;
+}
+.journey-chip-en {
+  color: var(--ink-3);
+  font-size: 0.7rem;
+}
+.journey-chip[aria-pressed='true'] .journey-chip-en {
+  color: color-mix(in oklab, var(--bg) 70%, transparent);
+}
+.journey-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5484d;
+  box-shadow: 0 0 0 0 rgb(229 72 77 / 0.6);
+  animation: live-dot 1.8s ease-out infinite;
+}
+@keyframes live-dot {
+  70% {
+    box-shadow: 0 0 0 8px rgb(229 72 77 / 0);
+  }
+}
+.journey-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.journey-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 0.76rem/1 var(--font-sans);
+  transition: background-color 0.25s, color 0.25s;
+}
+.journey-chip i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+.journey-chip:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+.journey-chip[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.journey-rail {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1rem, 3vh, 1.75rem);
+  z-index: 2;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface-2) 80%, transparent);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  max-width: calc(100% - 2 * var(--gutter));
+  overflow: hidden;
+}
+.journey-rail li {
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  font: 500 0.7rem/1 var(--font-mono);
+  color: var(--ink-3);
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s;
+}
+.journey-rail li.is-active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Without motion: a plain vertical timeline over a still of the bough. */
+.journey-stage.is-static {
+  height: auto;
+  min-height: 100dvh;
+  padding: 6rem var(--gutter) 6rem;
+}
+.journey-stage.is-static .journey-canvas {
+  position: absolute;
+}
+.journey-stage.is-static .journey-cards {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+.journey-stage.is-static .jcard {
+  position: relative;
+  width: min(420px, 100%);
+  height: auto;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+.journey-stage.is-static .jcard-inner {
+  position: relative;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  width: 100%;
+}
+.journey-stage.is-static .jcard-stem,
+.journey-stage.is-static .journey-rail {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .jcard-inner {
+    width: 236px;
+    left: -118px;
+  }
+  .jcard-text {
+    display: none;
+  }
+  .jcard.is-active .jcard-text {
+    display: block;
+  }
+  .journey-controls {
+    left: var(--gutter);
+    right: var(--gutter);
+    max-width: none;
+    padding: 0.65rem;
+  }
+  .journey-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .journey-rail {
+    display: none;
+  }
+}

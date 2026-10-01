@@ -1,0 +1,81 @@
+// Nepal's six ritus, keyed by Bikram Sambat month (1 = Baisakh ... 12 = Chaitra).
+// Accents are pigments from the season itself; the whole site borrows the
+// current one, so the page you see in Tihar is not the page you see in Magh.
+
+export const SEASONS = [
+  {
+    id: 'basanta',
+    name: 'Basanta',
+    np: 'बसन्त',
+    english: 'Spring',
+    months: [12, 1],
+    monthNames: 'Chaitra and Baisakh',
+    accent: { day: { fill: '#d42c43', ink: '#ffffff', fg: '#b3203a' }, night: { fill: '#ff6b80', ink: '#16181f', fg: '#ff8597' } },
+    pigment: 'Lali gurans red',
+    line: 'Rhododendron, Nepal’s national flower, sets the hills on fire.',
+    scene: { foliage: ['#d8344c', '#f06a7d', '#9e1f33'], density: 1, falling: 'petals', bare: 0.1, rain: 0, fog: 0.05, fireflies: 0, haze: 0.15 },
+  },
+  {
+    id: 'grishma',
+    name: 'Grishma',
+    np: 'ग्रीष्म',
+    english: 'Summer',
+    months: [2, 3],
+    monthNames: 'Jestha and Asar',
+    accent: { day: { fill: '#f2a31b', ink: '#16181f', fg: '#8a5600' }, night: { fill: '#ffb43d', ink: '#16181f', fg: '#ffc25e' } },
+    pigment: 'Mango yellow',
+    line: 'Mango season in Mithila, then the paddy-planting rush around Asar 15.',
+    scene: { foliage: ['#2f8a3e', '#4fae4a', '#1f6a31'], density: 1, falling: 'leaves', bare: 0, rain: 0.08, fog: 0.05, fireflies: 1, haze: 0.3 },
+  },
+  {
+    id: 'barsha',
+    name: 'Barsha',
+    np: 'वर्षा',
+    english: 'Monsoon',
+    months: [4, 5],
+    monthNames: 'Shrawan and Bhadra',
+    accent: { day: { fill: '#1f7a45', ink: '#ffffff', fg: '#1d7041' }, night: { fill: '#4cc27a', ink: '#0b0e19', fg: '#5fd18b' } },
+    pigment: 'Paddy green',
+    line: 'Rain on tin roofs, rivers running full, rice fields gone green.',
+    scene: { foliage: ['#1e6b38', '#2f8f4a', '#174f2b'], density: 1, falling: 'drops', bare: 0, rain: 1, fog: 0.25, fireflies: 0.6, haze: 0.45 },
+  },
+  {
+    id: 'sharad',
+    name: 'Sharad',
+    np: 'शरद',
+    english: 'Autumn',
+    months: [6, 7],
+    monthNames: 'Ashwin and Kartik',
+    accent: { day: { fill: '#f08a24', ink: '#16181f', fg: '#a34a00' }, night: { fill: '#ff9a3c', ink: '#16181f', fg: '#ffa75a' } },
+    pigment: 'Marigold orange',
+    line: 'Clear skies, the Himalaya back on show, kites everywhere, Dashain and Tihar.',
+    scene: { foliage: ['#e8891c', '#f2b230', '#c4521b', '#7a9a35'], density: 0.85, falling: 'leaves', bare: 0.15, rain: 0, fog: 0, fireflies: 0, haze: 0.05 },
+  },
+  {
+    id: 'hemanta',
+    name: 'Hemanta',
+    np: 'हेमन्त',
+    english: 'Pre-winter',
+    months: [8, 9],
+    monthNames: 'Mangsir and Poush',
+    accent: { day: { fill: '#d9a520', ink: '#16181f', fg: '#7f5a00' }, night: { fill: '#e8bb4a', ink: '#16181f', fg: '#f0c862' } },
+    pigment: 'Harvest gold',
+    line: 'Golden paddy and harvest. In Janakpur, Vivah Panchami re-enacts Ram and Sita’s wedding.',
+    scene: { foliage: ['#c99a2e', '#a8641c', '#e0b84a'], density: 0.5, falling: 'leaves', bare: 0.5, rain: 0, fog: 0.3, fireflies: 0, haze: 0.25 },
+  },
+  {
+    id: 'shishir',
+    name: 'Shishir',
+    np: 'शिशिर',
+    english: 'Winter',
+    months: [10, 11],
+    monthNames: 'Magh and Falgun',
+    accent: { day: { fill: '#3557c4', ink: '#ffffff', fg: '#2d4bb0' }, night: { fill: '#8aa4ff', ink: '#0b0e19', fg: '#9db3ff' } },
+    pigment: 'Fog indigo',
+    line: 'Terai fog that won’t lift till noon, bare branches, and til ko laddu for Maghe Sankranti.',
+    scene: { foliage: ['#8a7f6a', '#6e6656'], density: 0.12, falling: 'frost', bare: 1, rain: 0, fog: 0.75, fireflies: 0, haze: 0.6 },
+  },
+];
+
+export const seasonForBsMonth = (month) => SEASONS.find((s) => s.months.includes(month)) || SEASONS[3];
+export const seasonById = (id) => SEASONS.find((s) => s.id === id) || SEASONS[3];

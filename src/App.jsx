@@ -1,187 +1,88 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import CanvasBackground from './components/CanvasBackground';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ResearchProjects from './components/ResearchProjects';
-import InteractiveDemos from './components/InteractiveDemos';
-import Experience from './components/Experience';
-import Publications from './components/Publications';
-import SkillsMatrix from './components/SkillsMatrix';
-import ContactSection from './components/ContactSection';
-import Footer from './components/Footer';
-import ProjectModal from './components/ProjectModal';
-import TerminalModal from './components/TerminalModal';
-import VideoShowcase from './components/VideoShowcase';
-import Photography from './components/Photography';
-import NowAndGlossary from './components/NowAndGlossary';
-import SocialProof from './components/SocialProof';
-import Struggle from './components/Struggle';
-import AnonymousInbox from './components/AnonymousInbox';
-import SmartSearch from './components/SmartSearch';
+import { lazy, Suspense, useEffect } from 'react';
+import ThemeSync from './components/ThemeSync';
+import Intro from './components/intro/Intro';
+import Nav from './components/layout/Nav';
+import Toasts from './components/layout/Toasts';
+import Footer from './components/layout/Footer';
+import FlightMap from './components/layout/FlightMap';
+import CommandPalette from './components/layout/CommandPalette';
+import Passport from './components/layout/Passport';
+import EggsController from './components/layout/EggsController';
+import Hero from './components/hero/Hero';
+import About from './components/sections/About';
+import Work from './components/work/Work';
+import ProjectDialog from './components/work/ProjectDialog';
+import Lab from './components/lab/Lab';
+import Arcade from './components/arcade/Arcade';
+import Papers from './components/sections/Papers';
+import Logbook from './components/sections/Logbook';
+import Journey from './components/journey/Journey';
+import Home from './components/home/Home';
+import Kanya from './components/sections/Kanya';
+import Life from './components/life/Life';
+import Frames from './components/frames/Frames';
+import Wow from './components/wow/Wow';
+import Now from './components/sections/Now';
+import Contact from './components/contact/Contact';
+import Finale from './components/finale/Finale';
+import FogReveal from './components/fx/FogReveal';
+import WindowView from './components/fx/WindowView';
+import Panorama from './components/fx/Panorama';
+import JanakiMandir from './components/fx/JanakiMandir';
+import { TermCardHost } from './components/ui/Term';
+import { startSmoothScroll } from './lib/motion';
+import './styles/term-art.css';
+import './styles/layout.css';
+
+const PlaneLayer = lazy(() => import('./three/PlaneLayer'));
 
 export default function App() {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [terminalOpen, setTerminalOpen] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  const [palette, setPalette] = useState(() => localStorage.getItem('portfolio-palette') || 'aqua');
-  const [surface, setSurface] = useState(() => localStorage.getItem('portfolio-surface') || 'void');
-  const [noise, setNoise] = useState(false);
-
   useEffect(() => {
-    localStorage.setItem('portfolio-palette', palette);
-  }, [palette]);
-  useEffect(() => {
-    localStorage.setItem('portfolio-surface', surface);
-  }, [surface]);
-
-  useEffect(() => {
-    const sequence = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
-    let index = 0;
-    const onKey = (event) => {
-      const key = String(event.key || '').toLowerCase();
-      index = key === sequence[index] ? index + 1 : 0;
-      if (index === sequence.length) { document.documentElement.classList.toggle('geo-mode'); index = 0; }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    startSmoothScroll();
   }, []);
 
-  // Audio synthesis helper via Web Audio API (Zero external assets required)
-  const playSound = useCallback((type = 'click') => {
-    if (!soundEnabled) return;
-    try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
-
-      if (type === 'click') {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.05);
-        gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.05);
-      } else if (type === 'synth') {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(350, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(700, ctx.currentTime + 0.15);
-        gain.gain.setValueAtTime(0.06, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.15);
-      } else if (type === 'terminal') {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(1200, ctx.currentTime);
-        gain.gain.setValueAtTime(0.04, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.04);
-      }
-    } catch (e) {
-      // Audio context might be restricted before user gesture
-    }
-  }, [soundEnabled]);
-
-  // Global keyboard shortcut for Terminal (Cmd+K / Ctrl+K)
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && String(e.key || '').toLowerCase() === 'k') {
-        e.preventDefault();
-        setTerminalOpen((prev) => !prev);
-        playSound('terminal');
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [playSound]);
-
   return (
-    <div data-palette={palette} data-surface={surface} className={`theme-shell relative min-h-screen bg-[#090a0f] text-slate-100 selection:bg-cyan-500 selection:text-black ${noise ? 'synapse-noise' : ''}`}>
-      {/* Background Interactive Canvas Particle Field */}
-      <CanvasBackground />
-
-      {/* Cyber Grid Overlay */}
-      <div className="fixed inset-0 bg-cyber-grid pointer-events-none z-0 opacity-40" />
-
-      {/* Main App Layout */}
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Navbar
-          onOpenTerminal={() => setTerminalOpen(true)}
-          soundEnabled={soundEnabled}
-          setSoundEnabled={setSoundEnabled}
-          playSound={playSound}
-          palette={palette}
-          setPalette={setPalette}
-          surface={surface}
-          setSurface={setSurface}
-          noise={noise}
-          setNoise={setNoise}
-        />
-
-        <main className="flex-1">
-          <Hero
-            onOpenTerminal={() => setTerminalOpen(true)}
-            playSound={playSound}
-          />
-          <VideoShowcase playSound={playSound} />
-
-          <Photography />
-
-          <ResearchProjects
-            onSelectProject={(project) => setSelectedProject(project)}
-            playSound={playSound}
-          />
-
-          <SocialProof />
-
-          <Struggle />
-
-          <InteractiveDemos playSound={playSound} />
-
-          <Experience playSound={playSound} />
-
-          <Publications playSound={playSound} />
-
-          <SkillsMatrix playSound={playSound} />
-
-          <NowAndGlossary />
-
-          <ContactSection playSound={playSound} />
-          <AnonymousInbox />
-        </main>
-
-        <Footer
-          onOpenTerminal={() => setTerminalOpen(true)}
-          playSound={playSound}
-        />
-        <SmartSearch />
-      </div>
-
-      {/* Modals */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        playSound={playSound}
-      />
-
-      <TerminalModal
-        isOpen={terminalOpen}
-        onClose={() => setTerminalOpen(false)}
-        playSound={playSound}
-      />
-    </div>
+    <>
+      <ThemeSync />
+      <EggsController />
+      <Intro />
+      <Nav />
+      <Suspense fallback={null}>
+        <PlaneLayer />
+      </Suspense>
+      <main id="main">
+        <Hero />
+        <About />
+        <Work />
+        <Lab />
+        <Arcade />
+        <FogReveal variant="smog">
+          <Papers />
+        </FogReveal>
+        <Logbook />
+        <WindowView />
+        <Journey />
+        <Panorama />
+        <Home />
+        <JanakiMandir />
+        <FogReveal variant="cloud">
+          <Kanya />
+        </FogReveal>
+        <Life />
+        <Frames />
+        <Wow />
+        <Now />
+        <Contact />
+        <Finale />
+      </main>
+      <Footer />
+      <FlightMap />
+      <div className="grain" aria-hidden="true" />
+      <Toasts />
+      <TermCardHost />
+      <ProjectDialog />
+      <CommandPalette />
+      <Passport />
+    </>
   );
 }

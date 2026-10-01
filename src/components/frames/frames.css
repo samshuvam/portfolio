@@ -1,0 +1,129 @@
+.frames {
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+.frames-stage {
+  position: relative;
+  height: min(88vh, 860px);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.frames-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.frames-hud {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.4rem 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface-2) 85%, transparent);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  white-space: nowrap;
+}
+.frames-hud .t-mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink-2);
+}
+.frames-back {
+  margin-bottom: 1.25rem;
+}
+.frames-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 4 220px;
+  column-gap: 0.8rem;
+}
+.frames-grid li {
+  break-inside: avoid;
+  margin-bottom: 0.8rem;
+}
+.frames-grid button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: none;
+}
+.frames-grid img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.6s var(--ease-out);
+}
+.frames-grid button:hover img {
+  transform: scale(1.04);
+}
+
+/* Lightbox */
+.lightbox.dialog-panel {
+  width: min(1200px, 100%);
+  background: #0c0e14;
+  color: #ece7dc;
+  border-color: #23293a;
+}
+.lightbox .dialog-close {
+  background: rgb(255 255 255 / 0.08);
+  color: #ece7dc;
+  border-color: rgb(255 255 255 / 0.15);
+}
+.lb-figure {
+  margin: 0;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+}
+.lb-figure img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 74vh;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.lb-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1rem;
+}
+.lb-cap {
+  font: 650 1.1rem/1.3 var(--font-display);
+  letter-spacing: -0.02em;
+}
+.lb-meta {
+  color: #9ea4b8;
+}
+.lb-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+  color: #9ea4b8;
+}
+.lb-nav .icon-btn {
+  background: rgb(255 255 255 / 0.08);
+  color: #ece7dc;
+  border-color: rgb(255 255 255 / 0.15);
+}
+@media (max-width: 767px) {
+  .frames-stage {
+    height: 72vh;
+  }
+}

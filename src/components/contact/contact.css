@@ -1,0 +1,288 @@
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+/* Boarding pass */
+.pass {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  border-radius: 26px;
+  filter: drop-shadow(0 30px 40px rgb(60 40 10 / 0.18));
+}
+:root[data-theme='night'] .pass {
+  filter: drop-shadow(0 30px 50px rgb(0 0 0 / 0.55));
+}
+.pass-main,
+.pass-stub {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.pass-main {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 26px 0 0 26px;
+  border-right: 0;
+  mask: radial-gradient(circle 14px at 100% 0, transparent 13px, #000 14px) top right / 100% 51% no-repeat,
+    radial-gradient(circle 14px at 100% 100%, transparent 13px, #000 14px) bottom right / 100% 51% no-repeat;
+}
+.pass-stub {
+  position: relative;
+  padding: 1.5rem 1.25rem;
+  border-radius: 0 26px 26px 0;
+  border-left: 2px dashed var(--line-strong);
+  mask: radial-gradient(circle 14px at 0 0, transparent 13px, #000 14px) top left / 100% 51% no-repeat,
+    radial-gradient(circle 14px at 0 100%, transparent 13px, #000 14px) bottom left / 100% 51% no-repeat;
+  transform-origin: 0 0;
+}
+.pass-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-3);
+}
+.pass-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font: 700 0.9rem/1 var(--font-sans);
+  color: var(--accent-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.pass-route {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.pass-to {
+  text-align: right;
+}
+.pass-k {
+  font: 500 0.66rem/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-3);
+}
+.pass-code {
+  margin-top: 0.3rem;
+  font: 800 clamp(2.4rem, 4.6vw, 3.6rem)/0.9 var(--font-display);
+  letter-spacing: -0.04em;
+}
+.pass-city {
+  margin-top: 0.3rem;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.pass-line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--accent-fg);
+}
+.pass-line span {
+  flex: 1;
+  height: 0;
+  border-top: 2px dashed var(--line-strong);
+}
+.pass-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.pass-msg,
+.pass-actions {
+  grid-column: 1 / -1;
+}
+.pass-field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+.field-err {
+  margin-top: 0.4rem;
+  font-size: 0.84rem;
+  color: #c43a2a;
+}
+:root[data-theme='night'] .field-err {
+  color: #ff8a7a;
+}
+.pass-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+.pass-done {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--accent) 12%, var(--surface));
+}
+.pass-done svg {
+  color: var(--accent-fg);
+}
+.pass-done-title {
+  font: 700 1.5rem/1.1 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.pass-stub-v {
+  margin: 0.25rem 0 0.9rem;
+  font: 700 1.3rem/1 var(--font-display);
+  letter-spacing: -0.02em;
+}
+.pass-barcode {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  height: 52px;
+  margin-top: 0.5rem;
+}
+.pass-barcode i {
+  display: block;
+  background: var(--ink);
+}
+
+/* Channels */
+.contact-side {
+  display: grid;
+  gap: 1rem;
+}
+.channels {
+  display: grid;
+  gap: 0.5rem;
+}
+.channel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  text-decoration: none;
+  font: inherit;
+  transition: transform 0.35s var(--ease-out), border-color 0.3s;
+}
+.channel:hover {
+  transform: translateX(4px);
+  border-color: var(--line-strong);
+}
+.channel svg:first-child {
+  color: var(--accent-fg);
+}
+.channel span {
+  display: grid;
+  gap: 0.1rem;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.channel b {
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.channel-end {
+  color: var(--ink-3);
+}
+.channel-cv {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: transparent;
+}
+.channel-cv span,
+.channel-cv b {
+  color: var(--bg);
+}
+.channel-cv svg:first-child {
+  color: var(--accent);
+}
+
+/* Paper plane note */
+.note {
+  position: relative;
+}
+.note-paper {
+  padding: 1.1rem 1.1rem 0.6rem;
+  border-radius: 6px;
+  background: repeating-linear-gradient(transparent 0 27px, color-mix(in oklab, var(--accent-fg) 25%, transparent) 27px 28px), #fbfaf4;
+  box-shadow: var(--shadow);
+  transform: rotate(-0.8deg);
+}
+:root[data-theme='night'] .note-paper {
+  background: repeating-linear-gradient(transparent 0 27px, rgb(200 120 60 / 0.35) 27px 28px), #ece6d6;
+}
+.note-paper .field-label {
+  color: #4a4438;
+}
+.note-text {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  resize: none;
+  color: #2a2620;
+  font: italic 400 1.05rem/28px 'Tiro Devanagari Hindi', serif;
+  outline: none;
+}
+.note-text::placeholder {
+  color: #8a8270;
+}
+.note-plane {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  color: var(--accent-fg);
+  opacity: 0;
+  pointer-events: none;
+}
+.note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-top: 0.9rem;
+}
+
+@media (max-width: 1023px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .pass {
+    grid-template-columns: 1fr;
+  }
+  .pass-main {
+    border-radius: 26px 26px 0 0;
+    border-right: 1px solid var(--line);
+    mask: none;
+  }
+  .pass-stub {
+    border-radius: 0 0 26px 26px;
+    border-left: 1px solid var(--line);
+    border-top: 2px dashed var(--line-strong);
+    mask: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 1rem;
+  }
+  .pass-barcode {
+    grid-column: 1 / -1;
+  }
+  .pass-fields {
+    grid-template-columns: 1fr;
+  }
+}

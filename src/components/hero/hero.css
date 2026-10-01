@@ -1,0 +1,207 @@
+/* The hero must not create a stacking context: its two name lines sit on
+   either side of the fixed plane canvas (z 5). No transform, opacity,
+   filter or z-index on .hero itself. */
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  overflow: clip;
+  --hero-ink: #f5f1e8;
+  --hero-ink-2: rgb(245 241 232 / 0.78);
+  --hero-line: rgb(245 241 232 / 0.28);
+  color: var(--hero-ink);
+}
+.hero[data-sky='light'] {
+  --hero-ink: #10131b;
+  --hero-ink-2: rgb(16 19 27 / 0.74);
+  --hero-line: rgb(16 19 27 / 0.22);
+}
+
+.sky-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
+.hero-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24vh;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--bg) 70%, transparent) 60%, var(--bg));
+}
+
+.hero-inner {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  min-height: 100dvh;
+  padding-top: clamp(5.5rem, 10vh, 7.5rem);
+  padding-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+
+.hero-greet {
+  position: relative;
+  z-index: var(--z-above-plane);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  color: var(--hero-ink-2);
+}
+.hero-greet .term {
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--hero-ink);
+}
+.hero-greet > span[aria-hidden] {
+  opacity: 0.4;
+}
+.hero-festival {
+  margin-left: 0.4rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.hero-name {
+  align-self: center;
+  margin: clamp(1rem, 4vh, 3rem) 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4.4rem, 16.5vw, 17.5rem);
+  line-height: 0.84;
+  letter-spacing: -0.065em;
+  font-variation-settings: 'wdth' 88, 'opsz' 96;
+  color: var(--hero-ink);
+}
+.hero-line {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0.04em 0.16em;
+  margin-bottom: -0.16em;
+}
+.hero-line-1 {
+  z-index: var(--z-hero-back); /* behind the plane */
+}
+.hero-line-2 {
+  z-index: var(--z-above-plane); /* in front of the plane */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 0.18em;
+  padding-right: 2vw;
+}
+.hero-line-text {
+  display: inline-block;
+}
+.hero-line-2 .hero-line-text::first-letter {
+  color: inherit;
+}
+.hero-char {
+  display: inline-block;
+  will-change: transform;
+}
+.hero-tirhuta {
+  align-self: center;
+  margin-bottom: 0.35em;
+  font-size: 0.16em;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.hero-tirhuta .term {
+  font-family: var(--font-tirhuta);
+  font-weight: 400;
+  color: var(--accent);
+  background-size: 0 1.5px;
+}
+.hero-tirhuta .term:hover {
+  background-size: 100% 1.5px;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: var(--z-above-plane);
+  display: grid;
+  gap: 1.5rem;
+  max-width: 34rem;
+}
+.hero-sub {
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--hero-ink-2);
+}
+.hero-sub .term {
+  color: var(--hero-ink);
+}
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.hero-ghost {
+  --btn-fg: var(--hero-ink);
+  border-color: var(--hero-line);
+  background: color-mix(in oklab, var(--hero-ink) 6%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.hero-ghost:hover {
+  border-color: var(--hero-ink);
+}
+
+.hero-live {
+  position: relative;
+  z-index: var(--z-above-plane);
+  margin-top: clamp(1.5rem, 5vh, 3rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+.hero-live > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.hero-live .term {
+  font-weight: 500;
+}
+.hero-bs {
+  font-size: 0.98rem;
+  margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  .hero-name {
+    font-size: clamp(4rem, 22vw, 7rem);
+    margin: 2rem 0 1.25rem;
+  }
+  .hero-line-2 {
+    justify-content: flex-start;
+    padding-left: 12vw;
+  }
+  .hero-tirhuta {
+    display: none;
+  }
+  .hero-bs {
+    margin-left: 0;
+  }
+  .hero-live {
+    font-size: 0.72rem;
+    gap: 0.35rem 0.9rem;
+  }
+}

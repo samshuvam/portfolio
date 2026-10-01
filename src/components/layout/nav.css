@@ -1,0 +1,208 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 72px;
+  padding: 0 clamp(0.75rem, 2.4vw, 1.75rem);
+  transition: transform 0.6s var(--ease-out);
+  pointer-events: none;
+}
+.nav > * {
+  pointer-events: auto;
+}
+.nav.is-hidden {
+  transform: translateY(-110%);
+}
+
+.nav-logo {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 22px;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  transition: transform 0.5s var(--ease-out), background-color 0.4s;
+}
+.nav-logo:hover {
+  transform: rotate(-12deg) scale(1.06);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.nav-logo span {
+  transform: translateY(-1px);
+}
+
+.nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.3rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: var(--shadow);
+}
+.nav-pill a {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  color: var(--ink-2);
+  font: 500 0.88rem/1 var(--font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s;
+}
+.nav-pill a:hover {
+  color: var(--ink);
+  background: color-mix(in oklab, var(--ink) 6%, transparent);
+}
+.nav-pill a[aria-current='true'] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.nav-clock {
+  margin-right: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  font: 500 0.78rem/1 var(--font-mono);
+  color: var(--ink);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.nav-clock span {
+  color: var(--ink-3);
+}
+.nav-yap {
+  display: flex;
+  padding: 0.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.nav-yap button {
+  padding: 0.38rem 0.7rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  font: 600 0.76rem/1 var(--font-sans);
+  transition: background-color 0.3s, color 0.3s;
+}
+.nav-yap button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.nav-k {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  height: 2.4rem;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--ink);
+  color: var(--bg);
+  font: 600 0.8rem/1 var(--font-mono);
+  transition: transform 0.3s var(--ease-out);
+}
+.nav-k:hover {
+  transform: translateY(-1px);
+}
+.nav-menu-btn {
+  display: none;
+}
+
+.nav-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav) - 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 88px var(--gutter) 2rem;
+  background: var(--bg);
+  clip-path: circle(0% at calc(100% - 2.5rem) 2.25rem);
+  transition: clip-path 0.7s var(--ease-in-out);
+  visibility: hidden;
+}
+.nav-sheet.is-open {
+  clip-path: circle(150% at calc(100% - 2.5rem) 2.25rem);
+  visibility: visible;
+}
+.nav-sheet nav {
+  display: grid;
+  gap: 0.2rem;
+  overflow-y: auto;
+}
+.nav-sheet nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding: 0.35rem 0;
+  font: 700 clamp(1.7rem, 7vw, 2.6rem)/1.05 var(--font-display);
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s, transform 0.6s var(--ease-out);
+}
+.nav-sheet.is-open nav a {
+  opacity: 1;
+  transform: none;
+}
+.nav-sheet nav a span {
+  width: 4.2rem;
+  color: var(--accent-fg);
+}
+.nav-sheet-tools {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1180px) {
+  .nav-clock {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .nav-pill {
+    display: none;
+  }
+  .nav-menu-btn {
+    display: inline-grid;
+  }
+}
+@media (max-width: 520px) {
+  .nav-hide-sm {
+    display: none;
+  }
+  .nav {
+    height: 64px;
+  }
+}

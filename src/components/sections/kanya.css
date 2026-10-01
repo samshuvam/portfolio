@@ -1,0 +1,220 @@
+/* Kanya is the page's one deliberate night block. The sky sits below the
+   plane layer and the content above it, so the airliner crosses the stars. */
+.kanya {
+  position: relative;
+  padding-block: clamp(6rem, 12vw, 10rem);
+  color: #ece7dc;
+  --ink: #ece7dc;
+  --ink-2: #b9bccd;
+  --ink-3: #8a8ea6;
+  --line: rgb(236 231 220 / 0.12);
+  --line-strong: rgb(236 231 220 / 0.24);
+  --surface: #141a36;
+  --surface-2: #19203f;
+  --bg: #0a0d1c;
+  --bg-2: #10142a;
+}
+.kanya-sky {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-hero-back);
+  background:
+    radial-gradient(1px 1px at 12% 18%, #fff8 50%, transparent 51%),
+    radial-gradient(1px 1px at 32% 72%, #fff6 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 58% 12%, #fff9 50%, transparent 51%),
+    radial-gradient(1px 1px at 76% 44%, #fff5 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 82%, #fff7 50%, transparent 51%),
+    radial-gradient(1px 1px at 44% 38%, #fff4 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 6% 64%, #fff7 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 92%, #fff5 50%, transparent 51%),
+    radial-gradient(ellipse 70% 50% at 70% 30%, rgb(70 60 140 / 0.35), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 15% 85%, rgb(140 60 90 / 0.18), transparent 70%),
+    linear-gradient(180deg, #070a18 0%, #0c1130 55%, #121a3d 100%);
+  background-size: 220px 220px, 260px 260px, 300px 300px, 240px 240px, 280px 280px, 200px 200px, 320px 320px, 250px 250px, 100% 100%, 100% 100%, 100% 100%;
+}
+.kanya-content {
+  position: relative;
+  z-index: var(--z-above-plane);
+}
+.kanya-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+.kanya-np {
+  font-size: clamp(3.4rem, 8vw, 7rem);
+  line-height: 1.1;
+  color: var(--accent);
+}
+.kanya-head h2 {
+  margin-top: 0.4rem;
+  color: #f4efe4;
+}
+.kanya-head h2 .light {
+  color: #b9bccd;
+}
+.kanya-lede {
+  margin-top: 1.4rem;
+  max-width: 34rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+  color: #c9ccd9;
+}
+.kanya .term {
+  --accent-fg: var(--accent);
+}
+.virgo-wrap {
+  margin: 0;
+}
+.virgo {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.virgo-star {
+  fill: #dfe4ff;
+  animation: twinkle 4s ease-in-out infinite;
+}
+@keyframes twinkle {
+  50% {
+    opacity: 0.45;
+  }
+}
+.virgo-line {
+  fill: none;
+  stroke: color-mix(in oklab, var(--accent) 80%, #fff);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+.virgo-named {
+  fill: #fff;
+  filter: drop-shadow(0 0 6px rgb(200 210 255 / 0.9));
+}
+.virgo-named.is-spica {
+  fill: #cfe0ff;
+  filter: drop-shadow(0 0 10px rgb(170 200 255 / 1));
+}
+.virgo-label {
+  font: 500 13px var(--font-mono);
+  fill: #aab0cc;
+}
+.virgo-wrap figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  color: #9ea3bd;
+}
+
+.traits-title {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  letter-spacing: -0.04em;
+  color: #f4efe4;
+}
+.traits {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+  perspective: 1200px;
+}
+.trait {
+  min-height: 200px;
+}
+.trait-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease-out);
+}
+.trait-inner.is-flipped,
+.trait:hover .trait-inner {
+  transform: rotateY(180deg);
+}
+.trait-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+  border-radius: var(--radius-card);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.trait-front {
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(6px);
+}
+.trait-back {
+  transform: rotateY(180deg);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.trait-n {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--accent);
+}
+.trait-name {
+  margin-top: auto;
+  font: 700 1.45rem/1.1 var(--font-display);
+  letter-spacing: -0.03em;
+  color: #f4efe4;
+}
+.trait-cta {
+  margin-top: 0.4rem;
+  font: 500 0.74rem/1 var(--font-mono);
+  color: #8a8ea6;
+}
+.trait-ev-label {
+  font: 600 0.7rem/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+.trait-ev {
+  margin-top: auto;
+  font: 600 1.02rem/1.4 var(--font-sans);
+}
+.kanya-check {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.4rem;
+  margin-top: 2.5rem;
+}
+.kanya-check p {
+  color: #b9bccd;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 1023px) {
+  .kanya-layout {
+    grid-template-columns: 1fr;
+  }
+  .traits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (hover: none) {
+  .trait:hover .trait-inner {
+    transform: none;
+  }
+  .trait:hover .trait-inner.is-flipped {
+    transform: rotateY(180deg);
+  }
+}

@@ -1,58 +1,78 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Primary Meta Tags -->
-    <title>Shuvam Singh | AI Systems Architect & Big Data Engineer</title>
-    <meta name="title" content="Shuvam Singh | AI Systems Architect & Big Data Engineer" />
-    <meta name="description" content="Portfolio & Research of Shuvam Singh. Specializing in Big Data, Agentic AI, Context Orchestration, Bio-Memory Cognitive Architectures, and Aerospace / eVTOL AI Systems." />
-    <meta name="keywords" content="Shuvam Singh, AI Engineer, Big Data, RAG, Bio-Memory, Aerospace AI, eVTOL, SRM University AP, Machine Learning, samshuvam, shuvamsingh.com.np" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Shuvam Singh · AI, aviation and everything in between</title>
+    <meta name="description" content="Shuvam Singh, AI systems engineer from Janakpur, Nepal. Memory architectures for LLMs, AI for air traffic, context engineering, and systems people trust. Two accepted papers (IEEE ICAII 2026, ICAAsT 2024)." />
     <meta name="author" content="Shuvam Singh" />
+    <meta name="keywords" content="Shuvam Singh, samshuvam, suvmith, AI engineer Nepal, Janakpur, RAG, context engineering, bio memory, continual learning, eVTOL, air traffic management, SRM University AP" />
+    <meta name="theme-color" content="#0c0f1a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f2eee6" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://shuvamsingh.com.np/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://shuvamsingh.com.np/" />
-    <meta property="og:title" content="Shuvam Singh | AI Systems Architect & Big Data Engineer" />
-    <meta property="og:description" content="Portfolio & Research of Shuvam Singh. Specializing in Big Data, Agentic AI, Context Orchestration, Bio-Memory Cognitive Architectures, and Aerospace / eVTOL AI Systems." />
+    <meta property="og:title" content="Shuvam Singh · AI, aviation and everything in between" />
+    <meta property="og:description" content="AI that remembers, airspace that thinks, and systems people trust. Built from Janakpur, Nepal." />
     <meta property="og:image" content="https://shuvamsingh.com.np/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@suvmith" />
+    <meta name="twitter:title" content="Shuvam Singh · AI, aviation and everything in between" />
+    <meta name="twitter:description" content="AI that remembers, airspace that thinks, and systems people trust. Built from Janakpur, Nepal." />
+    <meta name="twitter:image" content="https://shuvamsingh.com.np/og-image.png" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://shuvamsingh.com.np/" />
-    <meta property="twitter:title" content="Shuvam Singh | AI Systems Architect & Big Data Engineer" />
-    <meta property="twitter:description" content="Portfolio & Research of Shuvam Singh. Specializing in Big Data, Agentic AI, Context Orchestration, Bio-Memory Cognitive Architectures, and Aerospace / eVTOL AI Systems." />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Orbitron:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-[#090a0f] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black min-h-screen overflow-x-hidden">
-    <div id="root">
-      <div id="loading-indicator" style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:#00f5d4;font-family:monospace;font-size:18px;">
-        Loading...
-      </div>
-    </div>
-    <div id="error-display" style="display:none;position:fixed;top:0;left:0;right:0;padding:20px;background:#ff000033;color:#ff6b6b;font-family:monospace;font-size:14px;z-index:99999;white-space:pre-wrap;"></div>
-    <script>
-      window.onerror = function(msg, url, line, col, error) {
-        var el = document.getElementById('error-display');
-        if (el) {
-          el.style.display = 'block';
-          el.textContent = 'JS Error: ' + msg + '\nAt: ' + url + ':' + line + ':' + col + '\n' + (error && error.stack ? error.stack : '');
-        }
-      };
-      window.addEventListener('unhandledrejection', function(event) {
-        var el = document.getElementById('error-display');
-        if (el) {
-          el.style.display = 'block';
-          el.textContent = 'Unhandled Promise Rejection: ' + event.reason;
-        }
-      });
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Shuvam Singh",
+        "alternateName": ["samshuvam", "suvmith"],
+        "url": "https://shuvamsingh.com.np/",
+        "image": "https://shuvamsingh.com.np/og-image.png",
+        "jobTitle": "AI Systems Engineer",
+        "birthPlace": { "@type": "Place", "name": "Janakpur, Nepal" },
+        "homeLocation": { "@type": "Place", "name": "Lalitpur, Nepal" },
+        "alumniOf": { "@type": "CollegeOrUniversity", "name": "SRM University - AP" },
+        "knowsLanguage": ["Maithili", "Nepali", "English"],
+        "sameAs": ["https://github.com/samshuvam", "https://x.com/suvmith", "https://www.instagram.com/sam.shuvam"]
+      }
     </script>
+
+    <script>
+      // Pick the theme before first paint so there is no flash. The real
+      // sun position for Lalitpur is computed by the app once it boots;
+      // this is a fast approximation from Nepal time.
+      (function () {
+        try {
+          var saved = localStorage.getItem('ss-theme');
+          var mode = saved === 'day' || saved === 'night' ? saved : null;
+          if (!mode) {
+            var h = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', hour: 'numeric', hour12: false }).format(new Date()));
+            mode = h >= 6 && h < 18 ? 'day' : 'night';
+          }
+          document.documentElement.dataset.theme = mode;
+        } catch (e) {
+          document.documentElement.dataset.theme = 'night';
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div id="root"></div>
+    <noscript>
+      <main style="max-width:42rem;margin:4rem auto;padding:0 1rem;font-family:system-ui,sans-serif;line-height:1.6">
+        <h1>Shuvam Singh</h1>
+        <p>AI, aviation and everything in between. AI systems engineer from Janakpur, Nepal. B.Tech CSE (Big Data), SRM University AP, CGPA 8.61.</p>
+        <p>Accepted papers: IEEE ICAII 2026 (Self-evolving cognitive architecture and bio-memory model) and ICAAsT 2024 (4D trajectory conflict detection).</p>
+        <p>Contact: <a href="mailto:suvmith@gmail.com">suvmith@gmail.com</a> · <a href="https://github.com/samshuvam">GitHub</a> · <a href="/CV.pdf">CV (PDF)</a></p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

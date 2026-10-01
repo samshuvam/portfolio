@@ -1,0 +1,46 @@
+.dialog-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: grid;
+  place-items: center;
+  padding: clamp(0.5rem, 3vw, 2rem);
+}
+.dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklab, var(--bg) 55%, rgb(0 0 0 / 0.45));
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+}
+.dialog-panel {
+  position: relative;
+  width: min(1080px, 100%);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+}
+.dialog-close {
+  position: sticky;
+  top: 1rem;
+  float: right;
+  margin: 1rem 1rem 0 0;
+  z-index: 2;
+}
+.dialog-sheet .dialog-panel {
+  scrollbar-width: thin;
+}
+@media (max-width: 640px) {
+  .dialog-root {
+    place-items: end center;
+    padding: 0;
+  }
+  .dialog-panel {
+    border-radius: 24px 24px 0 0;
+    max-height: 94dvh;
+  }
+}

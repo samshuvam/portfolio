@@ -1,0 +1,535 @@
+.home {
+  --mithila-red: #c8311f;
+  --mithila-yellow: #e9a400;
+  --mithila-green: #3e7d3a;
+  --mithila-indigo: #27306b;
+  padding-top: clamp(3rem, 6vw, 5rem);
+}
+.band {
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+  color: var(--accent-fg);
+}
+.band-bottom {
+  margin: clamp(4rem, 8vw, 7rem) 0 0;
+  transform: scaleY(-1);
+}
+.band .m-line {
+  stroke: currentColor;
+}
+.home-tirhuta {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: var(--accent-fg);
+  line-height: 1;
+}
+
+.m-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.m-thin {
+  stroke-width: 1.4;
+}
+.m-dot {
+  fill: var(--ink);
+}
+.m-fill {
+  opacity: 0.85;
+}
+
+.jfacts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+}
+.jfact {
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--ink);
+}
+.jfact-value {
+  font: 700 clamp(2.2rem, 4vw, 3.4rem)/1 var(--font-display);
+  letter-spacing: -0.05em;
+}
+.jfact-label {
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+.jfact-text {
+  margin-top: 0.35rem;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+.home-side {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Sketchbook */
+.sketchbook {
+  perspective: 1600px;
+}
+.sb-book {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  border-radius: 10px 14px 14px 10px;
+  background: #ece5d6;
+  box-shadow: 0 50px 80px -40px rgb(60 40 10 / 0.5), 0 12px 24px -12px rgb(60 40 10 / 0.3), inset 0 0 0 1px rgb(0 0 0 / 0.05);
+  transform-style: preserve-3d;
+  overflow: visible;
+  color: #2a2620;
+}
+:root[data-theme='night'] .sb-book {
+  background: #e6dfcf;
+  box-shadow: 0 50px 90px -40px rgb(0 0 0 / 0.9);
+}
+.sb-page {
+  position: relative;
+  min-height: 420px;
+}
+.sb-left {
+  border-radius: 10px 0 0 10px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  background: #f3eee2;
+  box-shadow: inset -18px 0 24px -18px rgb(0 0 0 / 0.35);
+}
+.sb-left:active {
+  cursor: grabbing;
+}
+.sb-sketch {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+.sb-lens {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 999px;
+  border: 7px solid #b48a3c;
+  box-shadow: 0 0 0 2px #7a5a1e, inset 0 0 0 2px rgb(255 255 255 / 0.4), 0 18px 30px -10px rgb(0 0 0 / 0.5), inset 0 -20px 40px -20px rgb(255 255 255 / 0.35);
+  background-repeat: no-repeat;
+  background-color: #ddd;
+  cursor: grab;
+  touch-action: none;
+}
+.sb-lens:focus-visible {
+  outline: 3px solid var(--accent-fg);
+  outline-offset: 4px;
+}
+.sb-lens-handle {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  width: 70px;
+  height: 16px;
+  margin: -4px 0 0 -10px;
+  border-radius: 8px;
+  background: linear-gradient(#8a6526, #5e4214);
+  transform: rotate(45deg);
+  transform-origin: 0 50%;
+  box-shadow: 0 6px 12px -4px rgb(0 0 0 / 0.5);
+}
+.sb-right {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border-radius: 0 14px 14px 0;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0.06), transparent 18%), #f3eee2;
+}
+.sb-no {
+  font-size: 2rem;
+  line-height: 1;
+  color: #b3203a;
+}
+.sb-title {
+  margin-top: 0.8rem;
+  font-family: 'Tiro Devanagari Hindi', serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.sb-note {
+  margin-top: 0.6rem;
+  font-family: 'Tiro Devanagari Hindi', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #4a4438;
+}
+.sb-hint {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: #6b6455;
+}
+.sb-motif {
+  width: 96px;
+  margin-top: auto;
+  opacity: 0.85;
+}
+.sb-motif .m-line {
+  stroke: #2a2620;
+}
+.sb-motif .m-dot {
+  fill: #2a2620;
+}
+.sb-count {
+  margin-top: 0.6rem;
+  color: #6b6455;
+}
+.sb-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.sb-dots {
+  display: flex;
+  gap: 0.45rem;
+}
+.sb-dots button {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--ink-3);
+  background: transparent;
+}
+.sb-dots button[aria-selected='true'] {
+  background: var(--accent);
+  border-color: var(--accent-fg);
+  width: 26px;
+}
+
+/* Name in Tirhuta */
+.tirhuta-card,
+.vivah-card {
+  padding: 1.4rem;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.tirhuta-name {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 0.15rem;
+  font-family: var(--font-tirhuta);
+  font-size: clamp(3.4rem, 6vw, 4.6rem);
+  line-height: 1.2;
+  color: var(--ink);
+}
+.tirhuta-name span {
+  padding: 0 0.12em;
+  border-radius: 12px;
+  cursor: default;
+  transition: background-color 0.25s, color 0.25s;
+}
+.tirhuta-name span.is-on,
+.tirhuta-name span:focus-visible {
+  background: var(--accent);
+  color: var(--accent-ink);
+  outline: none;
+}
+.tirhuta-read {
+  min-height: 3.2em;
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--ink-2);
+}
+.tirhuta-big {
+  font-size: 2rem;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+  color: var(--accent-fg);
+}
+.vivah-card {
+  background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+}
+.vivah-title {
+  margin-top: 0.5rem;
+  font: 700 1.4rem/1.1 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.vivah-text {
+  margin-top: 0.45rem;
+  font-size: 0.92rem;
+  color: var(--ink-2);
+}
+
+/* Motifs */
+.motifs {
+  margin-top: clamp(4rem, 9vw, 7rem);
+}
+.motifs-title,
+.nepal-title {
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+}
+.motif-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+.motif-card {
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.4rem;
+  border-radius: var(--radius-card);
+  background: #f6f0e1;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  color: #2a2620;
+  transition: transform 0.5s var(--ease-out);
+}
+:root[data-theme='night'] .motif-card {
+  background: #ece4d2;
+}
+.motif-card:hover {
+  transform: translateY(-4px) rotate(-0.6deg);
+}
+.motif-card .m-line {
+  stroke: #2a2620;
+}
+.motif-card .m-dot {
+  fill: #2a2620;
+}
+.motif {
+  width: 100%;
+  aspect-ratio: 1;
+}
+.motif-card figcaption {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #4a4438;
+}
+.motif-card figcaption b {
+  font: 700 1.1rem/1.1 var(--font-display);
+  color: #2a2620;
+}
+
+/* Nepal bento: six cells, six facts */
+.nepal-title {
+  margin-top: clamp(4rem, 9vw, 7rem);
+}
+.nepal-title .light {
+  color: var(--ink-3);
+}
+.nepal-bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(180px, auto);
+  gap: 1rem;
+}
+.nb-cell {
+  position: relative;
+  padding: 1.3rem;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.nb-map {
+  grid-column: span 2;
+  grid-row: span 2;
+  margin: 0;
+  background: var(--bg-2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.nb-map svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.map-land {
+  fill: var(--surface-2);
+  stroke: var(--ink-3);
+  stroke-width: 1.5;
+}
+.map-arc {
+  fill: none;
+  stroke: var(--accent-fg);
+  stroke-width: 2;
+  stroke-dasharray: 5 6;
+  animation: pv-dash 1s linear infinite;
+}
+.map-plane {
+  fill: var(--accent);
+  stroke: var(--accent-fg);
+  stroke-width: 1.5;
+}
+.map-dot {
+  fill: var(--ink);
+}
+.map-dot.accent-dot {
+  fill: var(--accent);
+  stroke: var(--accent-fg);
+  stroke-width: 2;
+}
+.map-peak {
+  fill: var(--ink-2);
+}
+.map-label {
+  font: 500 13px var(--font-sans);
+  fill: var(--ink-2);
+}
+.map-label.strong {
+  font-weight: 650;
+  fill: var(--ink);
+}
+.map-south {
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
+}
+.nb-map figcaption {
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.nb-flag {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in oklab, #dc143c 7%, var(--surface));
+}
+.flag-btn {
+  flex: 1;
+  min-height: 220px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.flag-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  display: block;
+}
+.nb-flag p,
+.nb-text {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.nb-flag b,
+.nb-text b {
+  color: var(--ink);
+}
+.nb-clock {
+  margin-top: 0.5rem;
+  font: 600 clamp(2rem, 3.4vw, 2.8rem)/1 var(--font-mono);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.nb-time .nb-text,
+.nb-cal .nb-text,
+.nb-everest .nb-text {
+  margin-top: 0.6rem;
+}
+.nb-bs {
+  margin-top: 0.4rem;
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  line-height: 1.2;
+  color: var(--accent-fg);
+}
+.nb-season {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+.season-ring {
+  width: 96px;
+  height: 96px;
+}
+.season-ring .is-now {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.ring-np {
+  font-size: 15px;
+  fill: var(--ink);
+}
+.ring-en {
+  font: 500 8px var(--font-mono);
+  fill: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.nb-everest {
+  background: linear-gradient(180deg, var(--surface) 40%, color-mix(in oklab, var(--accent) 14%, var(--surface)));
+}
+.nb-height {
+  margin-top: 0.4rem;
+  font: 700 clamp(2rem, 3.4vw, 2.8rem)/1 var(--font-display);
+  letter-spacing: -0.05em;
+}
+.nb-height span {
+  font-size: 0.5em;
+  margin-left: 0.15em;
+  color: var(--ink-3);
+}
+
+@media (max-width: 1100px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+  }
+  .motif-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nepal-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nb-flag {
+    grid-row: span 1;
+  }
+}
+@media (max-width: 720px) {
+  .jfacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sb-book {
+    grid-template-columns: 1fr;
+  }
+  .sb-left {
+    border-radius: 10px 10px 0 0;
+    min-height: 340px;
+  }
+  .sb-right {
+    border-radius: 0 0 14px 14px;
+  }
+  .sb-page {
+    min-height: 0;
+  }
+  .nepal-bento {
+    grid-template-columns: 1fr;
+  }
+  .nb-map {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}

@@ -1,0 +1,66 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--ink);
+  clip-path: ellipse(150% 150% at 50% 0%);
+}
+.loader-inner {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  width: min(420px, 82vw);
+}
+.loader-temple {
+  width: 100%;
+  overflow: visible;
+}
+.loader-temple path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.loader-temple path:nth-child(7),
+.loader-temple path:nth-child(10) {
+  stroke: var(--accent-fg);
+  stroke-width: 2;
+}
+.loader-word.font-tirhuta {
+  margin-top: 0.6rem;
+  font-size: 1.7rem;
+  color: var(--accent-fg);
+  line-height: 1.2;
+}
+.loader-line {
+  font: 500 0.95rem/1.4 var(--font-sans);
+  color: var(--ink-2);
+  text-align: center;
+}
+.loader-bar {
+  width: 100%;
+  height: 2px;
+  margin-top: 0.6rem;
+  background: var(--line);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.loader-pct {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}

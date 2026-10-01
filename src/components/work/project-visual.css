@@ -1,0 +1,56 @@
+.pv {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.pv-box { fill: var(--surface-2); stroke: var(--line-strong); stroke-width: 1.5; }
+.pv-fill { fill: var(--accent); }
+.pv-fill-soft { fill: color-mix(in oklab, var(--accent) 16%, var(--surface-2)); stroke: color-mix(in oklab, var(--accent) 50%, transparent); stroke-width: 1.5; }
+.pv-on-fill { fill: var(--accent-ink) !important; }
+.pv-muted { fill: color-mix(in oklab, var(--ink) 18%, transparent); }
+.pv-line { fill: none; stroke: var(--ink-3); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.pv-axis { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
+.pv-grid { fill: none; stroke: var(--line); stroke-width: 1; }
+.pv-accent-line { fill: none; stroke: var(--accent-fg); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.pv-dot { fill: var(--ink-2); }
+.pv-dot-accent { fill: var(--accent); stroke: var(--accent-fg); stroke-width: 1.5; }
+.pv-label { font: 600 11px var(--font-mono); letter-spacing: 0.12em; fill: var(--ink-3); }
+.pv-small { font: 500 12px var(--font-sans); fill: var(--ink-2); }
+.pv-text { font: 600 20px var(--font-display); fill: var(--ink); letter-spacing: -0.02em; }
+.pv-text-sm { font: 500 14px var(--font-sans); fill: var(--ink); }
+.pv-big { font: 700 40px var(--font-display); fill: var(--accent-fg); letter-spacing: -0.04em; }
+.pv-glyph { font: 600 30px var(--font-display); fill: var(--ink); }
+.pv-ghost { fill: none; stroke: var(--ink-3); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: 0.6; }
+.pv-curve { fill: none; stroke: var(--accent-fg); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 700; stroke-dashoffset: 700; animation: pv-draw 3.2s var(--ease-out) infinite; }
+.pv-moon { fill: var(--ink-2); }
+.pv-ground { fill: color-mix(in oklab, var(--ink) 9%, var(--surface-2)); stroke: var(--line-strong); stroke-width: 1.5; }
+.pv-data { fill: color-mix(in oklab, var(--accent) 35%, transparent); }
+.pv-scan { fill: none; stroke: var(--accent-fg); stroke-width: 1.5; stroke-dasharray: 6 6; animation: pv-dash 1.4s linear infinite; }
+.pv-corridor { fill: none; stroke: color-mix(in oklab, var(--accent-fg) 60%, transparent); stroke-width: 1.6; stroke-dasharray: 3 7; animation: pv-dash 1.2s linear infinite; }
+.pv-conflict { fill: color-mix(in oklab, var(--accent) 22%, transparent); stroke: var(--accent-fg); stroke-width: 1.5; animation: pv-ping 2.5s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.pv-flow { fill: none; stroke: var(--ink-3); stroke-width: 1.6; stroke-dasharray: 5 6; animation: pv-dash 1s linear infinite; }
+.pv-dashed { stroke-dasharray: 5 6; animation: pv-dash 1.4s linear infinite; }
+.pv-draw { stroke-dasharray: 600; stroke-dashoffset: 600; animation: pv-draw 3s var(--ease-out) infinite; }
+.pv-type { stroke-dasharray: 120; stroke-dashoffset: 120; animation: pv-draw 2.4s steps(10) infinite; }
+.pv-seg { fill: color-mix(in oklab, var(--accent) 85%, transparent); opacity: 0; animation: pv-seg 4.8s ease-in-out infinite; }
+.pv-token { fill: var(--accent); opacity: 0.15; animation: pv-token 1.2s ease-in-out infinite alternate; }
+.pv-node { fill: var(--ink-2); animation: pv-breathe-o 2.4s ease-in-out infinite; }
+.pv-node-fade { fill: var(--ink-3); animation: pv-fade 3s ease-in-out infinite; }
+.pv-wave { fill: var(--accent); animation: pv-bar 0.9s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+.pv-breathe { animation: pv-breathe 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.pv-pulse { animation: pv-breathe 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.pv-unit { animation: pv-float 3s ease-in-out infinite; }
+.pv-rover { animation: pv-rover 5s ease-in-out infinite alternate; }
+
+@keyframes pv-draw { 70%, 100% { stroke-dashoffset: 0; } }
+@keyframes pv-dash { to { stroke-dashoffset: -22; } }
+@keyframes pv-ping { 0% { transform: scale(0.6); opacity: 1; } 80%, 100% { transform: scale(1.6); opacity: 0; } }
+@keyframes pv-seg { 0%, 100% { opacity: 0; } 12%, 25% { opacity: 1; } 40% { opacity: 0.25; } }
+@keyframes pv-token { to { opacity: 0.95; } }
+@keyframes pv-breathe { 50% { transform: scale(1.08); } }
+@keyframes pv-breathe-o { 50% { opacity: 0.55; } }
+@keyframes pv-fade { 50% { opacity: 0.12; } }
+@keyframes pv-bar { from { transform: scaleY(0.35); } to { transform: scaleY(1); } }
+@keyframes pv-float { 50% { transform: translateY(-6px); } }
+@keyframes pv-rover { to { transform: translate(120px, 8px); } }
