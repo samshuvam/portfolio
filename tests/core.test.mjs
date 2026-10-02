@@ -3,6 +3,21 @@ import { createAirliner as createFlightRig } from '../src/three/airlinerRig.js';
 import assert from 'node:assert/strict';
 import { KEEPSAKE_FRAMES, keepsakeFrameSvg, frameDataUrl } from '../src/lib/keepsakes.js';
 import { build } from 'vite';
+import { P, landingFromScroll, statusFor } from '../src/components/finale/timeline.js';
+import { journey } from '../src/data/journey.js';
+import { imagery } from '../src/lib/imagery.js';
+import fs from 'node:fs';
+
+test('scroll descent is reversible, clamps safely and hands off at touchdown',()=>{
+  assert.equal(landingFromScroll(0),0);assert.equal(landingFromScroll(1),P.touchdown);
+  assert.equal(landingFromScroll(.5),P.touchdown*.5);assert.equal(landingFromScroll(-1),0);
+  assert.equal(landingFromScroll(2),P.touchdown);assert.equal(landingFromScroll(NaN),0);
+  assert.equal(statusFor(landingFromScroll(.99)),0);assert.equal(statusFor(landingFromScroll(1)),1);
+});
+test('every journey milestone owns a unique, installed contextual image',()=>{
+  assert.equal(journey.length,16);assert.equal(new Set(journey.map(m=>m.image)).size,16);
+  journey.forEach(m=>{assert.ok(imagery[m.image],m.id);assert.ok(fs.existsSync('public'+imagery[m.image].src),m.id);});
+});
 
 // Use the same module resolution and import.meta.glob transformation as the app.
 const bundle = await build({ configFile:false, logLevel:'error', ssr:{noExternal:true}, build:{ssr:'tests/subjects.js',write:false,minify:false,target:'es2022'} });

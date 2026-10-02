@@ -21,6 +21,7 @@ export const journey = [
   },
   {
     "id": "school",
+    "image": "journey-school",
     "when": "Until 2019",
     "sub": "UKG → Class 10",
     "title": "Back home, back to Janakpur",
@@ -56,6 +57,7 @@ export const journey = [
   },
   {
     "id": "bus",
+    "image": "journey-bus",
     "when": "Early university",
     "sub": "MongoDB Atlas",
     "title": "A bus tracker without an API",
@@ -65,6 +67,7 @@ export const journey = [
   },
   {
     "id": "intern",
+    "image": "journey-intern",
     "when": "May 2024",
     "sub": "Lalitpur",
     "title": "Systems internship",
@@ -73,6 +76,7 @@ export const journey = [
   },
   {
     "id": "icaast",
+    "image": "journey-icaast",
     "when": "Oct 2024",
     "sub": "ICAAsT 2024",
     "title": "First paper accepted",
@@ -82,6 +86,7 @@ export const journey = [
   },
   {
     "id": "rover",
+    "image": "journey-rover",
     "when": "2024 - 2025",
     "sub": "Phase I",
     "title": "A rover on Nepal’s roads",
@@ -91,6 +96,7 @@ export const journey = [
   },
   {
     "id": "year-of-building",
+    "image": "journey-building",
     "when": "2025",
     "sub": "Feb, Apr, Sep",
     "title": "A year of shipping",
@@ -99,6 +105,7 @@ export const journey = [
   },
   {
     "id": "associate",
+    "image": "journey-associate",
     "when": "Dec 2025",
     "sub": "Lalitpur",
     "title": "Back as Technical Associate",
@@ -107,6 +114,7 @@ export const journey = [
   },
   {
     "id": "icaii",
+    "image": "journey-memory",
     "when": "Jan 2026",
     "sub": "IEEE ICAII 2026",
     "title": "Bio-memory paper accepted",
@@ -116,6 +124,7 @@ export const journey = [
   },
   {
     "id": "segmented",
+    "image": "journey-segmented",
     "when": "Jun 2026",
     "sub": "500-query benchmark",
     "title": "+203% over naive RAG",
@@ -125,6 +134,7 @@ export const journey = [
   },
   {
     "id": "graduate",
+    "image": "journey-graduate",
     "when": "2026",
     "sub": "CGPA 8.61",
     "title": "B.Tech, class of 2026",
@@ -133,6 +143,7 @@ export const journey = [
   },
   {
     "id": "now",
+    "image": "journey-now",
     "when": "Now",
     "sub": "Lalitpur",
     "title": "Air traffic for eVTOLs, and Elser",

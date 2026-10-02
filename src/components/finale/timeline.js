@@ -8,6 +8,9 @@ export const P = {
   parked: 0.88, // stopped next to Kalyani
 };
 
+// Page scrolling ends at touchdown; taxiing is a separate automatic phase.
+export function landingFromScroll(progress){return Math.max(0,Math.min(1,Number.isFinite(progress)?progress:0))*P.touchdown;}
+
 // Copy beats: 0 approach, 1 destination unknown, 2 touchdown, 3 taxi, 4 arrived.
 export function beatFor(p) {
   if (p < 0.2) return 0;

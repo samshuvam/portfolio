@@ -102,7 +102,7 @@ export default function Loader() {
         <p className="loader-word font-tirhuta" aria-hidden="true">
           {'\u{11496}\u{114A2}\u{1148F}\u{114A3}\u{114B3}\u{114A9}'}
         </p>
-        <p className="loader-word loader-line">Boarding SS2504, Janakpur to everywhere</p>
+        <p className="loader-word loader-line">Boarding SUV-1478, Janakpur to everywhere</p>
         <div className="loader-bar" aria-hidden="true">
           <span ref={barRef} />
         </div>

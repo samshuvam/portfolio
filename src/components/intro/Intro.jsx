@@ -12,7 +12,7 @@ import { useT, localDigits } from '../../i18n';
 import dict from '../../i18n/ui/intro';
 import './intro.css';
 
-// The opening scene. First visit in a session: Flight SS2504 lines up on
+// The opening scene. First visit in a session: Flight SUV-1478 lines up on
 // runway 27 at Janakpur and takes off (Three.js, src/three/TakeoffScene.js),
 // then the overlay dissolves into the hero and the page's own plane flies in
 // behind the name. Return visits and reduced motion: a calm one second
@@ -96,7 +96,7 @@ export default function Intro() {
   const windSub = knots ? t('windKnotsSub', { n: localDigits(knots) }) : t('windCalmSub');
   const radio = [
     { who: `JANAKPUR ${t('tower').toUpperCase()}`, text: t('atcClear', { wind }), sub: t('subClear', { wind: windSub }) },
-    { who: 'SS2504', text: t('atcReadback'), sub: t('subReadback') },
+    { who: 'SUV-1478', text: t('atcReadback'), sub: t('subReadback') },
     { who: t('cabin').toUpperCase(), text: t('cabinLine'), sub: t('subCabin') },
   ];
   const lines = useRef(radio);
@@ -359,7 +359,7 @@ export default function Intro() {
 
       <header className="intro-strip">
         <p className="intro-flight">
-          <span>SS2504</span>
+          <span>SUV-1478</span>
           <span className="intro-tirhuta font-tirhuta" aria-hidden="true">
             {'\u{114AC}\u{114B3}\u{114A6}\u{114A7}\u{114C2}'}
           </span>

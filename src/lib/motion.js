@@ -43,7 +43,7 @@ export function scrollToTarget(target, opts = {}) {
   const el = typeof target === 'string' ? document.querySelector(target) : target;
   if (!el) return;
   const offset = opts.offset ?? -80;
-  if (lenis) lenis.scrollTo(el, { offset, duration: opts.duration ?? 1.4, easing: (t) => 1 - Math.pow(1 - t, 4) });
+  if (lenis) lenis.scrollTo(el, { offset, immediate: opts.duration === 0, duration: opts.duration ?? 1.4, easing: (t) => 1 - Math.pow(1 - t, 4) });
   else window.scrollTo({top:Math.max(0,window.scrollY+el.getBoundingClientRect().top+offset),behavior:reducedMotion()?'auto':'smooth'});
 }
 

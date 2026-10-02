@@ -72,7 +72,7 @@ export function StatusBar({ onControl, locked }) {
   const pct = Math.round(bat.level * 100);
   return (
     <div className="sos-status">
-      <span className="sos-status-left">{locked ? <span className="sos-carrier">SS2504</span> : <span className="sos-time">{shortClock(now, lang)}</span>}</span>
+      <span className="sos-status-left">{locked ? <span className="sos-carrier">SUV-1478</span> : <span className="sos-time">{shortClock(now, lang)}</span>}</span>
       <button
         type="button"
         className="sos-status-right"

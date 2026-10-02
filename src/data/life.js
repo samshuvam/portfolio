@@ -17,7 +17,7 @@ export const dishes = [
 ];
 
 export const departures = [
-  { time: 'NOW', flight: 'SS2504', to: 'YOUR INBOX', status: 'BOARDING' },
+  { time: 'NOW', flight: 'SUV-1478', to: 'YOUR INBOX', status: 'BOARDING' },
   { time: '25 APR', flight: 'SS2003', to: 'JANAKPUR', status: 'ARRIVED' },
   { time: 'OCT 21', flight: 'DS0021', to: 'DASHAIN TIKA', status: 'ON TIME' },
   { time: 'NOV 15', flight: 'CH1115', to: 'CHHATH GHAT', status: 'ON TIME' },

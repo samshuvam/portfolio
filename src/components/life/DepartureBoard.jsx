@@ -41,7 +41,7 @@ export default function DepartureBoard() {
   const bday = world.festivals.upcoming.find((f) => f.id === 'birthday');
   const status = (f) => (f.days === 0 ? c('TODAY') : f.days === 1 ? c('TOMORROW') : f.days <= 7 ? c('BOARDING') : c('IN {days} DAYS', {days: localDigits(f.days)}));
   const rows = [
-    { time: c('NOW'), flight: 'SS2504', to: c('YOUR INBOX'), status: c('BOARDING'), hot: true },
+    { time: c('NOW'), flight: 'SUV-1478', to: c('YOUR INBOX'), status: c('BOARDING'), hot: true },
     ...fest.map((f) => ({ time: fmt(f.peak), flight: code(f.name, f.peak), to: loc(f).name, status: status(f) })),
     bday ? { time: fmt(bday.peak), flight: 'SS0425', to: c('BIRTHDAY'), status: status(bday) } : null,
     { time: c('DAILY'), flight: 'MO0001', to: c('MOMO SHOP'), status: c('DELAYED') },

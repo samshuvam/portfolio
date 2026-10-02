@@ -92,7 +92,7 @@ function BoardingPass() {
         <div className="pass-top">
           <span className="pass-brand">
             <AirplaneTiltIcon size={18} weight="fill" /> <L text={"Boarding pass"} /> </span>
-          <span className="t-mono"> <L text={"SS2504, first class"} /> </span>
+          <span className="t-mono"> <L text={"SUV-1478, first class"} /> </span>
         </div>
         <div className="pass-route">
           <div>
@@ -172,7 +172,7 @@ function BoardingPass() {
       </form>
       <div ref={stub} className="pass-stub">
         <p className="pass-k"> <L text={"Flight"} /> </p>
-        <p className="pass-stub-v">SS2504</p>
+        <p className="pass-stub-v">SUV-1478</p>
         <p className="pass-k"> <L text={"Seat"} /> </p>
         <p className="pass-stub-v">1A</p>
         <p className="pass-k"> <L text={"Gate"} /> </p>

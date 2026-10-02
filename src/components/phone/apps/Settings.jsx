@@ -110,7 +110,7 @@ export default function Settings() {
         <Row icon={<DeviceMobileIcon size={16} weight="fill" />} label={t('set.model')} end="ShuvamOS 25.04" />
         <Row icon={<InfoIcon size={16} weight="fill" />} label={t('set.build')} end={t('set.buildV')} />
         <Row label={t('set.storage')} sub={t('set.storageV')} />
-        <Row label={t('set.carrier')} end="SS2504" />
+        <Row label={t('set.carrier')} end="SUV-1478" />
         <Row label={t('set.uptime')} end={t('set.uptimeV', { n: localDigits(2003, lang) })} />
       </Group>
 

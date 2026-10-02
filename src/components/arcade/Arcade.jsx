@@ -274,7 +274,7 @@ export default function Arcade() {
             <div className="console-top">
               <span className="console-led" data-on={active || undefined} aria-hidden="true" />
               <span className="console-brand t-mono" aria-hidden="true">
-                SS2504
+                SUV-1478
               </span>
               <span className="console-now">
                 <Icon size={18} weight="duotone" aria-hidden="true" />

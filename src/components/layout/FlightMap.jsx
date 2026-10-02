@@ -16,7 +16,7 @@ export default function FlightMap() {
   const index = Math.max(0, waypoints.findIndex(w => w.id === active));
   const phase=phases[lang][phaseIndex(index)];
   return <aside className="flight-map" aria-label={label}>
-    {open && <div className="flight-phase"><p className="t-label">SS2504 · JKR → TBF</p><b>{phase[0]}</b><p>{phase[1]}</p><small>{lang==='en'?'TBF: to be finalised. Choose any waypoint below.':lang==='ne'?'TBF: तय हुन बाँकी। तलको बिन्दु छान्नुहोस्।':'TBF: तय होयब बाँकी। नीचाँ बिन्दु चुनू।'}</small></div>}
+    {open && <div className="flight-phase"><p className="t-label">SUV-1478 · JKR → TBF</p><b>{phase[0]}</b><p>{phase[1]}</p><small>{lang==='en'?'TBF: to be finalised. Choose any waypoint below.':lang==='ne'?'TBF: तय हुन बाँकी। तलको बिन्दु छान्नुहोस्।':'TBF: तय होयब बाँकी। नीचाँ बिन्दु चुनू।'}</small></div>}
     {open && <nav className="flight-map-list" aria-label={label}>{waypoints.map(w => <a key={w.id} href={`#${w.id}`} aria-current={active === w.id ? 'location' : undefined} onClick={e => { e.preventDefault(); setOpen(false); scrollToTarget(`#${w.id}`); }}><small>{w.code}</small><span>{loc(w).label}<em>{phases[lang][phaseIndex(waypoints.indexOf(w))][0]}</em></span></a>)}</nav>}
     <button type="button" className="flight-map-toggle" aria-expanded={open} onClick={() => setOpen(!open)}><span aria-hidden="true">✈</span> {waypoints[index].code}<span className="sr-only"> {label}</span><span className="flight-map-track" aria-hidden="true"><i style={{ width: `${index / (waypoints.length - 1) * 100}%` }} /></span></button>
   </aside>;

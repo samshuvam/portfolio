@@ -26,6 +26,7 @@ wing = blue & (yy > 1100)
 pixels[wing] = [183, 190, 187]
 pixels[blue & ~wing & (yy > 800)] = [31, 73, 56]
 pixels[blue & (xx > 1450) & (yy < 650)] = [42, 74, 64]
+engine_mask=blue & (xx>1450) & (yy>285) & (yy<640)
 white = np.min(pixels, axis=2) > 230
 pixels[white] = [244, 246, 239]
 for x0,y0,x1,y1 in [(220,85,715,109),(220,273,715,299),(17,702,440,722),(17,889,425,913)]:
@@ -41,13 +42,23 @@ position = accessor(0, '<f4', 3)
 uv = accessor(2, '<f4', 2) * size
 indices = accessor(3, '<u2', 1).reshape(-1, 3)
 fin_mask = np.zeros((size,size),dtype=bool)
+side_art = np.array(Image.open(root/'public/models/suvmith-side-paint.png').convert('RGB'))
+art_h,art_w = side_art.shape[:2]
+brand = Image.new('RGB',(1000,250),'#f5f7f1')
+brand_draw = ImageDraw.Draw(brand)
+brand_font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',116)
+brand_draw.text((28,52),'Suvmith',font=brand_font,fill='#073f32')
+brand_draw.text((515,52),'Air',font=brand_font,fill='#70b92c')
+brand_draw.text((40,190),'I N T E L L I G E N C E   I N S I D E',font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',27),fill='#153e31')
+brand_draw.line([(48,46),(114,10),(166,44),(190,22),(222,45)],fill='#16573e',width=8)
+brand_art=np.array(brand)
 # Wrap flowing green/lime ribbons around the actual fuselage. The source A350
 # is Y-longitudinal and negative Z points towards the top of the fuselage.
 for triangle in indices:
     points = position[triangle]
     centre = points.mean(axis=0)
     is_fin = abs(centre[0]) < .8 and centre[1] < -35 and centre[2] < -2.8
-    if not is_fin and not (abs(centre[0]) < 3.05 and -46 < centre[1] < 14 and -3.15 < centre[2] < 3):
+    if not is_fin and not (abs(centre[0]) < 3.35 and -52.5 < centre[1] < 14 and -3.3 < centre[2] < 3.3):
         continue
     tex = uv[triangle]
     lo = np.maximum(np.floor(tex.min(axis=0)).astype(int), 0)
@@ -63,22 +74,48 @@ for triangle in indices:
     inside = (w0 >= -.002) & (w1 >= -.002) & (w2 >= -.002)
     if is_fin:
         patch=pixels[lo[1]:hi[1]+1,lo[0]:hi[0]+1]
-        patch[inside]=[30,77,56]
+        coords = w0[...,None]*points[0]+w1[...,None]*points[1]+w2[...,None]*points[2]
+        tx=np.clip((coords[:,:,1]+52)/18,0,1)
+        ty=np.clip((-coords[:,:,2]-3)/8.2,0,1)
+        ridge=np.maximum(.18+.32*np.maximum(0,1-np.abs(tx-.53)/.18),.18+.21*np.maximum(0,1-np.abs(tx-.78)/.13))
+        fin_paint=np.zeros((*x.shape,3),dtype=np.uint8);fin_paint[:]=[6,62,49]
+        fin_paint[(ty>.12)&(ty<ridge)]=[245,248,236]
+        fin_paint[(ty>ridge)&(ty<ridge+.025)]=[126,183,40]
+        fin_paint[(ty>.62-tx*.22)&(ty<.70-tx*.22)]=[126,183,40]
+        patch[inside]=fin_paint[inside]
         fin_mask[lo[1]:hi[1]+1,lo[0]:hi[0]+1] |= inside
         continue
     # Cockpit glass and its characteristic A350 mask are retained.
-    inside &= ~((x < 240) & (y > 245) & (y < 805))
-    inside &= ((x < 1450) & (y < 820)) | ((x < 880) & (y > 1300))
     coords = w0[...,None]*points[0]+w1[...,None]*points[1]+w2[...,None]*points[2]
+    source_patch = pixels[lo[1]:hi[1]+1,lo[0]:hi[0]+1]
+    inside &= ~((coords[:,:,1]>8) & (np.max(source_patch,axis=2)<110))
     paint = np.zeros((*x.shape,3), dtype=np.uint8)
     paint[:] = [244,246,239]
-    boundary = .8 + .5*np.sin((coords[:,:,1]+12)/13)
-    green = coords[:,:,2] > boundary
-    paint[green] = [30,77,56]
-    lime = (coords[:,:,2] > boundary-.23) & (coords[:,:,2] <= boundary)
-    paint[lime] = [161,187,77]
-    aft = (coords[:,:,1] < -40) & (coords[:,:,2] > -.9)
-    paint[aft] = [30,77,56]
+    # Sample the user's reconstructed flat paint panel in aircraft space.
+    # Longitudinal +Y is the nose, negative Z is the crown. Both sides use
+    # the same readable nose-to-tail artwork, regardless of UV island flips.
+    long=np.clip((12.5-coords[:,:,1])/64.6,0,1)
+    sx = np.clip((long*(art_w-1)).astype(int),0,art_w-1)
+    sy = np.clip(((.327 + (coords[:,:,2]+3)/6*.331)*(art_h-1)).astype(int),0,art_h-1)
+    paint = side_art[sy,sx]
+    # Deepen the fine engraving so it survives the small aircraft's mipmaps.
+    line=(np.max(paint,axis=2)-np.min(paint,axis=2)<25)&(np.max(paint,axis=2)<225)
+    paint[line]=(paint[line]*.73).astype(np.uint8)
+    boundary=1.55-3.7*long**2.1
+    forest=coords[:,:,2]>boundary
+    paint[forest]=[6,62,49]
+    ribbon=(coords[:,:,2]>boundary)&(coords[:,:,2]<boundary+.28+.2*np.sin(long*16)**2)
+    paint[ribbon]=[118,180,25]
+    lower=(coords[:,:,2]>boundary+.7)&(coords[:,:,2]<boundary+.84)&(long>.24)
+    paint[lower]=[62,121,36]
+    # Typography must read correctly on both sides. A world-space image
+    # reverses lettering on one flank; native lettering uses side-aware U.
+    logo_area=(coords[:,:,1]>-4)&(coords[:,:,1]<9.5)&(coords[:,:,2]>-2.25)&(coords[:,:,2]<1.0)
+    u=np.clip((coords[:,:,1]+4)/13.5,0,1)
+    u=np.where(coords[:,:,0]<0,u,1-u)
+    v=np.clip((coords[:,:,2]+2.25)/3.25,0,1)
+    logo=brand_art[(v*249).astype(int),(u*999).astype(int)]
+    paint[logo_area]=logo[logo_area]
     patch = pixels[lo[1]:hi[1]+1,lo[0]:hi[0]+1]
     patch[inside] = paint[inside]
 
@@ -98,30 +135,12 @@ def label(x,y,text,points=26,color='#214b39',rotation=0):
 
 # A transparent Nepal engraving, not a photograph of an aircraft. Crop its
 # transparent margin before applying it to both UV islands.
-mural = Image.open(root/'public/models/nepal-mural.png').convert('RGBA')
-mural = mural.crop(mural.getbbox())
-for x,y,w,h in [(200,118,495,44),(200,228,495,44),(30,724,380,42),(30,846,380,42)]:
-    decal = ImageOps.contain(mural,(w*2,h*2),Image.Resampling.LANCZOS)
-    if y < 190 or 650 < y < 820: decal=ImageOps.flip(ImageOps.mirror(decal))
-    image.paste(decal,(x*2,y*2),decal)
-for y in [87,267]:
-    label(285,y,'Suvmith Air',29)
-for y in [697,890]:
-    label(48,y,'INTELLIGENCE INSIDE',15)
-for y in [779,960]:
-    label(75,y,'FLIES BEYOND YOUR REACH',7)
-    label(296,y,'NO ETA.',8)
-for y in [112,292]:label(620,y,'9N-SS',8)
-# Fin: Himalayan ridge silhouettes on the two atlas islands.
-fin_layer=Image.new('RGBA',(size,size))
-draw=ImageDraw.Draw(fin_layer)
-for x,y,w,h in [(766,452,100,62),(884,460,116,59)]:
-    ridge=[(x,y+h),(x+w*.1,y+h*.55),(x+w*.22,y+h*.69),(x+w*.36,y+h*.18),(x+w*.46,y+h*.5),(x+w*.59,y),(x+w*.74,y+h*.62),(x+w*.89,y+h*.24),(x+w,y+h)]
-    draw.polygon([(int(a*2),int(b*2)) for a,b in ridge],fill='#f0f2e5')
-    draw.line([(int(a*2),int((b+5)*2)) for a,b in ridge[1:-1]],fill='#a1bb4d',width=5)
-alpha=np.array(fin_layer.getchannel('A'));alpha[~fin_mask]=0
-fin_layer.putalpha(Image.fromarray(alpha))
-image.paste(fin_layer,(0,0),fin_layer)
+for y in [123,310]: label(620,y,'SUV-1478',7)
+for y in [786,966]: label(250,y,'NO ETA.',7,color='#f4f7eb')
+engine_layer=Image.new('RGBA',(size,size));eng=ImageDraw.Draw(engine_layer)
+eng.polygon([(1488,310),(1507,306),(1568,626),(1545,633)],fill='#78b521')
+eng.polygon([(1495,493),(1535,451),(1553,478),(1580,429),(1631,493),(1605,479),(1581,454),(1571,476),(1552,491),(1536,477)],fill='#f2f6ea')
+engine_alpha=np.array(engine_layer.getchannel('A'));engine_alpha[~engine_mask]=0;engine_layer.putalpha(Image.fromarray(engine_alpha));image.paste(engine_layer,(0,0),engine_layer)
 
 out = io.BytesIO(); image.save(out,format='PNG',optimize=True)
 png = out.getvalue()

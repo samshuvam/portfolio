@@ -1,6 +1,6 @@
 export default {
   "en": {
-    "kicker": "Final approach, flight SS2504",
+    "kicker": "Final approach, flight SUV-1478",
     "title": "Still flying. Landing, someday.",
     "boardTitle": "Arrivals",
     "airport": "Destination pending",
@@ -47,7 +47,7 @@ export default {
     "unavailable": "The runway needs WebGL. The flight plan and arrivals board are still here."
   },
   "ne": {
-    "kicker": "अन्तिम अवतरणतर्फ, उडान SS2504",
+    "kicker": "अन्तिम अवतरणतर्फ, उडान SUV-1478",
     "title": "अझै उड्दै। कुनै दिन अवतरण।",
     "boardTitle": "आगमन",
     "airport": "गन्तव्य तय हुन बाँकी",
@@ -94,7 +94,7 @@ export default {
     "unavailable": "रनवेलाई WebGL चाहिन्छ। उडान योजना र आगमन बोर्ड भने उपलब्ध छन्।"
   },
   "mai": {
-    "kicker": "अन्तिम अवतरण दिस, उड़ान SS2504",
+    "kicker": "अन्तिम अवतरण दिस, उड़ान SUV-1478",
     "title": "एखनो उड़ैत। कोनो दिन अवतरण।",
     "boardTitle": "आगमन",
     "airport": "गन्तव्य तय होयब बाँकी",

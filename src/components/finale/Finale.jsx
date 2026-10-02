@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { AirplaneLandingIcon, ArrowDownIcon, ChatCircleDotsIcon, DownloadSimpleIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import { gsap, reducedMotion, scrollToTarget } from '../../lib/motion';
-import { hidePlane, showPlane } from '../../three/planeBus';
+import { planeBus } from '../../three/planeBus';
+import Footer from '../layout/Footer';
 import { findEgg } from '../../lib/eggs';
 import { sound } from '../../lib/sound';
 import { useT, useLang, localDigits } from '../../i18n';
 import dict from '../../i18n/ui/finale';
-import { P, beatFor, statusFor } from './timeline';
+import { P, beatFor, statusFor, landingFromScroll } from './timeline';
+import release from '../../data/release.generated.json';
 import './finale.css';
 
-// The landing. Flight SS2504 took off from Janakpur in the intro; here, at
+// The landing. Flight SUV-1478 took off from Janakpur in the intro; here, at
 // the bottom of the page, it lands at an airport nobody has announced yet
 // and parks next to an aircraft named Kalyani. Play and seek controls drive a
 // Three.js scene (src/three/LandingScene.js, lazy-loaded); the copy beats
@@ -53,7 +55,7 @@ function Board({ t, status, live }) {
         </thead>
         <tbody>
           <tr>
-            <td>SS2504</td>
+            <td>SUV-1478</td>
             <td>{t('fromJkr')}</td>
             <td className="is-live" aria-live={live ? 'polite' : undefined}>
               <span key={status} className="fin-flip">
@@ -132,80 +134,55 @@ function Card({ t, className = '', onFocus }) {
 }
 
 export default function Finale() {
-  const t = useT(dict), lang = useLang();
-  const reduced = useRef(reducedMotion()).current;
-  const [progress, setProgress] = useState(reduced ? 1 : 0);
-  const [playing, setPlaying] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const sectionRef = useRef(null), stageRef = useRef(null), canvasRef = useRef(null);
-  const kTagRef = useRef(null), pTagRef = useRef(null), sceneRef = useRef(null), controlRef = useRef(null);
-  const signRef = useRef(t('sign'));
-  useEffect(() => { signRef.current=t('sign'); sceneRef.current?.setSign(signRef.current); }, [lang]);
-  useEffect(() => {
-    let alive=true, scene, tween, visible=false, started=false, egged=false, resumeWhenVisible=false;
-    const clock={p:reduced?1:0};
-    const follow=()=>{
-      scene?.setProgress(clock.p,true); scene?.renderOnce();
-      if(alive) setProgress(clock.p);
-      if(clock.p>=P.parked&&!egged){ egged=true; findEgg('kalyani'); }
+  const t=useT(dict),lang=useLang(),reduced=useRef(reducedMotion()).current;
+  const [progress,setProgress]=useState(reduced?1:0),[ready,setReady]=useState(false),[failed,setFailed]=useState(false);
+  const sectionRef=useRef(null),trackRef=useRef(null),stageRef=useRef(null),canvasRef=useRef(null),sceneRef=useRef(null);
+  useEffect(()=>{sceneRef.current?.setSign(t('sign'));},[lang]);
+  useEffect(()=>{
+    let alive=true,scene,ro,io,observer,raf=0,taxi=null,visible=false,egged=false;const clock={p:reduced?1:0};
+    const publish=(p,labels)=>{
+      const r=stageRef.current.getBoundingClientRect();
+      if(!visible||!labels.flightPose){planeBus.landingPose=null;return;}
+      const f=labels.flightPose;const blend=Math.min(1,Math.max(0,(innerHeight-r.top)/(innerHeight*.8)));
+      planeBus.landingPose={...f,x:(r.left+(f.x*.5+.5)*r.width)/innerWidth*2-1,y:1-(r.top+(-f.y*.5+.5)*r.height)/innerHeight*2,s:f.s*r.width/innerWidth,blend};
     };
-    const play=()=>{
-      if(!scene) return;
-      if(clock.p>=.999) clock.p=0;
-      tween?.kill(); started=true; setPlaying(true);
-      tween=gsap.to(clock,{p:1,duration:(1-clock.p)*19,ease:'none',onUpdate:follow,onComplete:()=>setPlaying(false)});
-      if(!visible||document.hidden) tween.pause();
+    const draw=()=>{if(!alive)return;scene?.setProgress(clock.p,true);scene?.renderOnce();setProgress(clock.p);if(clock.p>=P.parked&&!egged){egged=true;findEgg('kalyani');}};
+    const update=()=>{
+      raf=0;if(!alive||reduced)return;
+      const r=trackRef.current.getBoundingClientRect(),range=Math.max(1,r.height-stageRef.current.offsetHeight),q=Math.max(0,Math.min(1,-r.top/range));
+      if(q<.998){taxi?.kill();taxi=null;clock.p=landingFromScroll(q);draw();}
+      else if(!taxi&&scene){clock.p=Math.max(clock.p,P.touchdown);draw();taxi=gsap.to(clock,{p:1,duration:(1-clock.p)*28,ease:'none',onUpdate:draw});}
     };
-    controlRef.current={play,pause:()=>{resumeWhenVisible=false;tween?.pause();setPlaying(false);},seek:p=>{resumeWhenVisible=false;tween?.kill();tween=null;clock.p=p;setPlaying(false);follow();}};
-    const run=()=>{
-      if(visible&&!document.hidden){
-        if(!started&&!reduced) play();
-      } else if(tween&&!tween.paused()) { tween.pause(); resumeWhenVisible=true; }
-      if(visible&&!document.hidden&&tween&&resumeWhenVisible){resumeWhenVisible=false;tween.resume();}
-    };
-    const size=()=>scene?.setSize(stageRef.current.clientWidth,stageRef.current.clientHeight);
-    const lazy=new IntersectionObserver(entries=>{
-      if(!entries.some(e=>e.isIntersecting))return;
-      lazy.disconnect();
-      import('../../three/LandingScene.js').then(async ({createLandingScene})=>{
-        await (await import('../../three/airliner.js')).preloadAirliner();
-        if(!alive)return;
-        try{
-          scene=createLandingScene(canvasRef.current,{accent:accentNow(),sign:signRef.current,plain:true,onFrame:(p,labels)=>{
-            placeTag(kTagRef.current,labels.kalyani,smooth(.66,.78,p));
-            placeTag(pTagRef.current,labels.plane,smooth(.8,.88,p));
-          },onTouchdown:()=>sound.whoosh(.4)});
-          sceneRef.current=scene;size();follow();setReady(true);run();
-        }catch{setFailed(true);}
-      }).catch(()=>{if(alive)setFailed(true);});
-    },{rootMargin:'100% 0px'});
-    lazy.observe(stageRef.current);
-    const seen=new IntersectionObserver(([e])=>{
-      visible=e.isIntersecting&&e.intersectionRatio>=.15;
-      if(visible)hidePlane('finale');else showPlane('finale');run();
-    },{threshold:[0,.15]});seen.observe(stageRef.current);
-    const ro=new ResizeObserver(size);ro.observe(stageRef.current);
-    const mo=new MutationObserver(()=>scene?.refresh(accentNow()));
-    mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','style']});
-    document.addEventListener('visibilitychange',run);
-    return()=>{alive=false;tween?.kill();lazy.disconnect();seen.disconnect();ro.disconnect();mo.disconnect();document.removeEventListener('visibilitychange',run);scene?.dispose();sceneRef.current=null;controlRef.current=null;showPlane('finale');};
+    const schedule=()=>{if(!raf)raf=requestAnimationFrame(update);};
+    window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);
+    io=new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(!visible){planeBus.landingPose=null;taxi?.pause();scene?.stop();}else{taxi?.resume();if(!reduced)scene?.start();schedule();}},{threshold:0});io.observe(stageRef.current);
+    observer=new IntersectionObserver(entries=>{if(!entries.some(e=>e.isIntersecting))return;observer.disconnect();import('../../three/LandingScene').then(async({createLandingScene})=>{
+      await(await import('../../three/airliner')).preloadAirliner();if(!alive)return;
+      try{scene=createLandingScene(canvasRef.current,{accent:accentNow(),sign:t('sign'),plain:true,externalPlane:true,onFrame:publish,onTouchdown:()=>sound.whoosh(.4)});sceneRef.current=scene;
+        ro=new ResizeObserver(()=>{const r=stageRef.current.getBoundingClientRect();scene.setSize(r.width,r.height);schedule();});ro.observe(stageRef.current);
+        const r=stageRef.current.getBoundingClientRect();scene.setSize(r.width,r.height);setReady(true);draw();if(visible&&!reduced)scene.start();schedule();
+      }catch{setFailed(true);}
+    }).catch(()=>{if(alive)setFailed(true);});},{rootMargin:'120% 0px'});observer.observe(stageRef.current);
+    const environment=new MutationObserver(()=>scene?.refresh(accentNow()));environment.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','style']});
+    return()=>{alive=false;cancelAnimationFrame(raf);taxi?.kill();ro?.disconnect();io?.disconnect();observer?.disconnect();environment.disconnect();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);scene?.dispose();sceneRef.current=null;planeBus.landingPose=null;};
   },[reduced]);
-  const beat=beatFor(progress),status=statusFor(progress);
-  return <section id="landing" ref={sectionRef} className="fin section" aria-labelledby="fin-title">
-    <div className="wrap">
+  const status=statusFor(progress),beat=beatFor(progress);
+  const boarding={en:['BOARDING / THE NEXT CHAPTER','PASSENGER','SHUVAM SINGH','DESTINATION','TO BE ANNOUNCED','SEAT','25A + 25B?','STILL FLYING','Scroll slowly. Touch down at the end; we’ll taxi from there.'],ne:['बोर्डिङ / अर्को अध्याय','यात्रु','शुवम सिंह','गन्तव्य','पछि घोषणा हुनेछ','सिट','25A + 25B?','अझै उड्दै','बिस्तारै स्क्रोल गर्नुहोस्। अन्त्यमा अवतरण, त्यसपछि ट्याक्सी।'],mai:['बोर्डिङ / अगिला अध्याय','यात्री','शुवम सिंह','गन्तव्य','बादमे घोषणा होयत','सीट','25A + 25B?','एखनो उड़ैत','धीरे स्क्रोल करू। अन्तमे अवतरण, तकर बाद ट्याक्सी।']}[lang];
+  return <section id="landing" ref={sectionRef} className={`fin airport-finale ${reduced?'is-reduced':''}`} aria-labelledby="fin-title">
+    <div className="airport-concourse wrap">
       <header className="fin-head"><p className="t-label fin-kicker"><AirplaneLandingIcon size={18}/>{t('kicker')}</p><h2 id="fin-title" className="t-display fin-title">{t('title')}</h2><p className="t-lede">{t('imagination')}</p></header>
-      <div className="fin-stage" ref={stageRef}>
+      <div className="airport-gate-grid"><Card t={t}/><Board t={t} status={status} live/></div>
+      <div className="arrival-boarding"><p className="t-label">{boarding[0]}</p><div><span>{boarding[1]}<b>{boarding[2]}</b></span><span>{boarding[3]}<b>JKR → TBA</b><small>{boarding[4]}</small></span><span>{boarding[5]}<b>{boarding[6]}</b></span><strong>SUV-1478<small>{boarding[7]}</small></strong></div><span className="boarding-barcode" aria-hidden="true"/></div>
+    </div>
+    <Footer airport/>
+    <div className="airport-approach-track" ref={trackRef}>
+      <div className="fin-stage airport-runway" ref={stageRef} onPointerMove={e=>{if(e.pointerType!=='mouse')return;const r=e.currentTarget.getBoundingClientRect();sceneRef.current?.setPointer((e.clientX-r.left)/r.width-.5,(e.clientY-r.top)/r.height-.5);}} onPointerLeave={()=>sceneRef.current?.setPointer(0,0)}>
         <canvas ref={canvasRef} className="fin-canvas" role="img" aria-label={t('srScene')} hidden={failed}/>
         {!ready&&<p className="fin-loading">{failed?t('unavailable'):t('loading')}</p>}
-        <div className="fin-tag" ref={kTagRef} aria-hidden="true"><b>KALYANI</b><span>9N-KLY / {t('tagKalyani')}</span></div>
-        <div className="fin-tag" ref={pTagRef} aria-hidden="true"><b>SS2504</b><span>{t('tagSs')}</span></div>
+        <div className="airport-runway-sign"><span className="t-label">SUV-1478 / JKR → TBA</span><h3>{progress<P.touchdown?t('beat2Title'):t('cardTitle')}</h3><p>{progress<P.touchdown?boarding[8]:progress<P.parked?t('beat3Text'):boarding[7]}</p></div>
+        <div className="airport-ground-status"><span className="airport-status-dot"/><span>{t('st'+status)} · SUV-1478</span><span>KALYANI / 9N-KLY</span></div>
+        <div className="airport-runway-end"><span>END OF RUNWAY / THE NEXT CHAPTER IS OPEN</span><span>DEPLOYMENT / {release.code} · {release.npt} · {release.shortCommit}</span></div>
       </div>
-      <div className="fin-controls"><button type="button" className="btn btn-accent" disabled={!ready} onClick={()=>playing?controlRef.current?.pause():controlRef.current?.play()}>{playing?t('pause'):progress>=.999?t('replay'):t('watch')}</button><label>{t('timeline')}<input type="range" min="0" max="1000" value={Math.round(progress*1000)} disabled={!ready} onChange={e=>controlRef.current?.seek(Number(e.target.value)/1000)} aria-valuetext={t('st'+status)}/></label><span className="t-label">{t('st'+status)}</span></div>
-      <div className="fin-bottom"><div className="fin-slot"><Notes t={t} beat={beat} staticMode={false}/>{beat>=4&&<p className="fin-note">{t('stillFlying')}</p>}</div><Board t={t} status={status} live/></div>
-      <Card t={t}/>
     </div>
   </section>;
 }
-
-import './visible.css';

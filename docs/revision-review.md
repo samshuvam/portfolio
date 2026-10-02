@@ -1,5 +1,7 @@
 # Portfolio revision review — 2 October 2026
 
+> Historical revision. See [the current immersive revision review](immersive-revision-review.md) for the final design and validation.
+
 Reviewed against the owner's nineteen-point request and the follow-up asking
 for an A350, the original introduction portrait, and publication to `main`.
 

@@ -1,7 +1,7 @@
 import L, { useCopy } from '../../i18n/Text';
 import { useLocalize, localDigits, useLang } from '../../i18n';
 import overlay from '../../i18n/content/home';
-import seasonsOverlay from '../../i18n/content/seasons';
+
 import { useEffect, useRef, useState } from 'react';
 import { Term } from '../ui/Term';
 import Yap from '../ui/Yap';
@@ -11,11 +11,11 @@ import NepalFlag from './NepalFlag';
 import { Band, MOTIFS } from './MithilaMotifs';
 import { janakpurFacts, mithilaMotifs, places } from '../../data/home';
 import { NEPAL } from '../../data/nepal-map';
-import { SEASONS } from '../../data/seasons';
+
 import { useWorld, useNow, formatNptClock24, visitorRelative, toNepaliDigits, daysBetween } from '../../lib/world';
 import { haversineKm } from '../../lib/astro';
 import { gsap, reducedMotion } from '../../lib/motion';
-import { useSeason } from '../ThemeSync';
+
 import './home.css';
 
 const GLYPHS = [
@@ -63,9 +63,6 @@ function NepalMap() {
       <svg viewBox={`0 0 ${NEPAL.W} ${NEPAL.H + 40}`} role="img" aria-label="Map of Nepal with Janakpur, Lalitpur and Mount Everest marked">
         <path d={NEPAL.d} className="map-land" />
         <path d={arc} className="map-arc" id="jkr-ktm" />
-        <circle r="5" className="map-plane">
-          <animateMotion dur="5s" repeatCount="indefinite" path={arc} keyPoints="0;1" keyTimes="0;1" />
-        </circle>
         <path d={`M${evr[0]} ${evr[1] - 12}l8 14h-16z`} className="map-peak" />
         <text x={evr[0] + 12} y={evr[1] - 2} className="map-label"> <L text={"Sagarmatha"} /> </text>
         <circle cx={jkr[0]} cy={jkr[1]} r="7" className="map-dot accent-dot" />
@@ -78,31 +75,8 @@ function NepalMap() {
           SRM University, about {km.toLocaleString()} km south
         </text>
       </svg>
-      <figcaption> <L text={"Janakpur to Kathmandu: about 25 minutes by air, most of a day by road. The moving dot is that hop."} /> </figcaption>
-    </figure>
-  );
-}
 
-function SeasonRing({ current }) {
-  const c=useCopy();
-  const seg = (i) => {
-    const a0 = (i / 6) * Math.PI * 2 - Math.PI / 2;
-    const a1 = ((i + 1) / 6) * Math.PI * 2 - Math.PI / 2;
-    const p = (r, a) => `${(60 + Math.cos(a) * r).toFixed(2)} ${(60 + Math.sin(a) * r).toFixed(2)}`;
-    return `M${p(52, a0)}A52 52 0 0 1 ${p(52, a1)}L${p(30, a1)}A30 30 0 0 0 ${p(30, a0)}Z`;
-  };
-  return (
-    <svg viewBox="0 0 120 120" className="season-ring" role="img" aria-label={`Six seasons, now ${current.name}`}>
-      {SEASONS.map((s, i) => (
-        <path key={s.id} d={seg(i)} style={{ fill: s.accent.day.fill, opacity: s.id === current.id ? 1 : 0.28 }} className={s.id === current.id ? 'is-now' : ''} />
-      ))}
-      <text x="60" y="58" textAnchor="middle" className="ring-np font-deva">
-        {current.np}
-      </text>
-      <text x="60" y="72" textAnchor="middle" className="ring-en">
-        {current.english}
-      </text>
-    </svg>
+    </figure>
   );
 }
 
@@ -110,10 +84,10 @@ export default function Home() {
   const c=useCopy();
   const lang=useLang();
   const root = useRef(null);
-  const loc=useLocalize(overlay), ls=useLocalize(seasonsOverlay);
+  const loc=useLocalize(overlay);
   const world = useWorld();
   const now = useNow();
-  const season = ls(useSeason());
+
   const rel = visitorRelative(now);
   const nextNY = world.festivals.upcoming.find((f) => f.id === 'new-year');
   const vivah = world.festivals.upcoming.find((f) => f.id === 'vivah-panchami');
@@ -219,11 +193,6 @@ export default function Home() {
             <p className="nb-text">
               {lang === 'en' ? world.bs.en : world.bs.np}. {c('Nepal is already in {year}.',{year:localDigits(world.bs.year)})} {nextNY ? c('New year {year} in {days} days.',{year:localDigits(world.bs.year+1),days:localDigits(daysBetween(world.npt.iso,nextNY.peak))}) : ''}
             </p>
-          </div>
-          <div className="nb-cell nb-season">
-            <SeasonRing current={season} />
-            <p className="nb-text">
-              <b> <L text={"Six seasons, not four."} /> </b> <L text={"It is"} /> <Term id="ritu">{season.name}</Term> <L text={"now."} /> </p>
           </div>
           <div className="nb-cell nb-everest">
             <p className="t-label">

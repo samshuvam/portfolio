@@ -62,7 +62,7 @@ function Theatre() {
             <span className="ife-play">
               <PlayIcon size={28} weight="fill" />
             </span>
-            <span className="ife-now t-mono"> <L text={"Now showing on SS2504"} /> </span>
+            <span className="ife-now t-mono"> <L text={"Now showing on SUV-1478"} /> </span>
           </button>
         )}
       </div>

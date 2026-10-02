@@ -296,7 +296,7 @@ export default function AtcTower({ active = true, onScore }) {
     const d = dist(from, to);
     const cap = (d / speed) * 2.1 + 9;
     const prefix = kind === 'in' ? pick(['PKR', 'JKR', 'NGK']) : pick(['KTM', 'LTP', 'UAM']);
-    const cs = special ? 'SS2504' : `${prefix}${String(s.seq++ % 100).padStart(2, '0')}`;
+    const cs = special ? 'SUV-1478' : `${prefix}${String(s.seq++ % 100).padStart(2, '0')}`;
     s.flights.push({
       id: `${cs}-${s.gt.toFixed(2)}`,
       cs,

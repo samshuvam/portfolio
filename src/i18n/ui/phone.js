@@ -64,7 +64,7 @@ const en = {
   'theme.night': 'Night',
 
   // lock screen
-  'lock.live': 'Flight SS2504',
+  'lock.live': 'Flight SUV-1478',
   'lock.eta': 'Landing soon',
   'lock.unknown': 'Not announced',
   'lock.n1t': 'Shuvam',
@@ -92,7 +92,7 @@ const en = {
   'app.notes': 'Notes',
   'app.games': 'Games',
   'app.calculator': 'Calculator',
-  'app.flight': 'SS2504',
+  'app.flight': 'SUV-1478',
   'app.yapper': 'Yapper',
   'app.settings': 'Settings',
 
@@ -213,7 +213,7 @@ const en = {
   'dial.call': 'Call',
   'dial.del': 'Delete',
   'dial.only': 'This phone only calls one person. Calling Shuvam.',
-  'dial.code': 'SS2504 cleared for takeoff',
+  'dial.code': 'SUV-1478 cleared for takeoff',
   'dial.codeNote': 'Secret code accepted. Runway 27, cleared for takeoff.',
   'dial.imei': 'IMEI: 25-04-2003-JKR. Made in Janakpur.',
   'dial.vm1.from': 'Shuvam, greeting',
@@ -224,7 +224,7 @@ const en = {
   'dial.vm2': 'Reminder: your momo timer finished three minutes ago. The momo are fine. The chef is not.',
   'dial.vm3.from': 'Air traffic control',
   'dial.vm3.when': 'Last week',
-  'dial.vm3': 'SS2504, cleared to land when the right team is ready. Destination to be announced.',
+  'dial.vm3': 'SUV-1478, cleared to land when the right team is ready. Destination to be announced.',
   'dial.vmNote': 'Voicemails are jokes. The phone number is real.',
   'call.label': 'Calling Shuvam',
   'call.ringing': 'Ringing',
@@ -254,7 +254,7 @@ const en = {
   'mail.cta': 'Write to Shuvam',
   'mail.m1.from': 'Shuvam',
   'mail.m1.when': 'Today',
-  'mail.m1.subj': 'Welcome aboard SS2504',
+  'mail.m1.subj': 'Welcome aboard SUV-1478',
   'mail.m1.body': 'Thanks for scrolling all the way down here. If you have an idea, a role or just a question, write to me. I read every mail, usually with a glass of chiya.',
   'mail.m2.from': 'ShuvamOS',
   'mail.m2.when': 'Yesterday',
@@ -404,7 +404,7 @@ const en = {
   'map.places': 'Places',
   'map.break': 'about {km} km south, not to scale',
   'map.from': '{km} km from Lalitpur as the crow flies',
-  'map.flight': 'Flight SS2504 took off from Janakpur. The destination is not announced yet, but it lands soon, in a stable career.',
+  'map.flight': 'Flight SUV-1478 took off from Janakpur. The destination is not announced yet, but it lands soon, in a stable career.',
   'map.directions': 'Fastest route to Shuvam: send a message',
 
   // ---- Notes ---------------------------------------------------------------------------------
@@ -453,7 +453,7 @@ const en = {
   // ---- Calculator --------------------------------------------------------------------------------
   'calc.error': 'Not neat',
   'calc.zero': 'Dividing by zero? A Kanya cannot allow this mess. Please tidy up your maths.',
-  'calc.2504': 'SS2504: that is the flight number. 25 April.',
+  'calc.2504': 'SUV-1478: that is the flight number. 25 April.',
   'calc.everest': 'Top of the world, metres. Re-measured in 2020.',
   'calc.108': '108: the sacred number. Prayer beads approve.',
   'calc.545': '5:45, the most Nepali number there is.',
@@ -517,7 +517,7 @@ const en = {
   'cam.shotAlt': 'Your selfie in a Mithila frame',
 
   // ---- Flight -------------------------------------------------------------------------------------------
-  'fl.title': 'Flight SS2504',
+  'fl.title': 'Flight SUV-1478',
   'fl.sub': 'SS for Shuvam Singh, 2504 for 25 April',
   'fl.progress': 'Flight progress',
   'fl.cruise': 'In flight, {n}% of the way. Progress follows how far you have scrolled.',
@@ -530,7 +530,7 @@ const en = {
   'fl.dest': 'Destination not announced yet',
   'fl.destSub': 'Landing soon, in a stable career',
   'fl.parked': 'Parked at the gate',
-  'fl.note': 'Janakpur is served by Buddha Air, Shree Airlines and Yeti Airlines. SS2504 is served by one very determined engineer.',
+  'fl.note': 'Janakpur is served by Buddha Air, Shree Airlines and Yeti Airlines. SUV-1478 is served by one very determined engineer.',
 
   // ---- Yapper ---------------------------------------------------------------------------------------------
   'yap.sub': 'Ask anything about Shuvam',
@@ -606,7 +606,7 @@ const ne = {
   'theme.day': 'दिन',
   'theme.night': 'रात',
 
-  'lock.live': 'उडान SS2504',
+  'lock.live': 'उडान SUV-1478',
   'lock.eta': 'चाँडै अवतरण',
   'lock.unknown': 'घोषणा भएको छैन',
   'lock.n1t': 'शुभम्',
@@ -632,7 +632,7 @@ const ne = {
   'app.notes': 'नोट',
   'app.games': 'खेल',
   'app.calculator': 'क्याल्कुलेटर',
-  'app.flight': 'SS2504',
+  'app.flight': 'SUV-1478',
   'app.yapper': 'याप्पर',
   'app.settings': 'सेटिङ',
 
@@ -748,7 +748,7 @@ const ne = {
   'dial.call': 'कल',
   'dial.del': 'मेटाउनुहोस्',
   'dial.only': 'यो फोनले एकजनालाई मात्र कल गर्छ। शुभम्‌लाई कल गर्दै।',
-  'dial.code': 'SS2504 उडानका लागि तयार',
+  'dial.code': 'SUV-1478 उडानका लागि तयार',
   'dial.codeNote': 'गोप्य कोड स्वीकार भयो। रनवे २७, उडान स्वीकृत।',
   'dial.imei': 'IMEI: 25-04-2003-JKR। जनकपुरमा बनेको।',
   'dial.vm1.from': 'शुभम्, स्वागत सन्देश',
@@ -759,7 +759,7 @@ const ne = {
   'dial.vm2': 'सम्झना: तपाईंको मम टाइमर तीन मिनेट अघि सकियो। मम ठीक छन्। भान्से ठीक छैनन्।',
   'dial.vm3.from': 'एयर ट्राफिक कन्ट्रोल',
   'dial.vm3.when': 'गत हप्ता',
-  'dial.vm3': 'SS2504, सही टिम तयार भएपछि अवतरणको अनुमति छ। गन्तव्य पछि घोषणा हुनेछ।',
+  'dial.vm3': 'SUV-1478, सही टिम तयार भएपछि अवतरणको अनुमति छ। गन्तव्य पछि घोषणा हुनेछ।',
   'dial.vmNote': 'भ्वाइसमेल ठट्टा हुन्। फोन नम्बर साँचो हो।',
   'call.label': 'शुभम्‌लाई कल गर्दै',
   'call.ringing': 'घण्टी बज्दैछ',
@@ -788,7 +788,7 @@ const ne = {
   'mail.cta': 'शुभम्‌लाई लेख्नुहोस्',
   'mail.m1.from': 'शुभम्',
   'mail.m1.when': 'आज',
-  'mail.m1.subj': 'SS2504 मा स्वागत छ',
+  'mail.m1.subj': 'SUV-1478 मा स्वागत छ',
   'mail.m1.body': 'यहाँसम्म स्क्रोल गर्नुभएकोमा धन्यवाद। कुनै आइडिया, काम वा प्रश्न छ भने मलाई लेख्नुस्। म हरेक मेल पढ्छु, प्रायः एक गिलास चियासँग।',
   'mail.m2.from': 'ShuvamOS',
   'mail.m2.when': 'हिजो',
@@ -932,7 +932,7 @@ const ne = {
   'map.places': 'ठाउँहरू',
   'map.break': 'करिब {km} कि.मी. दक्षिण, नापअनुसार होइन',
   'map.from': 'ललितपुरबाट सिधा {km} कि.मी.',
-  'map.flight': 'उडान SS2504 जनकपुरबाट उड्यो। गन्तव्य अझै घोषणा भएको छैन, तर चाँडै एउटा स्थिर करियरमा अवतरण हुन्छ।',
+  'map.flight': 'उडान SUV-1478 जनकपुरबाट उड्यो। गन्तव्य अझै घोषणा भएको छैन, तर चाँडै एउटा स्थिर करियरमा अवतरण हुन्छ।',
   'map.directions': 'शुभम्‌सम्म पुग्ने छिटो बाटो: म्यासेज पठाउनुहोस्',
 
   'notes.sub': '{n} नोट',
@@ -978,7 +978,7 @@ const ne = {
 
   'calc.error': 'मिलेन',
   'calc.zero': 'शून्यले भाग? कन्याले यस्तो अस्तव्यस्तता सहँदैन। आफ्नो हिसाब मिलाउनुहोस्।',
-  'calc.2504': 'SS2504: यो उडान नम्बर हो। अप्रिल २५।',
+  'calc.2504': 'SUV-1478: यो उडान नम्बर हो। अप्रिल २५।',
   'calc.everest': 'संसारको टुप्पो, मिटरमा। २०२० मा फेरि नापिएको।',
   'calc.108': '१०८: पवित्र अंक। मालाले पनि सही थाप्छ।',
   'calc.545': '५:४५, सबैभन्दा नेपाली अंक।',
@@ -1039,7 +1039,7 @@ const ne = {
   'cam.save': 'डाउनलोड',
   'cam.shotAlt': 'मिथिला फ्रेममा तपाईंको सेल्फी',
 
-  'fl.title': 'उडान SS2504',
+  'fl.title': 'उडान SUV-1478',
   'fl.sub': 'SS भनेको शुभम् सिंह, 2504 भनेको २५ अप्रिल',
   'fl.progress': 'उडान कति पुग्यो',
   'fl.cruise': 'उडानमा, {n}% बाटो पार। तपाईंले कति स्क्रोल गर्नुभयो त्यसैअनुसार।',
@@ -1052,7 +1052,7 @@ const ne = {
   'fl.dest': 'गन्तव्य अझै घोषणा भएको छैन',
   'fl.destSub': 'चाँडै, एउटा स्थिर करियरमा अवतरण',
   'fl.parked': 'गेटमा पार्क गरिएको',
-  'fl.note': 'जनकपुरमा बुद्ध एयर, श्री एयरलाइन्स र यती एयरलाइन्स उड्छन्। SS2504 चाहिँ एकजना एकदमै अडिग इन्जिनियरले चलाउँछन्।',
+  'fl.note': 'जनकपुरमा बुद्ध एयर, श्री एयरलाइन्स र यती एयरलाइन्स उड्छन्। SUV-1478 चाहिँ एकजना एकदमै अडिग इन्जिनियरले चलाउँछन्।',
 
   'yap.sub': 'शुभम्‌बारे जे पनि सोध्नुहोस्',
   'yap.hello': 'म खल्तीको याप्पर हुँ। यो वेबसाइटलाई जे थाहा छ, मलाई पनि त्यही थाहा छ। सोध्नुहोस्।',
@@ -1127,7 +1127,7 @@ const mai = {
   'theme.day': 'दिन',
   'theme.night': 'राति',
 
-  'lock.live': 'उड़ान SS2504',
+  'lock.live': 'उड़ान SUV-1478',
   'lock.eta': 'जल्दिए उतरत',
   'lock.unknown': 'घोषणा नहि भेल',
   'lock.n1t': 'शुभम्',
@@ -1153,7 +1153,7 @@ const mai = {
   'app.notes': 'नोट',
   'app.games': 'खेल',
   'app.calculator': 'कैलकुलेटर',
-  'app.flight': 'SS2504',
+  'app.flight': 'SUV-1478',
   'app.yapper': 'याप्पर',
   'app.settings': 'सेटिंग',
 
@@ -1269,7 +1269,7 @@ const mai = {
   'dial.call': 'कॉल',
   'dial.del': 'मेटाउ',
   'dial.only': 'ई फोन मात्र एक गोटे केँ कॉल करैत अछि। शुभम् केँ कॉल भ रहल अछि।',
-  'dial.code': 'SS2504 उड़ानक लेल तैयार',
+  'dial.code': 'SUV-1478 उड़ानक लेल तैयार',
   'dial.codeNote': 'गुप्त कोड स्वीकार भेल। रनवे २७, उड़ानक अनुमति।',
   'dial.imei': 'IMEI: 25-04-2003-JKR। जनकपुर मे बनल।',
   'dial.vm1.from': 'शुभम्, स्वागत संदेश',
@@ -1280,7 +1280,7 @@ const mai = {
   'dial.vm2': 'मोन पाड़ू: अहाँक मम टाइमर तीन मिनट पहिने खतम भेल। मम ठीक अछि। भनसिया ठीक नहि छथि।',
   'dial.vm3.from': 'एयर ट्रैफिक कन्ट्रोल',
   'dial.vm3.when': 'पिछला सप्ताह',
-  'dial.vm3': 'SS2504, सही टीम तैयार भेला पर उतरबाक अनुमति अछि। गन्तव्यक घोषणा बाद मे होयत।',
+  'dial.vm3': 'SUV-1478, सही टीम तैयार भेला पर उतरबाक अनुमति अछि। गन्तव्यक घोषणा बाद मे होयत।',
   'dial.vmNote': 'भ्वाइसमेल सभ मजाक अछि। फोन नम्बर सच्चा अछि।',
   'call.label': 'शुभम् केँ कॉल भ रहल अछि',
   'call.ringing': 'घंटी बाजि रहल अछि',
@@ -1309,7 +1309,7 @@ const mai = {
   'mail.cta': 'शुभम् केँ लिखू',
   'mail.m1.from': 'शुभम्',
   'mail.m1.when': 'आइ',
-  'mail.m1.subj': 'SS2504 मे स्वागत अछि',
+  'mail.m1.subj': 'SUV-1478 मे स्वागत अछि',
   'mail.m1.body': 'एतेक नीचाँ धरि स्क्रॉल करबाक लेल धन्यवाद। कोनो विचार, काज वा प्रश्न अछि तँ हमरा लिखू। हम सभ मेल पढ़ैत छी, प्रायः एक गिलास चाहक संग।',
   'mail.m2.from': 'ShuvamOS',
   'mail.m2.when': 'काल्हि',
@@ -1453,7 +1453,7 @@ const mai = {
   'map.places': 'जगह सभ',
   'map.break': 'लगभग {km} कि.मी. दक्षिण, नापक हिसाब सँ नहि',
   'map.from': 'ललितपुर सँ सीधा {km} कि.मी.',
-  'map.flight': 'उड़ान SS2504 जनकपुर सँ उड़ल। गन्तव्यक घोषणा एखन नहि भेल अछि, मुदा जल्दिए एकटा स्थिर करियर मे उतरत।',
+  'map.flight': 'उड़ान SUV-1478 जनकपुर सँ उड़ल। गन्तव्यक घोषणा एखन नहि भेल अछि, मुदा जल्दिए एकटा स्थिर करियर मे उतरत।',
   'map.directions': 'शुभम् धरि पहुँचबाक सभ सँ छोट बाट: मैसेज पठाउ',
 
   'notes.sub': '{n} टा नोट',
@@ -1499,7 +1499,7 @@ const mai = {
 
   'calc.error': 'साफ नहि',
   'calc.zero': 'शून्य सँ भाग? कन्या एहन अस्त-व्यस्तता नहि सहि सकैत छथि। अपन हिसाब सरियाउ।',
-  'calc.2504': 'SS2504: ई उड़ान नम्बर अछि। २५ अप्रैल।',
+  'calc.2504': 'SUV-1478: ई उड़ान नम्बर अछि। २५ अप्रैल।',
   'calc.everest': 'दुनियाँक टिप, मीटर मे। २०२० मे फेर सँ नापल गेल।',
   'calc.108': '१०८: पवित्र अंक। माला सेहो सहमत अछि।',
   'calc.545': '५:४५, सभ सँ नेपाली अंक।',
@@ -1560,7 +1560,7 @@ const mai = {
   'cam.save': 'डाउनलोड',
   'cam.shotAlt': 'मिथिला फ्रेम मे अहाँक सेल्फी',
 
-  'fl.title': 'उड़ान SS2504',
+  'fl.title': 'उड़ान SUV-1478',
   'fl.sub': 'SS माने शुभम् सिंह, 2504 माने २५ अप्रैल',
   'fl.progress': 'उड़ान कतेक पहुँचल',
   'fl.cruise': 'उड़ान मे, {n}% बाट पार। अहाँ जतेक स्क्रॉल केलहुँ ओही हिसाब सँ।',
@@ -1573,7 +1573,7 @@ const mai = {
   'fl.dest': 'गन्तव्यक घोषणा एखन नहि भेल',
   'fl.destSub': 'जल्दिए, एकटा स्थिर करियर मे उतरत',
   'fl.parked': 'गेट पर ठाढ़',
-  'fl.note': 'जनकपुर मे बुद्ध एयर, श्री एयरलाइन्स आ यति एयरलाइन्स उड़ैत अछि। SS2504 एक टा बड्ड जिद्दी इंजीनियर चलबैत छथि।',
+  'fl.note': 'जनकपुर मे बुद्ध एयर, श्री एयरलाइन्स आ यति एयरलाइन्स उड़ैत अछि। SUV-1478 एक टा बड्ड जिद्दी इंजीनियर चलबैत छथि।',
 
   'yap.sub': 'शुभम्‌क बारे मे किछुओ पूछू',
   'yap.hello': 'हम जेबीक याप्पर छी। ई वेबसाइट जे जनैत अछि, सैह हमहूँ जनैत छी। पूछू।',
@@ -1590,4 +1590,3 @@ const mai = {
 };
 
 export default { en, ne, mai };
-

@@ -13,6 +13,9 @@ export const planeBus = {
   aboveContent: false,
   // True once the takeoff intro has handed the plane over to the page.
   introDone: false,
+  // The runway scene projects its flight path into the global renderer.
+  // The same page aircraft remains visible throughout approach and landing.
+  landingPose: null,
 };
 
 export const hidePlane = (reason) => planeBus.hidden.add(reason);

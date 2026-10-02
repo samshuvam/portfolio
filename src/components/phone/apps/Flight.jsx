@@ -7,7 +7,7 @@ import { usePhone } from '../os';
 import { AppShell, Group, Row } from '../parts';
 import '../apps.css';
 
-// Flight SS2504, the story of the site, as a live activity. Its progress is
+// Flight SUV-1478, the story of the site, as a live activity. Its progress is
 // how far down the page the visitor has scrolled.
 export default function Flight() {
   const t = useT(dict);

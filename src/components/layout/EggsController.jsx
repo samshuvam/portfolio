@@ -29,7 +29,7 @@ export default function EggsController() {
     if (getWorld().npt.hour >= 1 && getWorld().npt.hour < 5) findEgg('owl');
     const previous = window.stamp;
     window.stamp = () => findEgg('devtools');
-    console.info('SS2504: welcome aboard. Type stamp() for a passport stamp. Ctrl/Cmd+K opens the flight desk.');
+    console.info('SUV-1478: welcome aboard. Type stamp() for a passport stamp. Ctrl/Cmd+K opens the flight desk.');
     document.addEventListener('keydown', key);
     return () => { document.removeEventListener('keydown', key); if (previous === undefined) delete window.stamp; else window.stamp = previous; };
   }, []);

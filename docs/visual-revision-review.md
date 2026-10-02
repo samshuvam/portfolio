@@ -1,5 +1,7 @@
 # Visual revision, 2 October 2026
 
+> Historical revision. See [the current immersive revision review](immersive-revision-review.md) for the final design and validation.
+
 1. **Journey:** normal document scrolling, all 16 milestones readable; the seasonal branch stays beside the desktop timeline and becomes native lightweight artwork on phones. No pinned pile of overlapping cards. Season/day/night selection remains.
 2. **Aircraft:** licensed A350 geometry throughout; Suvmith Air pearl/forest/lime livery follows the two supplied references, with a generated transparent Nepal engraving, Himalayan fin ridges, Intelligence Inside and quiet No ETA humour. Source licence retained. UV builder: `scripts/build-aircraft.py` (Python, NumPy, Pillow).
 3. **Camera:** take a photo or choose a local file, 20 original Nepal-inspired SVG frames, 20 filters, and a 1200×1600 watermarked JPG download. User explicitly cancelled public storage; there is no upload endpoint or shared-public-gallery claim. No camera permission is requested until Start camera is clicked.

@@ -1,9 +1,8 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useRef } from 'react';
 import ThemeSync from './components/ThemeSync';
 import Intro from './components/intro/Intro';
 import Nav from './components/layout/Nav';
 import Toasts from './components/layout/Toasts';
-import Footer from './components/layout/Footer';
 import FlightMap from './components/layout/FlightMap';
 import CommandPalette from './components/layout/CommandPalette';
 import Passport from './components/layout/Passport';
@@ -28,9 +27,11 @@ import Finale from './components/finale/Finale';
 import FogReveal from './components/fx/FogReveal';
 import WindowView from './components/fx/WindowView';
 import Panorama from './components/fx/Panorama';
+import FlowPath from './components/fx/FlowPath';
 import JanakiMandir from './components/fx/JanakiMandir';
 import { TermCardHost } from './components/ui/Term';
-import { startSmoothScroll } from './lib/motion';
+import { startSmoothScroll, scrollToTarget } from './lib/motion';
+import { useStore } from './lib/store';
 import { useAmbient } from './lib/ambient';
 import './styles/term-art.css';
 import './styles/layout.css';
@@ -40,9 +41,22 @@ const PlaneLayer = lazy(() => import('./three/PlaneLayer'));
 
 export default function App() {
   useAmbient();
+  const loaded=useStore(s=>s.loaded),anchored=useRef(false);
   useEffect(() => {
     startSmoothScroll();
   }, []);
+  useEffect(()=>{
+    if(!loaded)return;
+    const followHash=()=>{
+      const id=decodeURIComponent(location.hash.slice(1));
+      if(!id)return;
+      const target=document.getElementById(id);
+      if(target)scrollToTarget(target,{duration:0});
+    };
+    if(!anchored.current){anchored.current=true;document.fonts.ready.then(followHash);}
+    window.addEventListener('hashchange',followHash);
+    return()=>window.removeEventListener('hashchange',followHash);
+  },[loaded]);
 
   return (
     <>
@@ -54,6 +68,7 @@ export default function App() {
         <PlaneLayer />
       </Suspense>
       <main id="main">
+        <FlowPath />
         <Hero />
         <About />
         <Work />
@@ -78,7 +93,6 @@ export default function App() {
         <Contact />
         <Finale />
       </main>
-      <Footer />
       <FlightMap />
       <div className="grain" aria-hidden="true" />
       <Toasts />

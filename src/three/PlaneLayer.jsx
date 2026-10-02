@@ -24,19 +24,19 @@ import { waypoints } from '../data/waypoints';
 // is a calm straight line instead of a swoop.
 const POSES = {
   top: { x: 0.2, y: -0.04, s: 0.5, yaw: -24 },
-  about: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  work: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  lab: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  arcade: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
+  about: { x: -.68, y: -.48, s: .16, yaw: 195 },
+  work: { x: .68, y: .35, s: .2, yaw: -18 },
+  lab: { x: -.64, y: -.4, s: .18, yaw: 195 },
+  arcade: { x: .68, y: .4, s: .17, yaw: -22 },
   papers: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  logbook: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
+  logbook: { x: -.68, y: -.2, s: .22, yaw: 195 },
   journey: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  home: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
+  home: { x: -.66, y: -.45, s: .18, yaw: 195 },
   kanya: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  life: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  frames: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  wow: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
-  now: { x: 0.76, y: 0.64, s: 0.14, yaw: -22 },
+  life: { x: -.65, y: .32, s: .18, yaw: 195 },
+  frames: { x: .64, y: -.45, s: .17, yaw: -22 },
+  wow: { x: -.62, y: .44, s: .2, yaw: 195 },
+  now: { x: .66, y: -.4, s: .18, yaw: -22 },
   // Final approach: gear down, descending towards the last runway.
   contact: { x: -0.62, y: 0.42, s: 0.22, yaw: -16, gear: 1, pitch: 0.04 },
   landing: { x: 0.42, y: -0.62, s: 0.3, yaw: -10, gear: 1, pitch: 0.1, glide: true },
@@ -462,12 +462,9 @@ export default function PlaneLayer() {
       const b = route[i + 1] || a;
       let t = 0;
       if (b !== a) {
-        // Park through most of a long section, then swoop over roughly one
-        // screen of scrolling just before the next one arrives.
+        // Travel through the whole chapter instead of parking until its end.
         const gap = b.anchor - a.anchor;
-        const end = b.anchor - vh * 0.08;
-        const D = Math.min(gap * 0.92, clamp(gap * 0.8, vh * 0.45, vh * 1.35));
-        t = clamp((probe - (end - D)) / D, 0, 1);
+        t = clamp((probe-a.anchor)/Math.max(1,gap),0,1);
       }
       const e = smoother(t);
       const A = poseFor(a.id);
@@ -513,7 +510,7 @@ export default function PlaneLayer() {
     const sweepTarget = (sw) => {
       const mobile = isMobile();
       const s = Math.min(mobile ? 0.42 : 0.19, (0.45 * view.h) / view.w);
-      const margin = 1 + s * 1.15 + 0.08;
+      const margin = Math.max(.3,1-s*.95);
       const dir = sw.dir < 0 ? -1 : 1;
       target.x = dir * lerp(-margin, margin, clamp(sw.progress || 0, 0, 1));
       target.y = 1 - 2 * clamp(sw.y ?? 0.5, 0.05, 0.95);
@@ -547,6 +544,10 @@ export default function PlaneLayer() {
       let dir = 1;
       if (sweeping) dir = sweepTarget(sw);
       else routeTarget();
+      const landing=planeBus.landingPose;
+      if(landing){Object.assign(target,{x:landing.x,y:landing.y,s:landing.s,gear:landing.gear,parked:0,inHero:false});}
+      const archive=document.querySelector('.archive');
+      if(!landing&&!sweeping&&archive){const r=archive.getBoundingClientRect();if(r.top<view.h*.7&&r.bottom>view.h*.2){const p=clamp((view.h-r.top)/(view.h+r.height),0,1);Object.assign(target,{x:lerp(-.66,.66,p),y:.26+Math.sin(p*Math.PI*2)*.28,s:Math.min(.24,.48/aspect),parked:0,inHero:false});}}
       if (sweeping !== st.sweeping) {
         st.sweeping = sweeping;
         if (!sweeping) st.headRight = st.vx >= 0;
@@ -557,6 +558,7 @@ export default function PlaneLayer() {
       target.x += st.pointerX * 0.012 * heroIdle;
       target.y += st.pointerY * 0.01 * heroIdle;
       if (sweeping) target.y += Math.sin(now * 1.7) * 0.012;
+      else if(!landing&&st.intro>=1&&!target.inHero){target.x+=Math.sin(now*.34)*.07;target.y+=Math.cos(now*.48)*.045;}
 
       // Intro fly-in from off-screen right.
       const intro = st.intro;
@@ -583,9 +585,9 @@ export default function PlaneLayer() {
         springTo('y', goalY, 5, dt);
         springTo('s', target.s, 4, dt);
       } else {
-        springTo('x', goalX, intro < 1 ? 60 : 3.2, dt);
-        springTo('y', goalY, intro < 1 ? 60 : 3.2, dt);
-        springTo('s', lerp(0.22, target.s, intro), 3, dt);
+        springTo('x', goalX, intro < 1 ? 60 : landing ? 18 : 3.2, dt);
+        springTo('y', goalY, intro < 1 ? 60 : landing ? 18 : 3.2, dt);
+        springTo('s', lerp(0.22, target.s, intro), landing ? 18 : 3, dt);
       }
       springTo('gear', target.gear, 2.5, dt);
       st.vx = lerp(st.vx, (st.x - prevX) / dt, 0.12);
@@ -639,6 +641,7 @@ export default function PlaneLayer() {
       pivot.scale.setScalar(scale);
       plane.group.rotation.order = 'YZX';
       plane.group.rotation.set(st.roll + st.spin, THREE.MathUtils.degToRad(st.yaw), st.pitch);
+      if(landing)plane.group.quaternion.slerp(new THREE.Quaternion().fromArray(landing.quaternion),landing.blend??1);
       plane.setGear(st.gear);
       pivot.updateMatrixWorld(true);
 
@@ -646,18 +649,15 @@ export default function PlaneLayer() {
       // briefly if the layer has to change while the plane is in view.
       st.fade += ((planeBus.hidden.size ? 0 : 1) - st.fade) * (1 - Math.exp(-6 * dt));
       if (st.fade < 0.002) st.fade = 0;
-      const wantAbove = !!planeBus.aboveContent;
+      const wantAbove = !!planeBus.aboveContent || !target.inHero;
       if (wantAbove === st.above) {
         st.layerWait = 0;
         st.dipping = false;
-      } else if (!onScreen || st.fade < 0.05 || st.dip >= 1) {
+      } else {
         setLayer(wantAbove);
         st.dipping = false;
-      } else {
-        st.layerWait += dt;
-        if (st.layerWait > 0.5) st.dipping = true;
       }
-      st.dip = st.dipping ? Math.min(1, st.dip + dt * 7) : Math.max(0, st.dip - dt * 5);
+      st.dip = 0;
       const opacity = Math.round(st.fade * (1 - st.dip) * 1000) / 1000;
       if (opacity !== st.opacity) {
         st.opacity = opacity;

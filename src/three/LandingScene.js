@@ -7,7 +7,7 @@ import { getState } from '../lib/store';
 import { skyColors } from '../components/hero/sky';
 import { P } from '../components/finale/timeline';
 
-// The last scene of the site: flight SS2504 lands on an unknown runway and
+// The last scene of the site: flight SUV-1478 lands on an unknown runway and
 // taxis to a stand next to a parked aircraft named Kalyani. Everything is a
 // pure function of the scroll progress p (0..1), so scrubbing backwards and
 // forwards always shows the same frame. Sky and light follow the real sun
@@ -222,7 +222,7 @@ function pose(p, out) {
 
 // ---- the scene --------------------------------------------------------------
 
-export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destination: not announced yet', plain = false, onFrame, onTouchdown } = {}) {
+export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destination: not announced yet', plain = false, externalPlane = false, onFrame, onTouchdown } = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -553,6 +553,7 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
   const plane = createAirliner({ accent, variant: 'shuvam' });
   plane.group.rotation.order = 'YZX';
   scene.add(plane.group);
+  plane.group.visible = !externalPlane;
   const landingSpot = new THREE.SpotLight(0xfff1da, 0, 46, 0.42, 0.55, 1.3);
   landingSpot.position.set(1.1, -0.25, 0);
   const spotTarget = new THREE.Object3D();
@@ -646,6 +647,7 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
   const tmpA = new THREE.Vector3();
   const tmpB = new THREE.Vector3();
   const papiColors = papiGeo.attributes.color;
+  const pointer={x:0,y:0};
 
   function layout(p, t) {
     pose(p, st);
@@ -711,6 +713,8 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
     camLook.lerpVectors(tmpB, FINAL_TARGET, b);
     // A breath of handheld drift so the parked frame is not dead still.
     camPos.y += Math.sin(t * 0.4) * 0.06 * b;
+    camPos.x += pointer.x * .7 * view.k;
+    camPos.y += pointer.y * .35 * view.k;
     camera.position.copy(camPos);
     camera.lookAt(camLook);
   }
@@ -719,6 +723,8 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
   const pLabel = new THREE.Vector3();
   const labels = { kalyani: { x: 0, y: 0, on: false }, plane: { x: 0, y: 0, on: false } };
   function project() {
+    camera.updateMatrixWorld(true);
+    plane.group.updateMatrixWorld(true);
     kLabel.set(KALYANI_AT.x, GROUND_Y + 1.25, KALYANI_AT.z).project(camera);
     pLabel.set(st.pos.x, st.pos.y + 1.25, st.pos.z).project(camera);
     labels.kalyani.x = (kLabel.x * 0.5 + 0.5) * view.w;
@@ -727,6 +733,10 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
     labels.plane.x = (pLabel.x * 0.5 + 0.5) * view.w;
     labels.plane.y = (-pLabel.y * 0.5 + 0.5) * view.h;
     labels.plane.on = pLabel.z < 1;
+    const centre=st.pos.clone().project(camera);
+    const local=st.pos.clone().applyMatrix4(camera.matrixWorldInverse);
+    const relative=camera.quaternion.clone().invert().multiply(plane.group.quaternion);
+    labels.flightPose={x:centre.x,y:centre.y,s:4/(2*Math.max(.1,-local.z)*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*(view.h/view.w),quaternion:relative.toArray(),gear:smooth(P.gearDown[0],P.gearDown[1],cur)};
     return labels;
   }
 
@@ -763,6 +773,7 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
   }
 
   return {
+    setPointer(x,y){pointer.x=x;pointer.y=y;if(!raf)draw();},
     setSize(w, h) {
       setSize(w, h);
       if (!raf) draw();

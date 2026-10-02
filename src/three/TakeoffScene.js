@@ -3,7 +3,7 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { createAirliner } from './airliner.js';
 import { skyColors, mix } from '../components/hero/sky.js';
 
-// The opening scene: Flight SS2504 departing Janakpur Airport (JKR / VNJP),
+// The opening scene: Flight SUV-1478 departing Janakpur Airport (JKR / VNJP),
 // runway 27. Everything is built from code, in metres.
 //
 // World axes: +X east, -Z north, +Y up. Runway 09/27 runs along X, 1,300 m

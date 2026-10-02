@@ -373,9 +373,9 @@ export const FACTS = [
     truth: true,
     level: 1,
     topic: 'shuvam',
-    en: { s: 'This site’s flight number, SS2504, comes from Shuvam’s birthday, 25 April.', why: 'SS for Shuvam Singh, 2504 for 25 April 2003.' },
-    ne: { s: 'यो साइटको उडान नम्बर SS2504 शुभमको जन्मदिन, २५ अप्रिलबाट आएको हो।', why: 'SS भनेको शुभम सिंह, 2504 भनेको २५ अप्रिल २००३।' },
-    mai: { s: 'एहि साइटक उड़ान नम्बर SS2504 शुभमक जन्मदिन, २५ अप्रिल सँ आएल अछि।', why: 'SS माने शुभम सिंह, 2504 माने २५ अप्रिल २००३।' },
+    en: { s: 'This site’s flight number, SUV-1478, comes from Shuvam’s birthday, 25 April.', why: 'SS for Shuvam Singh, 2504 for 25 April 2003.' },
+    ne: { s: 'यो साइटको उडान नम्बर SUV-1478 शुभमको जन्मदिन, २५ अप्रिलबाट आएको हो।', why: 'SS भनेको शुभम सिंह, 2504 भनेको २५ अप्रिल २००३।' },
+    mai: { s: 'एहि साइटक उड़ान नम्बर SUV-1478 शुभमक जन्मदिन, २५ अप्रिल सँ आएल अछि।', why: 'SS माने शुभम सिंह, 2504 माने २५ अप्रिल २००३।' },
   },
   {
     id: 'mother-tongue',

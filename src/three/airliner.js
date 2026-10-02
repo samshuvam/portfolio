@@ -8,7 +8,7 @@ import { createAirliner as createRig } from './airlinerRig';
 let templatePromise;
 export function preloadAirliner() {
   if (!templatePromise) {
-    templatePromise = new GLTFLoader().loadAsync('/models/a350.glb').then(({ scene }) => {
+    templatePromise = new GLTFLoader().loadAsync('/models/a350.glb?livery=nepal-template-r5').then(({ scene }) => {
       scene.updateMatrixWorld(true);
       const bounds = new THREE.Box3().setFromObject(scene);
       const centre = bounds.getCenter(new THREE.Vector3());
