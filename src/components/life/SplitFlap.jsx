@@ -7,6 +7,7 @@ const CHARS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-:+';
 // A row of split-flap cells. When `text` changes, every cell clatters
 // through random letters before landing, a little later than its neighbour.
 export default function SplitFlap({ text, length, delay = 0, className = '' }) {
+  const scriptText = /[^\x00-\x7F]/.test(text);
   const target = text.toUpperCase().padEnd(length, ' ').slice(0, length);
   const [shown, setShown] = useState(() => (reducedMotion() ? target : ' '.repeat(length)));
   const timers = useRef([]);
@@ -14,7 +15,7 @@ export default function SplitFlap({ text, length, delay = 0, className = '' }) {
   useEffect(() => {
     timers.current.forEach(clearTimeout);
     timers.current = [];
-    if (reducedMotion()) {
+    if (reducedMotion() || scriptText) {
       setShown(target);
       return undefined;
     }
@@ -36,11 +37,12 @@ export default function SplitFlap({ text, length, delay = 0, className = '' }) {
     return () => timers.current.forEach(clearTimeout);
     // `shown` is intentionally left out: we animate from whatever is showing.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [target, delay]);
+  }, [target, delay, scriptText]);
 
   return (
     <span className={`flap ${className}`} aria-label={text}>
-      {shown.split('').map((c, i) => (
+      {scriptText ? <span className="flap-cell flap-script" aria-hidden="true">{text}</span> :
+      shown.split('').map((c, i) => (
         <span key={i} className="flap-cell" aria-hidden="true">
           {c}
         </span>

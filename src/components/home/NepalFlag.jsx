@@ -76,6 +76,7 @@ export default function NepalFlag() {
 
     const build = () => {
       const r = canvas.getBoundingClientRect();
+      if (W === r.width && H === r.height) return;
       W = r.width;
       H = r.height;
       canvas.width = W * dpr;

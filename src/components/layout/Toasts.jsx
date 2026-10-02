@@ -1,9 +1,11 @@
+import {useCopy} from '../../i18n/Text';
 import { useEffect, useRef } from 'react';
 import { StampIcon } from '@phosphor-icons/react';
 import { useStore, setState } from '../../lib/store';
 import { gsap } from '../../lib/motion';
 
 export default function Toasts() {
+  const c=useCopy();
   const toast = useStore((s) => s.toast);
   const ref = useRef(null);
 
@@ -23,7 +25,7 @@ export default function Toasts() {
           </div>
           {toast.tone === 'egg' && (
             <button type="button" className="toast-link" onClick={() => setState({ passport: true, toast: null })}>
-              Passport
+              {c("Passport")}
             </button>
           )}
         </div>

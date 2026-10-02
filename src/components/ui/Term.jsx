@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { glossary } from '../../data/glossary';
 import { gsap, reducedMotion } from '../../lib/motion';
 import TermArt from './TermArt';
+import { useLocalize } from '../../i18n';
+import overlay from '../../i18n/content/glossary';
 
 // Hover (or focus, or tap) any underlined term to get a plain-English card.
 // One card is shared by the whole page and follows the pointer.
@@ -32,7 +34,8 @@ function hide(delay = 90) {
 
 export function Term({ id, children, className = '' }) {
   const ref = useRef(null);
-  const data = glossary[id];
+  const loc = useLocalize(overlay);
+  const data = loc(glossary[id], id);
   const active = useSyncExternalStore(subscribe, () => current?.id === id && current?.el === ref.current);
   if (!data) return children ?? null;
   const isTouch = () => window.matchMedia('(hover: none)').matches;
@@ -76,6 +79,7 @@ export function Term({ id, children, className = '' }) {
 }
 
 export function TermCardHost() {
+  const loc = useLocalize(overlay);
   const state = useSyncExternalStore(subscribe, get, get);
   const cardRef = useRef(null);
   const [shown, setShown] = useState(null);
@@ -135,7 +139,7 @@ export function TermCardHost() {
       if (!inside) hide(60);
     };
     const close = () => {
-      if (current && document.activeElement !== current.el) hide(0);
+      if (current) hide(0);
     };
     const onKey = (e) => e.key === 'Escape' && hide(0);
     const onDown = (e) => {
@@ -160,13 +164,13 @@ export function TermCardHost() {
   }, []);
 
   const id = state?.id || shown;
-  const data = id ? glossary[id] : null;
+  const data = id ? loc(glossary[id], id) : null;
   return createPortal(
     <div ref={cardRef} id="term-card" role="tooltip" className="term-card" style={{ left: 0, top: 0, visibility: 'hidden' }}>
       {data && (
         <>
           <div className="term-card-art">
-            <TermArt art={data.art} photo={data.photo} />
+            <TermArt art={data.art} image={data.image} />
           </div>
           <div className="px-4 pt-3 pb-4">
             <div className="flex items-baseline justify-between gap-3">

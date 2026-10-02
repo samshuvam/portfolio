@@ -1,3 +1,6 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/logbook';
 import { useEffect, useRef } from 'react';
 import { Term } from '../ui/Term';
 import Yap from '../ui/Yap';
@@ -12,7 +15,10 @@ const LEVELS = {
 };
 
 export default function Logbook() {
+  const c=useCopy();
   const root = useRef(null);
+  const loc=useLocalize(overlay);
+  const ranks=loc(Object.fromEntries(Object.entries(LEVELS).map(([label,text])=>[label,{label,text}])), 'levels');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -28,21 +34,19 @@ export default function Logbook() {
     <section id="logbook" ref={root} className="section logbook" aria-labelledby="logbook-title">
       <div className="wrap">
         <header className="sec-head">
-          <h2 id="logbook-title" className="t-display">
-            The logbook.
-          </h2>
-          <p className="t-lede">Work and study, logged the way a pilot logs flights. Skills are type ratings, because percentages next to “Python” never meant anything anyway.</p>
+          <h2 id="logbook-title" className="t-display"> <L text={"The logbook."} /> </h2>
+          <p className="t-lede"> <L text={"Work and study, logged the way a pilot logs flights. Skills are type ratings, because percentages next to “Python” never meant anything anyway."} /> </p>
         </header>
 
         <div className="log-table" role="table" aria-label="Experience and education">
           <div className="log-row log-headrow" role="row">
-            <span role="columnheader">Date</span>
-            <span role="columnheader">Aircraft</span>
-            <span role="columnheader">Route</span>
-            <span role="columnheader">Hours</span>
-            <span role="columnheader">Remarks</span>
+            <span role="columnheader"> <L text={"Date"} /> </span>
+            <span role="columnheader"> <L text={"Aircraft"} /> </span>
+            <span role="columnheader"> <L text={"Route"} /> </span>
+            <span role="columnheader"> <L text={"Hours"} /> </span>
+            <span role="columnheader"> <L text={"Remarks"} /> </span>
           </div>
-          {logbook.map((e) => (
+          {logbook.map(e=>loc(e)).map((e) => (
             <div key={e.id} className={`log-row log-${e.kind}`} role="row">
               <span role="cell" className="log-date">
                 {e.date}
@@ -75,28 +79,26 @@ export default function Logbook() {
           ))}
         </div>
 
-        <Yap>
-          The hard part is usually the handoff between systems, not the software itself. In an ERP migration, that handoff is the moment a factory floor and an accounts desk have to agree on what a “stock movement” actually is.
-        </Yap>
+        <Yap> <L text={"The hard part is usually the handoff between systems, not the software itself. In an ERP migration, that handoff is the moment a factory floor and an accounts desk have to agree on what a “stock movement” actually is."} /> </Yap>
 
         <div className="ratings">
-          <h3 className="ratings-title">Type ratings</h3>
+          <h3 className="ratings-title"> <L text={"Type ratings"} /> </h3>
           <div className="ratings-legend">
             {Object.entries(LEVELS).map(([k, v]) => (
               <span key={k}>
-                <b className={`rank rank-${k.split(' ')[0].toLowerCase()}`}>{k}</b> {v}
+                <b className={`rank rank-${k.split(' ')[0].toLowerCase()}`}>{ranks[k].label}</b> {ranks[k].text}
               </span>
             ))}
           </div>
           <div className="ratings-grid">
-            {typeRatings.map((g) => (
+            {loc(typeRatings,'typeRatings').map((g) => (
               <div key={g.group} className="rating-group">
                 <p className="rating-group-name">{g.group}</p>
                 <ul>
                   {g.items.map((it) => (
                     <li key={it.name}>
                       <span>{it.term ? <Term id={it.term}>{it.name}</Term> : it.name}</span>
-                      <b className={`rank rank-${it.level.split(' ')[0].toLowerCase()}`}>{it.level}</b>
+                      <b className={`rank rank-${it.level.split(' ')[0].toLowerCase()}`}>{ranks[it.level]?.label || it.level}</b>
                     </li>
                   ))}
                 </ul>
@@ -106,9 +108,9 @@ export default function Logbook() {
         </div>
 
         <div className="endorsements">
-          <h3 className="ratings-title">Endorsements</h3>
+          <h3 className="ratings-title"> <L text={"Endorsements"} /> </h3>
           <ul>
-            {leadership.map((l) => (
+            {loc(leadership,'leadership').map((l) => (
               <li key={l.title} className="endorse">
                 <p className="endorse-title">{l.title}</p>
                 <p className="endorse-text">{l.text}</p>
@@ -122,7 +124,7 @@ export default function Logbook() {
         <div className="domains-track">
           {[0, 1].map((k) => (
             <div key={k} className="domains-set" aria-hidden={k === 1 ? 'true' : undefined}>
-              {researchDomains.map((d) => (
+              {loc(researchDomains,'researchDomains').map((d) => (
                 <span key={d}>{d}</span>
               ))}
             </div>

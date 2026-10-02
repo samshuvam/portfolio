@@ -26,6 +26,7 @@ export function startSmoothScroll() {
   if (lenis) return lenis;
   if (reducedMotion()) return null;
   lenis = new Lenis({ lerp: 0.11, smoothWheel: true, wheelMultiplier: 0.95, touchMultiplier: 1.4 });
+  if (document.documentElement.classList.contains('scroll-locked')) lenis.stop();
   lenis.on('scroll', (e) => {
     scrollState.velocity = e.velocity * 60;
     scrollState.progress = e.progress;
@@ -41,11 +42,16 @@ export function startSmoothScroll() {
 export function scrollToTarget(target, opts = {}) {
   const el = typeof target === 'string' ? document.querySelector(target) : target;
   if (!el) return;
-  if (lenis) lenis.scrollTo(el, { offset: opts.offset ?? 0, duration: opts.duration ?? 1.4, easing: (t) => 1 - Math.pow(1 - t, 4) });
-  else el.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+  const offset = opts.offset ?? -80;
+  if (lenis) lenis.scrollTo(el, { offset, duration: opts.duration ?? 1.4, easing: (t) => 1 - Math.pow(1 - t, 4) });
+  else window.scrollTo({top:Math.max(0,window.scrollY+el.getBoundingClientRect().top+offset),behavior:reducedMotion()?'auto':'smooth'});
 }
 
-export function lockScroll(locked) {
-  if (lenis) locked ? lenis.stop() : lenis.start();
-  document.documentElement.classList.toggle('scroll-locked', locked);
+const scrollLocks = new Set();
+export function lockScroll(locked, owner = 'default') {
+  if (locked) scrollLocks.add(owner);
+  else scrollLocks.delete(owner);
+  const isLocked = scrollLocks.size > 0;
+  if (lenis) isLocked ? lenis.stop() : lenis.start();
+  document.documentElement.classList.toggle('scroll-locked', isLocked);
 }

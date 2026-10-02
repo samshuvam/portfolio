@@ -21,8 +21,8 @@ export const logbook = [
     id: 'srm',
     date: '2022 - 2026',
     aircraft: 'B.Tech, Computer Science and Engineering',
-    route: 'SRM University AP (Big Data specialisation)',
-    place: 'Andhra Pradesh, India',
+    route: 'SRM University (Big Data specialisation)',
+    place: ', India',
     hours: 'CGPA 8.61',
     kind: 'study',
     remarks: [

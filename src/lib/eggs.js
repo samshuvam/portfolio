@@ -4,6 +4,8 @@ import { sound } from './sound';
 // Every easter egg stamps the visitor's passport. The hints are shown on
 // the empty stamp slots, so the passport doubles as a treasure map.
 export const EGGS = [
+  {id:'cosmos',stamp:'COSMOS',name:'Cosmic curiosity',hint:'Explore all three observatory views'},
+  {id:'voyager',stamp:'VOYAGER',name:'A hello to space',hint:'Listen with your eyes to the golden record'},
   { id: 'konami', stamp: 'KONAMI', name: 'Born in 2003', hint: 'An old cheat code on the keyboard' },
   { id: 'sita', stamp: 'JANAKI', name: 'Jai Siya Ram', hint: 'Type the name of Janakpur’s daughter' },
   { id: 'momo', stamp: 'MOMO', name: 'Momo rain', hint: 'Type Nepal’s favourite food' },
@@ -12,7 +14,7 @@ export const EGGS = [
   { id: 'roll', stamp: 'ROLL', name: 'Barrel roll', hint: 'Click the plane a few times' },
   { id: 'clockwise', stamp: 'MANI', name: 'Clockwise only', hint: 'Spin the prayer wheel the other way' },
   { id: 'spins', stamp: '108', name: 'Sacred number', hint: 'Turn the prayer wheel 108 times' },
-  { id: 'grid', stamp: 'GRID', name: 'Kanya alignment', hint: 'Press G anywhere' },
+  { id: 'grid', stamp: 'GRID', name: 'Star mapper', hint: 'Press G to connect the constellation' },
   { id: 'owl', stamp: 'OWL', name: 'Night owl', hint: 'Visit between 1 and 5 AM Nepal time' },
   { id: 'yap', stamp: 'YAP', name: 'Certified yapper', hint: 'Switch on Yap mode' },
   { id: 'turbulence', stamp: 'BUMPY', name: 'Turbulence', hint: 'Scroll really, really fast' },

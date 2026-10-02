@@ -1,4 +1,23 @@
-// Nepali (ne) and Maithili (mai) overlays for src/data/kanya.js, keyed by item id
-// (or by the key named in that data module). Only translated fields are
-// listed; everything else falls back to English. See src/i18n/index.js.
-export default { ne: {}, mai: {} };
+// Nepali (ne) and Maithili (mai) overlays for src/data/kanya.js, keyed by trait id.
+export default {
+  ne: {
+    analytical: { trait: 'विश्लेषक', evidence: 'RAG बारे अड्कलमा भरोसा गरेन। 500 प्रश्नको बेन्चमार्क बनायो र +203% नापेरै देखायो।' },
+    perfectionist: { trait: 'पूर्णतावादी', evidence: 'यो पूरै वेबसाइट सुरुदेखि फेरि बनायो। पुरानो ठिकै थियो। ठिकै हुनु कुरै होइन।' },
+    organised: { trait: 'व्यवस्थित', evidence: 'पूरै उत्पादन कम्पनीलाई पुरानो CRM बाट Odoo ERP मा सार्यो, QR कोडसमेत।' },
+    detail: { trait: 'सबै कुरा याद गर्ने', evidence: 'लन्चको एउटा फोटो हेरेर भित्री डिस्प्लेको म्याट फिनिस अलिकति बढी कडा भएको औंल्यायो।' },
+    practical: { trait: 'व्यावहारिक', evidence: 'बस ट्र्याकिङको API छैन? साँचो कोअर्डिनेट र Google Maps को एउटा जुगाड। समस्या समाधान।' },
+    overthinker: { trait: 'धेरै सोच्ने', evidence: 'प्रमाण नं. 1: माथिको क्याफे पोर्ट्रेट। चिउँडोमा हात, अझै निर्णय गर्दै।' },
+    communicator: { trait: 'बोलक्कड', evidence: 'कन्या राशिको स्वामी बुध हो, बोलीको ग्रह। त्यसैले यो पेसेवर गफ।' },
+    helpful: { trait: 'सेवाभावी', evidence: 'अस्पतालको ERP बनायो, ताकि कर्मचारीले फाइल खोतल्नुको सट्टा केही सेकेन्डमै बिरामीको इतिहास हेर्न सकून्।' },
+  },
+  mai: {
+    analytical: { trait: 'विश्लेषक', evidence: 'RAG पर अंदाज पर भरोसा नहि केलक। 500 प्रश्नक बेंचमार्क बनौलक आ +203% नापि क देखौलक।' },
+    perfectionist: { trait: 'पूर्णतावादी', evidence: 'ई पूरा वेबसाइट शुरू सँ फेर बनौलक। पुरान ठीके छल। ठीक रहब तँ बाते नहि अछि।' },
+    organised: { trait: 'सुव्यवस्थित', evidence: 'पूरा उत्पादन कंपनी केँ पुरान CRM सँ Odoo ERP पर आनलक, QR कोड सहित।' },
+    detail: { trait: 'सभ किछु देखि लैत', evidence: 'लॉन्चक एकटा फोटो देखि क कहलक जे भीतरी डिस्प्लेक मैट फिनिश कनी बेसी कड़ा अछि।' },
+    practical: { trait: 'व्यावहारिक', evidence: 'बस ट्रैकिंगक API नहि? असली कोऑर्डिनेट आ Google Maps क एकटा जुगाड़। समस्या खतम।' },
+    overthinker: { trait: 'बेसी सोचय बला', evidence: 'सबूत नं. 1: ऊपरक कैफे पोर्ट्रेट। ठोढ़ी पर हाथ, एखनो निर्णय करैत।' },
+    communicator: { trait: 'गपशपिया', evidence: 'कन्या राशिक स्वामी बुध छथि, बोलीक ग्रह। तेँ ई पेशेवर गप्प।' },
+    helpful: { trait: 'सेवाभावी', evidence: 'अस्पतालक ERP बनौलक, जाहि सँ कर्मचारी फाइल उनटबाक बदला किछु सेकेंड मे रोगीक इतिहास देखि सकथि।' },
+  },
+};

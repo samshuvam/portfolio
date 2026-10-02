@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { useEffect, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { AirplaneTiltIcon, CheckIcon, CopyIcon, DownloadSimpleIcon, EnvelopeSimpleIcon, GithubLogoIcon, InstagramLogoIcon, PaperPlaneTiltIcon, PhoneIcon, WhatsappLogoIcon, XLogoIcon } from '@phosphor-icons/react';
@@ -7,9 +8,11 @@ import { findEgg, toast } from '../../lib/eggs';
 import { gsap, reducedMotion } from '../../lib/motion';
 import { sound } from '../../lib/sound';
 import { sendMessage as send } from '../../lib/relay';
+import Phone from '../phone/Phone';
 import './contact.css';
 
 function Copy({ value, label, icon: Icon }) {
+  const c=useCopy();
   const [done, setDone] = useState(false);
   return (
     <button
@@ -28,7 +31,7 @@ function Copy({ value, label, icon: Icon }) {
     >
       <Icon size={20} weight="duotone" />
       <span>
-        <b>{label}</b>
+        <b>{c(label)}</b>
         {value}
       </span>
       {done ? <CheckIcon size={16} weight="bold" className="channel-end" /> : <CopyIcon size={16} className="channel-end" />}
@@ -37,20 +40,21 @@ function Copy({ value, label, icon: Icon }) {
 }
 
 function BoardingPass() {
+  const c=useCopy();
   const now = useNow();
   const rel = visitorRelative(now);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [state, setState] = useState('idle'); // idle | sending | sent | error
   const stub = useRef(null);
-  const from = rel.city && rel.city !== 'your timezone' ? rel.city : 'Wherever you are';
+  const from = rel.city && rel.city !== 'your timezone' ? rel.city : c("Wherever you are");
   const fromCode = from.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() || 'YOU';
 
   const validate = () => {
     const e = {};
-    if (!form.name.trim()) e.name = 'Who should I address the reply to?';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'That email does not look complete.';
-    if (form.message.trim().length < 10) e.message = 'A few more words, please. At least ten characters.';
+    if (!form.name.trim()) e.name = c("Who should I address the reply to?");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = c("That email does not look complete.");
+    if (form.message.trim().length < 10) e.message = c("A few more words, please. At least ten characters.");
     setErrors(e);
     return !Object.keys(e).length;
   };
@@ -60,7 +64,7 @@ function BoardingPass() {
     if (!validate()) return;
     setState('sending');
     try {
-      await send({ name: form.name, email: form.email, _replyto: form.email, message: form.message, _subject: `Portfolio message from ${form.name} (${from})` });
+      await send({ name: form.name.trim(), email: form.email.trim(), _replyto: form.email.trim(), message: form.message.trim(), _subject: `Portfolio message from ${form.name} (${from})` });
       setState('sent');
       sound.success();
       if (!reducedMotion() && stub.current) {
@@ -76,6 +80,7 @@ function BoardingPass() {
   const field = (k) => ({
     id: `bp-${k}`,
     value: form[k],
+    maxLength: k === "message" ? 5000 : k === "email" ? 254 : 100,
     onChange: (e) => setForm({ ...form, [k]: e.target.value }),
     'aria-invalid': errors[k] ? 'true' : undefined,
     'aria-describedby': errors[k] ? `bp-${k}-err` : undefined,
@@ -86,13 +91,12 @@ function BoardingPass() {
       <form className="pass-main" onSubmit={submit} noValidate>
         <div className="pass-top">
           <span className="pass-brand">
-            <AirplaneTiltIcon size={18} weight="fill" /> Boarding pass
-          </span>
-          <span className="t-mono">SS2504, first class</span>
+            <AirplaneTiltIcon size={18} weight="fill" /> <L text={"Boarding pass"} /> </span>
+          <span className="t-mono"> <L text={"SS2504, first class"} /> </span>
         </div>
         <div className="pass-route">
           <div>
-            <p className="pass-k">From</p>
+            <p className="pass-k"> <L text={"From"} /> </p>
             <p className="pass-code">{fromCode}</p>
             <p className="pass-city">{from}</p>
           </div>
@@ -102,17 +106,17 @@ function BoardingPass() {
             <span />
           </div>
           <div className="pass-to">
-            <p className="pass-k">To</p>
+            <p className="pass-k"> <L text={"To"} /> </p>
             <p className="pass-code">KTM</p>
-            <p className="pass-city">Lalitpur, Nepal</p>
+            <p className="pass-city"> <L text={"Lalitpur, Nepal"} /> </p>
           </div>
         </div>
 
         {state === 'sent' ? (
           <div className="pass-done" role="status">
             <CheckIcon size={28} weight="bold" />
-            <p className="pass-done-title">You are boarded, {form.name.split(' ')[0]}.</p>
-            <p>Your message landed in my inbox. I reply from {profile.email}.</p>
+            <p className="pass-done-title">{c('You are boarded, {name}.',{name:form.name.split(' ')[0]})}</p>
+            <p>{c('The relay accepted your message. I reply from {email}.',{email:profile.email})}</p>
             <button
               type="button"
               className="btn btn-ghost btn-sm"
@@ -121,17 +125,13 @@ function BoardingPass() {
                 setState('idle');
                 if (stub.current) gsap.set(stub.current, { clearProps: 'all' });
               }}
-            >
-              Write another
-            </button>
+            > <L text={"Write another"} /> </button>
           </div>
         ) : (
           <div className="pass-fields">
             <div className="pass-field">
-              <label className="field-label" htmlFor="bp-name">
-                Passenger name
-              </label>
-              <input className="input" autoComplete="name" placeholder="e.g. Aarati Thapa" {...field('name')} />
+              <label className="field-label" htmlFor="bp-name"> <L text={"Passenger name"} /> </label>
+              <input className="input" autoComplete="name" placeholder={c("e.g. Kalyani")} {...field('name')} />
               {errors.name && (
                 <p className="field-err" id="bp-name-err">
                   {errors.name}
@@ -139,9 +139,7 @@ function BoardingPass() {
               )}
             </div>
             <div className="pass-field">
-              <label className="field-label" htmlFor="bp-email">
-                Email for the reply
-              </label>
+              <label className="field-label" htmlFor="bp-email"> <L text={"Email for the reply"} /> </label>
               <input className="input" type="email" autoComplete="email" placeholder="you@example.com" {...field('email')} />
               {errors.email && (
                 <p className="field-err" id="bp-email-err">
@@ -150,10 +148,8 @@ function BoardingPass() {
               )}
             </div>
             <div className="pass-field pass-msg">
-              <label className="field-label" htmlFor="bp-message">
-                Message
-              </label>
-              <textarea className="input" rows={4} placeholder="A research idea, a role, a question about eVTOLs, or just hello." {...field('message')} />
+              <label className="field-label" htmlFor="bp-message"> <L text={"Message"} /> </label>
+              <textarea className="input" rows={4} placeholder={c("A research idea, a role, a question about eVTOLs, or just hello.")} {...field('message')} />
               {errors.message && (
                 <p className="field-err" id="bp-message-err">
                   {errors.message}
@@ -162,36 +158,33 @@ function BoardingPass() {
             </div>
             <div className="pass-actions">
               <button type="submit" className="btn btn-accent" disabled={state === 'sending'}>
-                {state === 'sending' ? 'Boarding' : 'Board'} <PaperPlaneTiltIcon size={17} weight="bold" />
+                {c(state === 'sending' ? 'Boarding' : 'Board')} <PaperPlaneTiltIcon size={17} weight="bold" />
               </button>
-              <p className="t-small text-ink-3">Your email is only used to reply.</p>
+              <p className="t-small text-ink-3"> <L text={"Your email is only used to reply."} /> </p>
             </div>
             {state === 'error' && (
               <p className="field-err" role="alert">
-                The relay could not deliver that just now. Please try again, or email {profile.email} directly.
+                {c('The relay could not deliver that just now. Please try again, or email {email} directly.',{email:profile.email})}
               </p>
             )}
           </div>
         )}
       </form>
-      <div ref={stub} className="pass-stub" aria-hidden="true">
-        <p className="pass-k">Flight</p>
+      <div ref={stub} className="pass-stub">
+        <p className="pass-k"> <L text={"Flight"} /> </p>
         <p className="pass-stub-v">SS2504</p>
-        <p className="pass-k">Seat</p>
+        <p className="pass-k"> <L text={"Seat"} /> </p>
         <p className="pass-stub-v">1A</p>
-        <p className="pass-k">Gate</p>
-        <p className="pass-stub-v">Inbox</p>
-        <div className="pass-barcode">
-          {Array.from({ length: 34 }, (_, i) => (
-            <i key={i} style={{ width: `${1 + ((i * 7) % 4)}px` }} />
-          ))}
-        </div>
+        <p className="pass-k"> <L text={"Gate"} /> </p>
+        <p className="pass-stub-v"> <L text={"Inbox"} /> </p>
+        <a className="pass-qr" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noreferrer" aria-label={c('A surprise boarding destination')}><img src="/boarding-qr.svg" width="112" height="112" alt={c('Scan for a surprise')}/><span>{c('Scan for a surprise')} ↗</span></a>
       </div>
     </div>
   );
 }
 
 function PaperPlane() {
+  const c=useCopy();
   const [msg, setMsg] = useState('');
   const [state, setState] = useState('idle');
   const paper = useRef(null);
@@ -222,20 +215,18 @@ function PaperPlane() {
   return (
     <form className="note" onSubmit={fly}>
       <div ref={paper} className="note-paper">
-        <label className="field-label" htmlFor="note-msg">
-          Or fly an anonymous paper plane
-        </label>
-        <textarea id="note-msg" className="note-text" rows={4} maxLength={2000} value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="No name, no email. Feedback, an idea, a hello." />
+        <label className="field-label" htmlFor="note-msg"> <L text={"Or fly an anonymous paper plane"} /> </label>
+        <textarea id="note-msg" className="note-text" rows={4} maxLength={2000} value={msg} onChange={(e) => setMsg(e.target.value)} placeholder={c("No name, no email. Feedback, an idea, a hello.")} />
       </div>
       <span ref={plane} className="note-plane" aria-hidden="true">
         <PaperPlaneTiltIcon size={42} weight="duotone" />
       </span>
       <div className="note-actions">
         <button type="submit" className="btn btn-ghost btn-sm" disabled={state === 'sending' || msg.trim().length < 3}>
-          {state === 'sending' ? 'Folding' : 'Fold and fly'} <PaperPlaneTiltIcon size={15} weight="bold" />
+          {state === 'sending' ? c("Folding") : c("Fold and fly")} <PaperPlaneTiltIcon size={15} weight="bold" />
         </button>
         <p className="t-small text-ink-3" aria-live="polite">
-          {state === 'sent' ? 'It landed. Thank you.' : state === 'error' ? 'It crashed on takeoff. Try again in a moment.' : 'Nothing identifying is collected.'}
+          {state === 'sent' ? c("It landed. Thank you.") : state === 'error' ? c("It crashed on takeoff. Try again in a moment.") : c("No name or email requested. Sent via FormSubmit.")}
         </p>
       </div>
     </form>
@@ -243,6 +234,7 @@ function PaperPlane() {
 }
 
 export default function Contact() {
+  const c=useCopy();
   const root = useRef(null);
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -257,14 +249,12 @@ export default function Contact() {
     <section id="contact" ref={root} className="section contact" aria-labelledby="contact-title">
       <div className="wrap">
         <header className="sec-head">
-          <h2 id="contact-title" className="t-display">
-            Your boarding pass.
-          </h2>
-          <p className="t-lede">Research collaborations, roles, eVTOL arguments, momo recommendations. Fill in the pass and it lands in my inbox.</p>
+          <h2 id="contact-title" className="t-display"> <L text={"Your boarding pass."} /> </h2>
+          <p className="t-lede"> <L text={"Research collaborations, roles, eVTOL arguments, momo recommendations. Fill in the pass and it lands in my inbox."} /> </p>
         </header>
 
         <div className="contact-grid">
-          <BoardingPass />
+          <div className="contact-main"><BoardingPass /><PaperPlane /></div>
           <aside className="contact-side">
             <div className="channels">
               <Copy value={profile.email} label="Email" icon={EnvelopeSimpleIcon} />
@@ -272,9 +262,7 @@ export default function Contact() {
               <a className="channel" href={profile.whatsapp} target="_blank" rel="noopener noreferrer">
                 <WhatsappLogoIcon size={20} weight="duotone" />
                 <span>
-                  <b>WhatsApp</b>
-                  Message me
-                </span>
+                  <b>WhatsApp</b> <L text={"Message me"} /> </span>
               </a>
               <a className="channel" href={profile.links.github.url} target="_blank" rel="noopener noreferrer">
                 <GithubLogoIcon size={20} weight="duotone" />
@@ -300,12 +288,10 @@ export default function Contact() {
               <a className="channel channel-cv" href={profile.cv} target="_blank" rel="noopener noreferrer">
                 <DownloadSimpleIcon size={20} weight="bold" />
                 <span>
-                  <b>Download CV</b>
-                  PDF, two pages
-                </span>
+                  <b> <L text={"Download CV"} /> </b> <L text={"PDF, two pages"} /> </span>
               </a>
             </div>
-            <PaperPlane />
+            <Phone />
           </aside>
         </div>
       </div>

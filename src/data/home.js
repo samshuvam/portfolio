@@ -20,7 +20,7 @@ export const places = {
   janakpur: { name: 'Janakpur', role: 'Born here', lat: 26.7288, lon: 85.9263 },
   lalitpur: { name: 'Lalitpur', role: 'Home now', lat: 27.6667, lon: 85.3167 },
   everest: { name: 'Sagarmatha', role: '8,848.86 m', lat: 27.9881, lon: 86.925 },
-  srm: { name: 'SRM University AP', role: 'Studied here', lat: 16.463, lon: 80.5068 },
+  srm: { name: 'SRM University', role: 'Studied here', lat: 16.463, lon: 80.5068 },
 };
 
 export const nepalFacts = [

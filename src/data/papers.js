@@ -7,7 +7,7 @@ export const papers = [
     year: 2026,
     status: 'Accepted for presentation',
     authors: 'Shuvam Singh, et al.',
-    affiliation: 'SRM University AP, Andhra Pradesh, India',
+    affiliation: 'SRM University, India',
     abstract:
       'We propose a modular architecture that combines semantic vector memory, knowledge graphs and LoRA-based parameter-efficient fine-tuning. It incorporates mathematical formulations of the Ebbinghaus forgetting curve and sleep-phase memory consolidation, enabling lifelong personalisation without catastrophic forgetting or full retraining on consumer-grade compute.',
     plain:
@@ -24,7 +24,7 @@ export const papers = [
     year: 2024,
     status: 'Accepted for presentation',
     authors: 'Shuvam Singh, et al.',
-    affiliation: 'SRM University AP, Andhra Pradesh, India',
+    affiliation: 'SRM University, India',
     abstract:
       'We present a spatio-temporal 4D trajectory conflict detection and route optimisation system using GeoPandas and waypoint modelling under weather, congestion and restricted-corridor constraints, integrated with XGBoost risk classifiers and real-time dispatch directives.',
     plain:

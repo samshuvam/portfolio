@@ -324,3 +324,4 @@
     display: none;
   }
 }
+.journey-readable{position:relative;z-index:10;padding-block:2rem 4rem}.journey-readable summary{cursor:pointer;color:var(--accent-fg);padding:1rem 0;font-weight:600}.journey-readable ol{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1rem;padding:0}.journey-readable li{padding:1.3rem;background:var(--surface);border:1px solid var(--line);border-radius:1rem}.journey-readable h3{font-size:1.4rem;margin:.7rem 0}.journey-readable li>p:last-of-type{color:var(--ink-2);line-height:1.6}.journey-readable img{display:block;width:100%;height:180px;object-fit:cover;margin-top:1rem;border-radius:.6rem}@media(max-width:650px){.journey-readable ol{grid-template-columns:1fr}}

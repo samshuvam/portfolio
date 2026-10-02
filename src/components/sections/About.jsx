@@ -1,18 +1,23 @@
 import { useEffect, useRef } from 'react';
+import { useCopy } from '../../i18n/Text';
 import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { Term } from '../ui/Term';
 import Yap from '../ui/Yap';
 import { profile, stats } from '../../data/profile';
-import { photoById, portrait } from '../../lib/photos';
-import { gsap, SplitText, reducedMotion } from '../../lib/motion';
+import { contextImage } from '../../lib/imagery';
+import { portrait } from '../../lib/photos';
+import { gsap, reducedMotion } from '../../lib/motion';
 import { useWorld } from '../../lib/world';
+import { useT, useLocalize, localDigits, rich } from '../../i18n';
+import dict from '../../i18n/ui/core';
+import overlay from '../../i18n/content/profile';
 import './about.css';
 
 function Pill({ photo, children, label }) {
-  const p = photo ? photoById(photo) : null;
+  const p = photo ? contextImage(photo) : null;
   return (
     <span className="pill-img" aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} aria-label={label}>
-      {p ? <img src={p.srcset[0].src} alt="" loading="lazy" style={{ background: p.color }} /> : children}
+      {p ? <img src={p.src} alt="" loading="lazy" /> : children}
     </span>
   );
 }
@@ -31,19 +36,21 @@ const steps = [
 ];
 
 export default function About() {
+  const c=useCopy();
+  const t = useT(dict), loc = useLocalize(overlay);
+  const person = loc(profile, 'profile');
+  const localizedStats = loc(stats, 'stats');
   const root = useRef(null);
   const world = useWorld();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (reducedMotion()) return;
-      const split = new SplitText('.manifesto-text', { type: 'words', wordsClass: 'mf-word' });
       gsap.fromTo(
-        split.words,
-        { opacity: 0.14 },
+        '.manifesto-text',
+        { opacity: 0.35 },
         {
           opacity: 1,
-          stagger: 0.05,
           ease: 'none',
           scrollTrigger: { trigger: '.manifesto', start: 'top 78%', end: 'bottom 45%', scrub: true },
         },
@@ -69,72 +76,63 @@ export default function About() {
       <div className="wrap">
         <p className="manifesto">
           <span className="manifesto-text">
-            Born in <Pill photo="img-20260527-185937-774" /> <Term id="janakpur">Janakpur</Term>, the city where <Term id="sita">Sita</Term> was born. Now I build <Pill>
-              <CurvePill />
-            </Pill>{' '}
-            AI that remembers, <Pill photo="1000024316" /> airspace that thinks, and <Pill photo="1000053325" /> systems people trust.
+            {rich(t('about.manifesto'), {p1:<Pill photo="janaki"/>,janakpur:<Term id="janakpur">{t('about.janakpur')}</Term>,sita:<Term id="sita">{t('about.sita')}</Term>,p2:<Pill><CurvePill/></Pill>,p3:<Pill photo="window"/>,p4:<Pill photo="research"/>})}
           </span>
         </p>
 
         <div className="about-grid">
           <figure className="about-portrait">
-            {portrait ? (
-              <img src={portrait.src} srcSet={portrait.srcsetAttr} sizes="(min-width: 1024px) 34vw, 90vw" alt="Shuvam Singh at a café table, hand on his chin, looking out of the window" style={{ background: portrait.color }} />
-            ) : (
-              <div className="about-portrait-empty font-tirhuta">{profile.tirhuta}</div>
-            )}
+            <img src={portrait.src} srcSet={portrait.srcsetAttr} sizes="(min-width: 800px) 40vw, 90vw" alt={t("about.portraitAlt")} width={portrait.width} height={portrait.height}/>
             <figcaption>
-              <span>Lalitpur. Thinking, as usual.</span>
-              <span className="t-mono">Kanya rashi</span>
+              <span>{c("AI / aviation / a little curiosity")}</span>
+              <span className="t-mono">Shuvam Singh</span>
             </figcaption>
           </figure>
 
           <div className="about-copy">
             <h2 id="about-title" className="t-title">
-              Hi, I’m Shuvam. <span className="light">I work where research meets real systems.</span>
+              {t('about.hi')} <span className="light">{t('about.hiLight')}</span>
             </h2>
             <p className="t-lede mt-6">
-              A computer science engineer (B.Tech, Big Data, SRM University AP) splitting time between two kinds of problems. Research: memory architectures that let <Term id="llm">LLMs</Term> learn like people, and AI for air
-              traffic, from <Term id="4d-trajectory">4D trajectories</Term> to <Term id="evtol">eVTOL</Term> corridors. Systems: <Term id="erp">ERP</Term> migrations, smart inventory and the plumbing a company actually runs on.
+              {rich(t('about.lede'),{llms:<Term id="llm">{t('about.llms')}</Term>,traj:<Term id="4d-trajectory">{t('about.traj')}</Term>,evtol:<Term id="evtol">eVTOL</Term>,erp:<Term id="erp">ERP</Term>})}
             </p>
             <Yap>
-              Okay, the longer version. I like problems that sit between fields. A token budget is a resource-allocation problem. Air traffic is a scheduling problem in four dimensions. Moving a company onto Odoo is a people
-              problem wearing a software costume. A lot of my work is noticing which old idea solves a new problem, like borrowing a forgetting curve from 1885 to decide what an AI should remember.
+              {t('about.yap')}
             </Yap>
 
             <dl className="about-facts">
               <div>
-                <dt>Born</dt>
+                <dt>{t('about.born')}</dt>
                 <dd>
-                  <Term id="janakpur">Janakpur</Term>, 25 April 2003, <span className="font-deva">१२ बैशाख २०६०</span>. That makes {age}.
+                  {rich(t('about.bornValue'),{janakpur:<Term id="janakpur">{t('about.janakpur')}</Term>,bs:<span className="font-deva">१२ बैशाख २०६०</span>,age:localDigits(age)})}
                 </dd>
               </div>
               <div>
-                <dt>Home</dt>
-                <dd>Lalitpur, Nepal</dd>
+                <dt>{t('about.home')}</dt>
+                <dd>{person.home}</dd>
               </div>
               <div>
-                <dt>Speaks</dt>
+                <dt>{t('about.speaks')}</dt>
                 <dd>
-                  <Term id="maithili">Maithili</Term>, Nepali, English
+                  {rich(t('about.speaksValue'),{maithili:<Term id="maithili">{t('about.maithili')}</Term>})}
                 </dd>
               </div>
               <div>
-                <dt>Now</dt>
-                <dd>{profile.current}</dd>
+                <dt>{t('about.now')}</dt>
+                <dd>{person.current}</dd>
               </div>
             </dl>
 
             <a className="btn btn-ghost mt-8" href={profile.cv} target="_blank" rel="noopener noreferrer">
-              <DownloadSimpleIcon size={18} weight="bold" /> Download CV
+              <DownloadSimpleIcon size={18} weight="bold" /> {t('about.cv')}
             </a>
           </div>
         </div>
 
         <div className="about-stats" role="list">
-          {stats.map((s) => (
+          {localizedStats.map((s) => (
             <div key={s.label} className="about-stat" role="listitem">
-              <p className="about-stat-value">{s.term ? <Term id={s.term}>{s.value}</Term> : s.value}</p>
+              <p className="about-stat-value">{s.term ? <Term id={s.term}>{localDigits(s.value)}</Term> : localDigits(s.value)}</p>
               <p className="about-stat-label">{s.label}</p>
               <p className="about-stat-detail">{s.detail}</p>
             </div>
@@ -142,15 +140,15 @@ export default function About() {
         </div>
 
         <div className="how">
-          <h3 className="how-title">How I work, in four verbs.</h3>
+          <h3 className="how-title">{t('about.howTitle')}</h3>
           <ol className="how-steps">
             {steps.map((s, i) => (
               <li key={s.verb} className="how-step">
                 <span className="how-index" aria-hidden="true">
                   {['क', 'ख', 'ग', 'घ'][i]}
                 </span>
-                <p className="how-verb">{s.verb}</p>
-                <p className="how-text">{s.text}</p>
+                <p className="how-verb">{t(`about.step${i+1}v`)}</p>
+                <p className="how-text">{t(`about.step${i+1}t`)}</p>
               </li>
             ))}
           </ol>

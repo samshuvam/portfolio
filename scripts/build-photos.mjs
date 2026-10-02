@@ -18,9 +18,9 @@ const PORTRAIT = path.join(root, 'myimage/me.jpg');
 const OUT_DIR = path.join(root, 'public/photos');
 const MANIFEST = path.join(root, 'src/data/photos.generated.json');
 const CACHE = path.join(root, 'node_modules/.cache/photos-cache.json');
-const WIDTHS = [480, 960, 1600];
-const TEX_WIDTH = 640;
-const SCRIPT_VERSION = 5;
+const WIDTHS = [480, 960, 1600, 2560];
+const TEX_WIDTH = 1024;
+const SCRIPT_VERSION = 6;
 
 // Photos that become pencil-and-wash plates in the Janakpur sketchbook.
 // `rotate` straightens shots that were taken at an angle.
@@ -96,12 +96,12 @@ async function processOne(file, srcPath, opts = {}) {
   const variants = [];
   for (const width of targets) {
     const outName = `${id}-${width}.webp`;
-    await sharp(srcPath).rotate().resize({ width, withoutEnlargement: true }).webp({ quality: width > 1000 ? 78 : 80 }).toFile(path.join(OUT_DIR, outName));
+    await sharp(srcPath).rotate().resize({ width, withoutEnlargement: true }).webp({ quality: 92 }).toFile(path.join(OUT_DIR, outName));
     variants.push({ src: `photos/${outName}`, w: width });
   }
   const src = (variants.find((v) => v.w >= 960) || variants[variants.length - 1]).src;
   const texName = `${id}-tex.webp`;
-  await sharp(srcPath).rotate().resize({ width: Math.min(TEX_WIDTH, w), withoutEnlargement: true }).webp({ quality: 76 }).toFile(path.join(OUT_DIR, texName));
+  await sharp(srcPath).rotate().resize({ width: Math.min(TEX_WIDTH, w), withoutEnlargement: true }).webp({ quality: 90 }).toFile(path.join(OUT_DIR, texName));
 
   const tiny = await sharp(srcPath).rotate().resize({ width: 20 }).blur(1.2).webp({ quality: 40 }).toBuffer();
   const { dominant } = await sharp(srcPath).stats();

@@ -1,4 +1,26 @@
-// Nepali (ne) and Maithili (mai) overlays for src/data/festivals.js, keyed by item id
-// (or by the key named in that data module). Only translated fields are
-// listed; everything else falls back to English. See src/i18n/index.js.
-export default { ne: {}, mai: {} };
+// Nepali (ne) and Maithili (mai) overlays for src/data/festivals.js, keyed by
+// festival id, plus `birthday` ({n} in peakLabel is the age).
+export default {
+  ne: {
+    dashain: { name: 'दशैं', peakLabel: 'विजया दशमीको टीका', blurb: 'पन्ध्र दिनसम्म परिवार, टीका र जमरा, भोज, र हरेक छतमा चङ्गा।' },
+    tihar: { name: 'तिहार', peakLabel: 'लक्ष्मी पूजा', blurb: 'पाँच दिनको उज्यालो। काग, कुकुर र गाईको पालो, त्यसपछि हरेक खुड्किलामा दियो र भाइटीका।' },
+    chhath: { name: 'छठ', peakLabel: 'साँझको अर्घ्य', blurb: 'घर जनकपुरको सबैभन्दा ठूलो पर्व: पोखरीमा उभिएर अस्ताउँदो र उदाउँदो सूर्यलाई अर्घ्य।' },
+    'vivah-panchami': { name: 'विवाह पञ्चमी', peakLabel: 'राम र सीताको बिहे', blurb: 'हरेक मंसिरमा जनकपुरले राम र सीताको बिहे फेरि मञ्चन गर्छ, र पूरै सहर उर्लिन्छ।' },
+    'maghe-sankranti': { name: 'माघे संक्रान्ति', peakLabel: 'माघ 1', blurb: 'जाडोको भोज: तिलको लड्डु, चाकु, घिउ, सखरखण्ड र तरुल।' },
+    holi: { name: 'होली', peakLabel: 'तराईको होली', blurb: 'रङ। जनकपुरसहित तराईले पहाडभन्दा एक दिनपछि खेल्छ।' },
+    'new-year': { name: 'नेपाली नयाँ वर्ष 2084', peakLabel: 'वैशाख 1', blurb: 'वैशाख 1। संसारको धेरैजसो भाग 2027 मै हुँदा नेपाल 2084 मा पुग्छ।' },
+    'janaki-navami': { name: 'जानकी नवमी', peakLabel: 'सीताको जन्मदिन', blurb: 'सीताको जन्मदिन, उनी जन्मिएकै सहरमा मनाइन्छ।' },
+    birthday: { name: 'शुभमको जन्मदिन', peakLabel: '{n} वर्ष पुग्दै', blurb: 'नेपाली पात्रोमा वैशाख 12, अर्थात् 25 अप्रिल। उडान SS2504 को 2504 यहीँबाट आएको हो।' },
+  },
+  mai: {
+    dashain: { name: 'दशमी', peakLabel: 'विजया दशमीक टीका', blurb: 'पन्द्रह दिन परिवार, टीका आ जयन्ती, भोज, आ सभ छत पर गुड्डी।' },
+    tihar: { name: 'तिहार', peakLabel: 'लक्ष्मी पूजा', blurb: 'पाँच दिनक इजोत। कौआ, कुकुर आ गायक दिन, तकर बाद सभ सीढ़ी पर दीया आ भाइ टीका।' },
+    chhath: { name: 'छठ', peakLabel: 'साँझक अर्घ्य', blurb: 'गाम जनकपुरक सभसँ पैघ पाबनि: पोखरि मे ठाढ़ भ डुबैत आ उगैत सूर्य केँ अर्घ्य।' },
+    'vivah-panchami': { name: 'विवाह पञ्चमी', peakLabel: 'राम आ सीताक बियाह', blurb: 'सभ अगहन मे जनकपुर राम आ सीताक बियाह फेर सँ मंचित करैत अछि, आ पूरा नगर उमड़ि पड़ैत अछि।' },
+    'maghe-sankranti': { name: 'माघी संक्रान्ति', peakLabel: 'माघ 1', blurb: 'जाड़क भोज: तिलक लड्डू, चाकु, घी, सकरकंद आ खम्हरुआ।' },
+    holi: { name: 'होली', peakLabel: 'तराईक होली', blurb: 'रंग। जनकपुर सहित तराई पहाड़ सँ एक दिन बाद होली खेलैत अछि।' },
+    'new-year': { name: 'नेपाली नव वर्ष 2084', peakLabel: 'बैसाख 1', blurb: 'बैसाख 1। जखन दुनियाँक बेसी भाग 2027 मे रहैत अछि, नेपाल 2084 मे पहुँचि जाइत अछि।' },
+    'janaki-navami': { name: 'जानकी नवमी', peakLabel: 'सीताक जन्मदिन', blurb: 'सीताक जन्मदिन, ओहि नगर मे मनाओल जाइत जतय ओ जनमलीह।' },
+    birthday: { name: 'शुभमक जन्मदिन', peakLabel: '{n} बरखक होएताह', blurb: 'नेपाली पतरा मे बैसाख 12, माने 25 अप्रिल। उड़ान SS2504 क 2504 एतहि सँ आएल अछि।' },
+  },
+};

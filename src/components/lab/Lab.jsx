@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import Yap from '../ui/Yap';
 import { gsap, reducedMotion } from '../../lib/motion';
@@ -17,6 +18,7 @@ const TABS = [
 ];
 
 export default function Lab() {
+  const c=useCopy();
   const [tab, setTab] = useState('memory');
   const root = useRef(null);
   const panel = useRef(null);
@@ -60,11 +62,10 @@ export default function Lab() {
     <section id="lab" ref={root} className="section lab" aria-labelledby="lab-title">
       <div className="wrap">
         <header className="sec-head">
-          <h2 id="lab-title" className="t-display">
-            Play with <span className="light">the research.</span>
+          <h2 id="lab-title" className="t-display"> <L text={"Play with"} /> <span className="light"> <L text={"the research."} /> </span>
           </h2>
-          <p className="t-lede">Four small simulations of the ideas behind the papers and projects. Honest illustrations, not the production code, but the mechanics are real.</p>
-          <Yap>The airspace sim is set over the Kathmandu valley on purpose: a dense bowl ringed by hills, with roads already at capacity, is exactly the kind of place urban air mobility research is for.</Yap>
+          <p className="t-lede"> <L text={"Four small simulations of the ideas behind the papers and projects. Honest illustrations, not the production code, but the mechanics are real."} /> </p>
+          <Yap> <L text={"The airspace sim is set over the Kathmandu valley on purpose: a dense bowl ringed by hills, with roads already at capacity, is exactly the kind of place urban air mobility research is for."} /> </Yap>
         </header>
 
         <div className="lab-grid">
@@ -82,8 +83,8 @@ export default function Lab() {
                 onClick={() => choose(t.id)}
               >
                 <span className="lab-tab-n">{t.n}</span>
-                <span className="lab-tab-title">{t.title}</span>
-                <span className="lab-tab-text">{t.text}</span>
+                <span className="lab-tab-title"><L text={t.title}/></span>
+                <span className="lab-tab-text"><L text={t.text}/></span>
               </button>
             ))}
           </div>

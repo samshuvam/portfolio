@@ -1,3 +1,6 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/life';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDownRightIcon, CameraIcon, PersonSimpleRunIcon } from '@phosphor-icons/react';
 import Thali from './Thali';
@@ -5,13 +8,15 @@ import DepartureBoard from './DepartureBoard';
 import ExplodedPhone from './ExplodedPhone';
 import { Term } from '../ui/Term';
 import { gadgets } from '../../data/life';
-import { photos, photoById, cameraCounts } from '../../lib/photos';
+import { photos } from '../../lib/photos';
+import { contextImage } from '../../lib/imagery';
 import { setState, useStore } from '../../lib/store';
 import { findEgg } from '../../lib/eggs';
 import { gsap, reducedMotion, scrollToTarget } from '../../lib/motion';
 import './life.css';
 
 function YapMeter() {
+  const c=useCopy();
   const yap = useStore((s) => s.yap);
   const [counts, setCounts] = useState({ base: 0, extra: 0 });
   useEffect(() => {
@@ -25,10 +30,9 @@ function YapMeter() {
   const pct = counts.base ? Math.round((counts.extra / counts.base) * 100) : 0;
   return (
     <div className="life-cell life-yap">
-      <p className="life-kicker">Professional yapper</p>
-      <p className="life-big">{yap ? 'Yap mode is on.' : 'Give me any topic and twenty minutes.'}</p>
-      <p className="life-text">
-        Kanya is ruled by <Term id="budh">Budh</Term>, the planet of speech. Explains a lot. Yap mode adds {counts.extra.toLocaleString()} words of commentary to this page, {pct}% more Shuvam.
+      <p className="life-kicker"> <L text={"Professional yapper"} /> </p>
+      <p className="life-big">{yap ? c("Yap mode is on.") : c("Give me any topic and twenty minutes.")}</p>
+      <p className="life-text"> <L text={"Kanya is ruled by"} /> <Term id="budh"> <L text={"Budh"} /> </Term>{c(', the planet of speech. Explains a lot. Yap mode adds {words} words of commentary to this page, {percent}% more Shuvam.', {words: localDigits(counts.extra.toLocaleString()), percent: localDigits(pct)})}
       </p>
       <button
         type="button"
@@ -38,18 +42,18 @@ function YapMeter() {
           if (!yap) findEgg('yap');
         }}
       >
-        {yap ? 'Back to TL;DR' : 'Let me yap'}
+        {yap ? c("Back to TL;DR") : c("Let me yap")}
       </button>
     </div>
   );
 }
 
 export default function Life() {
+  const c=useCopy();
   const root = useRef(null);
-  const spotted = photoById('1000024316');
-  const stack = ['1000000448', 'img-1766-1', '1000000706'].map(photoById).filter(Boolean);
-  const cams = Object.entries(cameraCounts);
-  const withoutExif = photos.length - cams.reduce((n, [, c]) => n + c, 0);
+  const loc=useLocalize(overlay);
+  const spotted = contextImage('window');
+  const stack = ['janaki','panchthar','lumbini'].map(contextImage);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -63,28 +67,27 @@ export default function Life() {
     <section id="life" ref={root} className="section life" aria-labelledby="life-title">
       <div className="wrap">
         <header className="sec-head">
-          <h2 id="life-title" className="t-display">
-            Off <span className="light">the clock.</span>
+          <h2 id="life-title" className="t-display"> <L text={"Off"} /> <span className="light"> <L text={"the clock."} /> </span>
           </h2>
-          <p className="t-lede">Food, gadgets, aircraft, and talking about all three. Always moving, rarely quiet.</p>
+          <p className="t-lede"> <L text={"Food, gadgets, aircraft, and talking about all three. Always moving, rarely quiet."} /> </p>
         </header>
 
         <div className="life-bento">
           <div className="life-cell life-food">
-            <p className="life-kicker">Big-time foodie, happy cook</p>
+            <p className="life-kicker"> <L text={"Big-time foodie, happy cook"} /> </p>
             <Thali />
           </div>
 
           <div className="life-cell life-air">
             <div className="life-air-top">
               <div>
-                <p className="life-kicker">Aviation, always</p>
-                <p className="life-big">Plane spotter. Will look up mid-sentence.</p>
+                <p className="life-kicker"> <L text={"Aviation, always"} /> </p>
+                <p className="life-big"> <L text={"Plane spotter. Will look up mid-sentence."} /> </p>
               </div>
               {spotted && (
                 <figure className="life-spotted">
-                  <img src={spotted.srcset[0].src} alt="EHang EH216-S eVTOL on display" loading="lazy" />
-                  <figcaption>Spotted: EHang EH216-S</figcaption>
+                  <img src={spotted.src} alt="An illustrated window-seat view over the Himalaya" loading="lazy" />
+                  <figcaption>{c('Always the window seat.')}</figcaption>
                 </figure>
               )}
             </div>
@@ -94,27 +97,16 @@ export default function Life() {
           <div className="life-cell life-gadgets">
             <ExplodedPhone />
             <div>
-              <p className="life-kicker">Hardware, IoT, smartphones</p>
-              <p className="life-big">Anything with a circuit board.</p>
+              <p className="life-kicker"> <L text={"Hardware, IoT, smartphones"} /> </p>
+              <p className="life-big"> <L text={"Anything with a circuit board."} /> </p>
               <ul className="life-list">
-                {gadgets.map((g) => (
+                {loc(gadgets,'gadgets').map((g) => (
                   <li key={g.name}>
                     <b>{g.name}.</b> {g.text}
                   </li>
                 ))}
               </ul>
-              {cams.length > 0 && (
-                <p className="life-text">
-                  The photos on this site carry their own receipts:{' '}
-                  {cams.map(([c, n], i) => (
-                    <span key={c}>
-                      {i > 0 && (i === cams.length - 1 ? ' and ' : ', ')}
-                      {c} ({n})
-                    </span>
-                  ))}
-                  , read straight from the EXIF. The other {withoutExif} were exported without it.
-                </p>
-              )}
+              <p className="life-text">{c('Favourite colour: green. Even my side quests eventually find their way back to it.')}</p>
             </div>
           </div>
 
@@ -123,24 +115,22 @@ export default function Life() {
           <div className="life-cell life-photo">
             <div className="life-stack" aria-hidden="true">
               {stack.map((p, i) => (
-                <img key={p.id} src={p.srcset[0].src} alt="" loading="lazy" style={{ '--r': `${(i - 1) * 7}deg`, background: p.color }} />
+                <img key={p.id} src={p.src} alt="" loading="lazy" style={{ '--r': `${(i - 1) * 7}deg` }} />
               ))}
             </div>
             <div>
               <p className="life-kicker">
-                <CameraIcon size={14} weight="bold" /> Photography club, SRM
-              </p>
-              <p className="life-big">{photos.length} frames, one prayer wheel.</p>
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => scrollToTarget('#frames')}>
-                Spin the frames <ArrowDownRightIcon size={15} weight="bold" />
+                <CameraIcon size={14} weight="bold" /> <L text={"Photography club, SRM"} /> </p>
+              <p className="life-big">{c('{count} frames, one prayer wheel.', {count: localDigits(photos.length)})}</p>
+              <button type="button" className="btn btn-ghost btn-sm" onClick={() => scrollToTarget('#frames')}> <L text={"Spin the frames"} /> <ArrowDownRightIcon size={15} weight="bold" />
               </button>
             </div>
           </div>
 
           <div className="life-cell life-sport">
             <PersonSimpleRunIcon size={34} weight="duotone" />
-            <p className="life-kicker">Always active</p>
-            <p className="life-big">Sports, and anything that isn’t sitting still.</p>
+            <p className="life-kicker"> <L text={"Always active"} /> </p>
+            <p className="life-big"> <L text={"Sports, and anything that isn’t sitting still."} /> </p>
           </div>
         </div>
       </div>

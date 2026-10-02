@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { useMemo, useState } from 'react';
 import { ArrowCounterClockwiseIcon, PlusIcon } from '@phosphor-icons/react';
 import { Term } from '../ui/Term';
@@ -39,6 +40,7 @@ function simulate({ sleep, recalls }) {
 }
 
 export default function MemoryLab() {
+  const c=useCopy();
   const [time, setTime] = useState(48);
   const [sleep, setSleep] = useState(true);
   const [recalls, setRecalls] = useState([30]);
@@ -59,15 +61,12 @@ export default function MemoryLab() {
     <div className="lab-demo">
       <div className="lab-controls">
         <label className="lab-slider">
-          <span>
-            Time since learning <b>{time < 48 ? `${time} h` : `${(time / 24).toFixed(1)} days`}</b>
+          <span> <L text={"Time since learning"} /> <b>{time < 48 ? `${time} h` : `${(time / 24).toFixed(1)} days`}</b>
           </span>
           <input type="range" min="0" max={HOURS} value={time} onChange={(e) => setTime(+e.target.value)} />
         </label>
         <div className="lab-buttons">
-          <button type="button" className={`chip lab-toggle ${sleep ? 'is-on' : ''}`} aria-pressed={sleep} onClick={() => setSleep(!sleep)}>
-            Sleep consolidation
-          </button>
+          <button type="button" className={`chip lab-toggle ${sleep ? 'is-on' : ''}`} aria-pressed={sleep} onClick={() => setSleep(!sleep)}> <L text={"Sleep consolidation"} /> </button>
           <button
             type="button"
             className="chip lab-toggle"
@@ -79,8 +78,7 @@ export default function MemoryLab() {
             <PlusIcon size={13} weight="bold" /> Recall at {time} h
           </button>
           <button type="button" className="chip lab-toggle" onClick={() => setRecalls([])}>
-            <ArrowCounterClockwiseIcon size={13} weight="bold" /> Clear recalls
-          </button>
+            <ArrowCounterClockwiseIcon size={13} weight="bold" /> <L text={"Clear recalls"} /> </button>
         </div>
       </div>
 
@@ -112,7 +110,7 @@ export default function MemoryLab() {
       <div className="lab-readout">
         <div>
           <p className="lab-big">{Math.round(now * 100)}%</p>
-          <p className="t-small text-ink-3">retained right now</p>
+          <p className="t-small text-ink-3"> <L text={"retained right now"} /> </p>
         </div>
         <div className="lab-dots" aria-hidden="true">
           {Array.from({ length: 128 }, (_, i) => (
@@ -123,12 +121,10 @@ export default function MemoryLab() {
           <p className="lab-mid">
             {kept} kept, {pruned} pruned
           </p>
-          <p className="t-small text-ink-3">of 1,024 memory vectors</p>
+          <p className="t-small text-ink-3"> <L text={"of 1,024 memory vectors"} /> </p>
         </div>
       </div>
-      <p className="lab-note">
-        Dashed: a plain <Term id="ebbinghaus">forgetting curve</Term>. Solid: the same memory with recall and nightly consolidation, which is roughly how the bio-memory model decides what an assistant keeps. An illustration, not the paper’s code.
-      </p>
+      <p className="lab-note"> <L text={"Dashed: a plain"} /> <Term id="ebbinghaus"> <L text={"forgetting curve"} /> </Term> <L text={". Solid: the same memory with recall and nightly consolidation, which is roughly how the bio-memory model decides what an assistant keeps. An illustration, not the paper’s code."} /> </p>
     </div>
   );
 }

@@ -1,0 +1,50 @@
+[
+  {
+    "key": "himalaya",
+    "prompt": "Use case: photorealistic-natural. Asset type: wide cinematic panorama for a Nepal personal portfolio, 3:1 panoramic composition. Primary request: extraordinarily beautiful realistic central Nepal Himalaya inspired by the Ganesh Himal, Langtang and Jugal/Dorje Lakpa skyline, viewed north from Kathmandu Valley hills. Highly detailed layered snow ridges and jagged Himalayan rock faces across the middle distance, soft pale blue morning sky top third, forested green foothills and mist in the bottom third. Natural mountain photography, subtle atmospheric perspective, crisp snowy texture, elegant restrained color. Not a map or exact scientific peak survey. No text, no watermark, no people, no airplanes, no cartoon or vector shapes. Create one complete panoramic image, not a collage.",
+    "mode": "generate",
+    "savedPath": "public/imagery/himalaya.webp"
+  },
+  {
+    "key": "janaki",
+    "prompt": "Use case: photorealistic-natural. Asset type: wide contextual architectural image for a Janakpur portfolio. Primary request: a close-to-real-life front elevation of Janaki Mandir in Janakpur, Nepal: its distinctive ornate white three-storey palace-like facade, symmetrical rows of scalloped arches, delicate mint and warm pale pink ornament, two prominent side domed towers, small chhatri cupolas and central entrance with courtyard in front. Carefully detailed Rajput/Mughal-influenced architecture, white marble and plaster, finely carved jali windows, not a generic Hindu temple, no mountain setting. Quiet warm morning in the flat Terai, a few distant visitors for scale, low foreground flowers. Professional architectural travel photograph, high fidelity, wide 16:9 composition. No text, no watermark, no invented enormous central spire.",
+    "mode": "generate",
+    "savedPath": "public/imagery/janaki.webp"
+  },
+  {
+    "key": "panchthar",
+    "prompt": "Use case: photorealistic-natural. Asset type: contextual journey image for childhood in Panchthar, eastern Nepal near Ilam, Koshi Province. Primary request: a peaceful eastern Nepal hillside village landscape, emerald terraced hills, tea-like rolling green fields, small traditional tin-roof homes tucked into the ridges, a narrow walking path and layered forested hills into morning mist. A subtle cluster of crimson rhododendrons near one foreground edge. Candid professional landscape photography with realistic natural textures, calm green palette, wide 16:9. Evokes growing up among hills without depicting a specific person's house. No text, watermark, people, fantasy mountains or cartoon.",
+    "mode": "generate",
+    "savedPath": "public/imagery/panchthar.webp"
+  },
+  {
+    "key": "research",
+    "prompt": "Use case: photorealistic-natural. Asset type: contextual student-to-engineer journey image, wide 16:9. Primary request: an inviting university engineering study desk beside an open window, laptop with softly out-of-focus code, notebook with small unlabeled aircraft geometry sketches, a camera and a green ceramic cup, tree-lined campus visible outside. Daylight, real lived-in details, professional editorial photograph, muted forest green and cream, no people. It is an illustrative study scene, not a particular campus or person's actual desk. No text, no logos, no fake legible code, no watermark, no cartoon.",
+    "mode": "generate",
+    "savedPath": "public/imagery/research.webp"
+  },
+  {
+    "key": "window",
+    "prompt": "Use case: photorealistic-natural. Asset type: full-image airline window interlude for a personal aviation portfolio. Primary request: an authentic view from a commercial jet passenger window above Nepal, finely detailed metallic wing at the bottom right, cloud sea below, distant long ridgeline of snow-capped Himalaya in clear atmospheric perspective and delicate blue sky. Airplane wing with subtle forest-green wingtip, crisp riveted metal and realistic shape. Compose as the view outside only, no interior window frame; the website adds its own frame. Elegant airline editorial travel photography, wide 16:9, high quality. No text, no logos, no watermark, no fantasy mountains, no cartoon.",
+    "mode": "generate",
+    "savedPath": "public/imagery/window.webp"
+  },
+  {
+    "key": "rhododendron",
+    "prompt": "Use case: photorealistic-natural. Asset type: subtle national-flower imagery for a Nepal portfolio, wide 16:9. Primary request: a realistic cluster of crimson Rhododendron arboreum blossoms, Nepal's lali gurans, against deep forest-green glossy leaves, dew and soft blurred Himalayan forest. Botanical macro photography with natural texture, gentle sidelight, restrained red flower accent and rich green background, elegant peaceful composition with negative space. No text, no watermark, no frame, no exaggerated petals or vector art.",
+    "mode": "generate",
+    "savedPath": "public/imagery/rhododendron.webp"
+  },
+  {
+    "key": "lumbini",
+    "prompt": "Use case: photorealistic-natural. Asset type: contextual Nepal heritage image, wide 16:9. Primary request: serene Lumbini in Nepal, an ancient sacred garden with a calm reflecting pool, the understated white Maya Devi temple in the mid-distance, aged brick foundations and a great leafy tree at one side. Calm early morning, soft warm daylight, understated Buddhist heritage atmosphere, real architectural proportions, travel editorial photography, delicate forest green and earth tones. No fantastical giant Buddha statues, no mountain setting, no text, no watermark, no cartoon.",
+    "mode": "generate",
+    "savedPath": "public/imagery/lumbini.webp"
+  },
+  {
+    "key": "vivah",
+    "prompt": "Use case: illustration-story. Asset type: tasteful subtle cultural illustration for Janakpur Vivah Panchami, wide 16:9. Primary request: dignified traditional Mithila painting of the marriage of Sita and Rama, the couple beneath a small ceremonial canopy, red and green floral garlands, lotus and fish motifs, ornamental borders, intricate kachni fine ink linework on warm handmade lokta paper. Respectful devotional storytelling inspired by authentic Madhubani visual traditions, balanced composition, forest green and restrained vermilion accents, exquisite hand-painted detail. No text, no watermark, no modern clothing, no glossy cartoon or 3D toy style.",
+    "mode": "generate",
+    "savedPath": "public/imagery/vivah.webp"
+  }
+]

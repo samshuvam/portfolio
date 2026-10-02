@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { useState } from 'react';
 
 // A phone, exploded into its layers on hover or tap. An engineering diagram,
@@ -12,6 +13,7 @@ const LAYERS = [
 ];
 
 export default function ExplodedPhone() {
+  const c=useCopy();
   const [open, setOpen] = useState(false);
   return (
     <button type="button" className={`phone ${open ? 'is-open' : ''}`} onClick={() => setOpen(!open)} aria-pressed={open} aria-label={open ? 'Put the phone back together' : 'Explode the phone into its layers'}>

@@ -1,3 +1,4 @@
+import { createElement, Fragment } from 'react';
 import { getState, setState, useStore } from '../lib/store';
 
 // Three languages: English, Nepali and Maithili (both in Devanagari).
@@ -35,6 +36,13 @@ export function translate(dict, lang, key, vars) {
 export function useT(dict) {
   const lang = useLang();
   return (key, vars) => translate(dict, lang, key, vars);
+}
+
+// Keeps glossary buttons and inline art in their translated sentence order.
+export function rich(text, nodes) {
+  return String(text).split(/(\{\w+\})/g).map((part, i) =>
+    createElement(Fragment, { key: i }, /^\{\w+\}$/.test(part) ? nodes[part.slice(1, -1)] ?? part : part)
+  );
 }
 
 function deepMerge(base, over) {

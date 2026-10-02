@@ -4,6 +4,8 @@
   gap: clamp(1.25rem, 3vw, 2.5rem);
   align-items: start;
 }
+.contact-main { min-width: 0; display: grid; gap: 2rem; }
+.contact-side { min-width: 0; }
 
 /* Boarding pass */
 .pass {
@@ -286,3 +288,4 @@
     grid-template-columns: 1fr;
   }
 }
+.pass-qr{display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--accent-fg);font-size:.65rem;text-decoration:none}.pass-qr img{max-width:100%;height:auto;border-radius:.4rem}.pass-qr:focus-visible{outline:2px solid var(--accent);outline-offset:4px}

@@ -1,4 +1,20 @@
-// Nepali (ne) and Maithili (mai) overlays for src/data/seasons.js, keyed by item id
-// (or by the key named in that data module). Only translated fields are
-// listed; everything else falls back to English. See src/i18n/index.js.
-export default { ne: {}, mai: {} };
+// Nepali (ne) and Maithili (mai) overlays for src/data/seasons.js, keyed by season id.
+// `name` and `np` stay as they are.
+export default {
+  ne: {
+    basanta: { english: 'वसन्त ऋतु', monthNames: 'चैत र वैशाख', pigment: 'लाली गुराँसको रातो', line: 'नेपालको राष्ट्रिय फूल लाली गुराँसले डाँडाकाँडा नै आगो लागेझैं रातो पार्छ।' },
+    grishma: { english: 'गर्मी', monthNames: 'जेठ र असार', pigment: 'आँपको पहेंलो', line: 'मिथिलामा आँपको मौसम, त्यसपछि असार 15 तिर रोपाइँको हतारो।' },
+    barsha: { english: 'बर्खा', monthNames: 'साउन र भदौ', pigment: 'धानको हरियो', line: 'जस्ताको छानामा पानीको आवाज, भरिएका खोला, हरिया भइसकेका धानखेत।' },
+    sharad: { english: 'शरद ऋतु', monthNames: 'असोज र कात्तिक', pigment: 'सयपत्रीको सुन्तला रङ', line: 'सफा आकाश, हिमाल फेरि देखिन थाल्छ, जताततै चङ्गा, दशैं र तिहार।' },
+    hemanta: { english: 'हिउँद लाग्नुअघि', monthNames: 'मंसिर र पुस', pigment: 'बालीको सुनौलो', line: 'सुनौलो धान र दाइँ। जनकपुरमा विवाह पञ्चमीमा राम र सीताको बिहे फेरि मञ्चन हुन्छ।' },
+    shishir: { english: 'जाडो', monthNames: 'माघ र फागुन', pigment: 'कुहिरोको नीलो', line: 'दिउँसोसम्म नहट्ने तराईको कुहिरो, नाङ्गा हाँगा, र माघे संक्रान्तिका लागि तिलको लड्डु।' },
+  },
+  mai: {
+    basanta: { english: 'वसन्त ऋतु', monthNames: 'चैत आ बैसाख', pigment: 'लाली गुराँसक लाल', line: 'नेपालक राष्ट्रीय फूल लाली गुराँस पहाड़ सभ केँ जेना आगि लगा दैत अछि।' },
+    grishma: { english: 'गरमी', monthNames: 'जेठ आ अखाढ़', pigment: 'आमक पीयर', line: 'मिथिला मे आमक मौसम, तकर बाद अखाढ़ 15 लग रोपनीक हड़बड़ी।' },
+    barsha: { english: 'बरखा', monthNames: 'साओन आ भादब', pigment: 'धानक हरियर', line: 'टीनक छत पर बरखाक आवाज, भरल नदी, हरियर भेल धानक खेत।' },
+    sharad: { english: 'शरद ऋतु', monthNames: 'आसिन आ कातिक', pigment: 'गेंदाक नारंगी', line: 'साफ अकास, हिमालय फेर सँ देखाइत, सभतरि गुड्डी, दशमी आ तिहार।' },
+    hemanta: { english: 'जाड़ सँ पहिने', monthNames: 'अगहन आ पूस', pigment: 'फसिलक सोनहुला', line: 'सोनहुला धान आ दउनी। जनकपुर मे विवाह पञ्चमी पर राम आ सीताक बियाह फेर सँ मंचित होइत अछि।' },
+    shishir: { english: 'जाड़', monthNames: 'माघ आ फागुन', pigment: 'कुहेसक नील', line: 'दुपहरिया धरि नहि हटय बला तराईक कुहेस, नांगट डारि, आ माघी संक्रान्तिक लेल तिलक लड्डू।' },
+  },
+};

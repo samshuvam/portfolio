@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+const AircraftHangar=lazy(()=>import('./AircraftHangar'));
 import { ArrowDownRightIcon, CommandIcon, MapPinIcon } from '@phosphor-icons/react';
 import SkyCanvas from './SkyCanvas';
 import { Term } from '../ui/Term';
@@ -8,9 +9,14 @@ import { useWeather } from '../../lib/weather';
 import { setState, useStore } from '../../lib/store';
 import { gsap, SplitText, reducedMotion, scrollToTarget } from '../../lib/motion';
 import { useSeason } from '../ThemeSync';
+import { useT, useLocalize, localDigits, rich } from '../../i18n';
+import dict from '../../i18n/ui/core';
+import seasonOverlay from '../../i18n/content/seasons';
+import festivalOverlay from '../../i18n/content/festivals';
 import './hero.css';
 
 export default function Hero() {
+  const t = useT(dict), ls = useLocalize(seasonOverlay), lf = useLocalize(festivalOverlay);
   const root = useRef(null);
   const [tone, setTone] = useState('dark');
   const onTone = useCallback((t) => setTone(t), []);
@@ -18,8 +24,8 @@ export default function Hero() {
   const world = useWorld();
   const now = useNow();
   const weather = useWeather();
-  const season = useSeason();
-  const festival = world.festivals.active;
+  const season = ls(useSeason());
+  const festival = lf(world.festivals.active);
 
   useEffect(() => {
     if (!loaded) return undefined;
@@ -37,7 +43,7 @@ export default function Hero() {
   }, [loaded]);
 
   return (
-    <section id="top" ref={root} className="hero" data-sky={tone} aria-label="Introduction">
+    <section id="top" ref={root} className="hero" data-sky={tone} aria-label={t('hero.label')}>
       <SkyCanvas onTone={onTone} />
       <div className="hero-fade" aria-hidden="true" />
 
@@ -54,10 +60,10 @@ export default function Hero() {
           <span>hello</span>
           {festival && (
             <span className="hero-festival">
-              <span className="font-deva">{festival.np}</span> {festival.name} is on
+              <span className="font-deva">{festival.np}</span> {t('hero.festivalOn', {name:festival.name})}
             </span>
           )}
-          {world.festivals.isBirthday && <span className="hero-festival">It is Shuvam’s birthday today</span>}
+          {world.festivals.isBirthday && <span className="hero-festival">{t('hero.birthday')}</span>}
         </p>
 
         <h1 className="hero-name" aria-label={profile.name}>
@@ -65,7 +71,7 @@ export default function Hero() {
             <span className="hero-line-text">Shuvam</span>
           </span>
           <span className="hero-line hero-line-2" aria-hidden="true">
-            <span className="hero-tirhuta hero-reveal" title="Shuvam, written in Tirhuta">
+            <span className="hero-tirhuta hero-reveal" title={t('hero.tirhutaTitle')}>
               <Term id="tirhuta">{profile.tirhuta}</Term>
             </span>
             <span className="hero-line-text">Singh.</span>
@@ -74,8 +80,7 @@ export default function Hero() {
 
         <div className="hero-copy">
           <p className="hero-sub hero-reveal">
-            AI, aviation and everything in between. I build AI that <Term id="continual-learning">remembers</Term> and airspace that{' '}
-            <Term id="4d-trajectory">thinks</Term>.
+            {rich(t('hero.sub'), {remembers:<Term id="continual-learning">{t('hero.remembers')}</Term>, thinks:<Term id="4d-trajectory">{t('hero.thinks')}</Term>})}
           </p>
           <div className="hero-ctas hero-reveal">
             <a
@@ -86,25 +91,26 @@ export default function Hero() {
                 scrollToTarget('#work');
               }}
             >
-              See the work <ArrowDownRightIcon size={18} weight="bold" />
+              {t('hero.seeWork')} <ArrowDownRightIcon size={18} weight="bold" />
             </a>
             <button type="button" className="btn btn-ghost hero-ghost" onClick={() => setState({ palette: true })}>
-              <CommandIcon size={17} /> Ask anything
+              <CommandIcon size={17} /> {t('hero.ask')}
             </button>
+            <Suspense fallback={null}><AircraftHangar/></Suspense>
           </div>
         </div>
 
-        <div className="hero-live hero-reveal" aria-label="Live from Lalitpur">
+        <div className="hero-live hero-reveal" aria-label={t('hero.live')}>
           <span>
-            <MapPinIcon size={15} weight="fill" /> Lalitpur, Nepal
+            <MapPinIcon size={15} weight="fill" /> {t('hero.place')}
           </span>
           <span>
-            <Term id="npt">{formatNptClock(now)} NPT</Term>
+            <Term id="npt">{localDigits(formatNptClock(now))} NPT</Term>
           </span>
-          <span>{weather ? `${weather.temp}°C, ${weather.label.toLowerCase()}` : 'Checking the sky'}</span>
+          <span>{weather ? t('hero.weather', {temp:localDigits(weather.temp),label:t(`wx.${weather.kind}`)}) : t('hero.checking')}</span>
           <span>
             <Term id="ritu">
-              {season.name} ritu, {season.english.toLowerCase()}
+              {t('hero.ritu', {name:season.name,english:season.english.toLowerCase(),np:season.np})}
             </Term>
           </span>
           <span className="font-deva hero-bs">

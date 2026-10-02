@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { useEffect, useRef, useState } from 'react';
 import { findEgg } from '../../lib/eggs';
 import { sound } from '../../lib/sound';
@@ -21,6 +22,7 @@ const write = (k, v) => {
 };
 
 export default function FlyLab() {
+  const c=useCopy();
   const canvasRef = useRef(null);
   const [ui, setUi] = useState({ state: 'ready', score: 0, best: read('ss-fly-best') });
 
@@ -267,7 +269,7 @@ export default function FlyLab() {
           Safe arrivals {ui.score}
           <span className="text-ink-3"> · best {ui.best}</span>
         </p>
-        <p className="t-small text-ink-3">Click the city, then hold Space, Up or your finger to climb. Fly through the rings.</p>
+        <p className="t-small text-ink-3"> <L text={"Click the city, then hold Space, Up or your finger to climb. Fly through the rings."} /> </p>
       </div>
       <div className="fly-wrap">
         <canvas ref={canvasRef} className="lab-canvas fly-canvas" tabIndex={0} aria-label="eVTOL mini game. Focus and hold Space or Up to climb." data-lenis-prevent />

@@ -5,9 +5,13 @@ import { EGGS } from '../../lib/eggs';
 import { setState, useStore } from '../../lib/store';
 import { useNow, useWorld, formatNptClock24 } from '../../lib/world';
 import { scrollToTarget } from '../../lib/motion';
+import { useT, useLocalize, localDigits } from '../../i18n';
+import dict from '../../i18n/ui/core';
+import overlay from '../../i18n/content/waypoints';
 import './footer.css';
 
 export default function Footer() {
+  const t = useT(dict), loc = useLocalize(overlay);
   const now = useNow();
   const world = useWorld();
   const eggs = useStore((s) => s.eggs);
@@ -16,18 +20,18 @@ export default function Footer() {
     <footer className="footer" aria-label="Footer">
       <div className="wrap">
         <p className="footer-big">
-          Thanks for flying <span className="light">with Shuvam.</span>
+          {t('footer.big')} <span className="light">{t('footer.bigLight')}</span>
         </p>
         <div className="footer-grid">
           <div>
-            <p className="footer-k">Local time at arrival</p>
-            <p className="footer-clock">{formatNptClock24(now)}</p>
+            <p className="footer-k">{t('footer.arrival')}</p>
+            <p className="footer-clock">{localDigits(formatNptClock24(now))}</p>
             <p className="footer-sub">
-              Lalitpur, Nepal. <span className="font-deva">{world.bs.np}</span>
+              {t('footer.place')} <span className="font-deva">{world.bs.np}</span>
             </p>
           </div>
           <nav aria-label="Footer">
-            <p className="footer-k">Waypoints</p>
+            <p className="footer-k">{t('footer.waypoints')}</p>
             <ul className="footer-links">
               {waypoints.slice(1).map((w) => (
                 <li key={w.id}>
@@ -38,14 +42,14 @@ export default function Footer() {
                       scrollToTarget(`#${w.id}`);
                     }}
                   >
-                    {w.label}
+                    {loc(w).label}
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
           <div>
-            <p className="footer-k">Elsewhere</p>
+            <p className="footer-k">{t('footer.elsewhere')}</p>
             <ul className="footer-links">
               <li>
                 <a href={`mailto:${profile.email}`}>{profile.email}</a>
@@ -59,25 +63,25 @@ export default function Footer() {
               ))}
               <li>
                 <a href={profile.cv} target="_blank" rel="noopener noreferrer">
-                  Download CV
+                  {t('footer.cv')}
                 </a>
               </li>
             </ul>
           </div>
           <div className="footer-actions">
             <button type="button" className="btn btn-ghost" onClick={() => setState({ passport: true })}>
-              <StampIcon size={18} weight="duotone" /> Passport, {eggs.length} of {EGGS.length}
+              <StampIcon size={18} weight="duotone" /> {t('footer.passport', { n: localDigits(eggs.length), total: localDigits(EGGS.length) })}
             </button>
             <button type="button" className="btn btn-ghost" onClick={() => scrollToTarget('#top', { duration: 2.2 })}>
-              <AirplaneTakeoffIcon size={18} weight="bold" /> Take off again
+              <AirplaneTakeoffIcon size={18} weight="bold" /> {t('footer.takeoff')}
             </button>
           </div>
         </div>
         <div className="footer-base">
           <p>
-            © {now.getFullYear()} {profile.name}. Designed and built from scratch in Lalitpur.
+            {t('footer.copy', {year:localDigits(now.getFullYear())})}
           </p>
-          <p>Theme, sky and season follow the real sun and calendar in Nepal.</p>
+          <p>{t('footer.follows')}</p>
         </div>
       </div>
     </footer>

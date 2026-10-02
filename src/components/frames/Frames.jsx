@@ -1,3 +1,6 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/misc';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CaretLeftIcon, CaretRightIcon, GridFourIcon, CircleNotchIcon } from '@phosphor-icons/react';
 import Dialog from '../ui/Dialog';
@@ -11,9 +14,13 @@ import '@fontsource/noto-serif-tibetan/400.css';
 import './frames.css';
 
 function Lightbox() {
+  const c=useCopy();
   const index = useStore((s) => s.lightbox);
+  const loc=useLocalize(overlay);
+  const captions=loc({},'photoCaptions');
   const close = useCallback(() => setState({ lightbox: null }), []);
-  const p = index !== null ? photos[index] : null;
+  const original = index !== null ? photos[index] : null;
+  const p = original ? {...original,caption:captions[original.id] || original.caption} : null;
   const go = (d) => setState({ lightbox: (index + d + photos.length) % photos.length });
 
   useEffect(() => {
@@ -34,17 +41,14 @@ function Lightbox() {
           <img src={p.srcset[p.srcset.length - 1].src} srcSet={p.srcsetAttr} sizes="(min-width: 1024px) 70vw, 100vw" alt={p.caption || 'A photograph by Shuvam Singh'} style={{ background: p.color, aspectRatio: p.ratio }} />
           <figcaption>
             <span className="lb-cap">{p.caption || 'Untitled frame'}</span>
-            <span className="lb-meta t-mono">
-              {[p.camera ? `Shot on ${p.camera}` : null, p.taken].filter(Boolean).join(', ') || `Frame ${index + 1} of ${photos.length}`}
-            </span>
             <span className="lb-nav">
-              <button type="button" className="icon-btn" onClick={() => go(-1)} aria-label="Previous photo">
+              <button type="button" className="icon-btn" onClick={() => go(-1)} aria-label={c("Previous photo")}>
                 <CaretLeftIcon size={18} weight="bold" />
               </button>
               <span className="t-mono">
                 {index + 1} / {photos.length}
               </span>
-              <button type="button" className="icon-btn" onClick={() => go(1)} aria-label="Next photo">
+              <button type="button" className="icon-btn" onClick={() => go(1)} aria-label={c("Next photo")}>
                 <CaretRightIcon size={18} weight="bold" />
               </button>
             </span>
@@ -56,7 +60,10 @@ function Lightbox() {
 }
 
 export default function Frames() {
+  const c=useCopy();
   const canvas = useRef(null);
+  const loc=useLocalize(overlay);
+  const captions=loc({},'photoCaptions');
   const stage = useRef(null);
   const wheelRef = useRef(null);
   const [grid, setGrid] = useState(() => reducedMotion());
@@ -137,6 +144,7 @@ export default function Frames() {
   // Drag to spin, click to open.
   const drag = useRef(null);
   const onDown = (e) => {
+    if (e.target.closest('button,a,input,select,textarea')) return;
     const w = wheelRef.current;
     if (!w) return;
     e.currentTarget.setPointerCapture?.(e.pointerId);
@@ -164,13 +172,13 @@ export default function Frames() {
       toast('Prayer wheels turn clockwise', 'At Boudhanath you walk and spin them clockwise. Om mani padme hum.', 'egg');
     }
   };
-  const onUp = () => {
+  const onUp = (e) => {
     const w = wheelRef.current;
     if (!w || !drag.current) return;
     const { moved } = drag.current;
     drag.current = null;
     w.dragging = false;
-    if (moved < 6 && w.hover >= 0) {
+    if (e.type !== 'pointercancel' && moved < 6 && w.hover >= 0) {
       sound.click();
       setState({ lightbox: w.hover });
     }
@@ -180,13 +188,10 @@ export default function Frames() {
     <section id="frames" className="section frames" aria-labelledby="frames-title">
       <div className="wrap">
         <header className="sec-head">
-          <h2 id="frames-title" className="t-display">
-            Frames, <span className="light">on a prayer wheel.</span>
+          <h2 id="frames-title" className="t-display"> <L text={"Frames,"} /> <span className="light"> <L text={"on a prayer wheel."} /> </span>
           </h2>
           <p className="t-lede">
-            {photos.length} photographs from Janakpur, Kathmandu, campus and the sky, wrapped around a <Term id="prayer-wheel">prayer wheel</Term> carrying <span className="font-tibetan">ༀ་མ་ཎི་པདྨེ་ཧཱུྃ</span>. Drag to spin it,
-            clockwise like at Boudhanath. Click a frame to open it.
-          </p>
+            {c('{n} photographs from Janakpur, Kathmandu, campus and the sky, wrapped around a',{n:localDigits(photos.length)})} <Term id="prayer-wheel"> <L text={"prayer wheel"} /> </Term> <L text={"carrying"} /> <span className="font-tibetan">ༀ་མ་ཎི་པདྨེ་ཧཱུྃ</span> <L text={". Drag to spin it, clockwise like at Boudhanath. Click a frame to open it."} /> </p>
         </header>
       </div>
 
@@ -195,25 +200,23 @@ export default function Frames() {
           <canvas ref={canvas} className="frames-canvas" aria-hidden="true" />
           <div className="frames-hud">
             <span className="t-mono">
-              <CircleNotchIcon size={14} weight="bold" /> {turns} {turns === 1 ? 'turn' : 'turns'} of 108
+              <CircleNotchIcon size={14} weight="bold" /> {c('{n} of 108 turns',{n:localDigits(turns)})}
             </span>
             <button type="button" className="btn btn-ghost btn-sm" onClick={() => setGrid(true)}>
-              <GridFourIcon size={15} weight="bold" /> Show as a grid
-            </button>
+              <GridFourIcon size={15} weight="bold" /> <L text={"Show as a grid"} /> </button>
           </div>
         </div>
       ) : (
         <div className="wrap">
           {!failed && !reducedMotion() && (
             <button type="button" className="btn btn-ghost btn-sm frames-back" onClick={() => setGrid(false)}>
-              <CircleNotchIcon size={15} weight="bold" /> Back to the wheel
-            </button>
+              <CircleNotchIcon size={15} weight="bold" /> <L text={"Back to the wheel"} /> </button>
           )}
           <ul className="frames-grid">
-            {photos.map((p, i) => (
+            {photos.map(p=>({...p,caption:captions[p.id] || p.caption})).map((p, i) => (
               <li key={p.id}>
                 <button type="button" onClick={() => setState({ lightbox: i })} aria-label={p.caption || `Photo ${i + 1}`}>
-                  <img src={p.srcset[0].src} alt={p.caption || ''} loading="lazy" style={{ aspectRatio: p.ratio, background: p.color }} />
+                  <img src={p.src} srcSet={p.srcsetAttr} sizes="(min-width:1024px) 28vw, (min-width:600px) 45vw, 90vw" alt={p.caption || ''} loading="lazy" style={{ aspectRatio: p.ratio, background: p.color }} />
                 </button>
               </li>
             ))}

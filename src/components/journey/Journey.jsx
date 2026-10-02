@@ -1,9 +1,13 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/journey';
+import seasonOverlay from '../../i18n/content/seasons';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRightIcon } from '@phosphor-icons/react';
 import { journey } from '../../data/journey';
 import { SEASONS, seasonById } from '../../data/seasons';
 import { useWorld } from '../../lib/world';
-import { photoById } from '../../lib/photos';
+import { contextImage } from '../../lib/imagery';
 import { setState } from '../../lib/store';
 import { gsap, ScrollTrigger, reducedMotion } from '../../lib/motion';
 import { useSeason } from '../ThemeSync';
@@ -26,7 +30,9 @@ function livePhase(world) {
 }
 
 export default function Journey() {
+  const c=useCopy();
   const world = useWorld();
+  const loc=useLocalize(overlay), ls=useLocalize(seasonOverlay);
   const liveSeason = useSeason();
   const [seasonPick, setSeasonPick] = useState('live');
   const [phasePick, setPhasePick] = useState('live');
@@ -163,27 +169,25 @@ export default function Journey() {
     return () => ctx.revert();
   }, [reduce]);
 
-  const liveLabel = `${liveSeason.name} ritu, ${livePhase(world)} in Lalitpur`;
+  const liveLabel = c('{season}, {phase} in Lalitpur', {season: ls(liveSeason).english, phase: c(PHASES.find(p=>p.id===livePhase(world))?.label || 'Night')});
 
   return (
     <section id="journey" ref={section} className="section journey" aria-labelledby="journey-title">
       <div className="wrap journey-head sec-head">
-        <h2 id="journey-title" className="t-display">
-          The journey, <span className="light">in the season you’re reading it.</span>
+        <h2 id="journey-title" className="t-display"> <L text={"The journey,"} /> <span className="light"> <L text={"in the season you’re reading it."} /> </span>
         </h2>
-        <p className="t-lede">
-          This bough is dressed for Nepal right now. It is <Term id="ritu">{liveSeason.name}</Term> ({liveSeason.english.toLowerCase()}) back home: {liveSeason.line.charAt(0).toLowerCase() + liveSeason.line.slice(1)}
+        <p className="t-lede"> <L text={"This bough is dressed for Nepal right now. It is"} /> <Term id="ritu">{ls(liveSeason).english}</Term>. {ls(liveSeason).line}
         </p>
       </div>
 
-      <div ref={stage} className={`journey-stage ${reduce ? 'is-static' : ''}`} data-phase={phase}>
+      <div ref={stage} className={`journey-stage ${reduce || !ready ? 'is-static' : ''}`} data-phase={phase}>
         <canvas ref={canvas} className="journey-canvas" aria-hidden="true" />
 
         <div className="journey-cards" aria-label="Milestones">
-          {journey.map((m, i) => {
-            const photo = m.photo ? photoById(m.photo) : null;
+          {journey.map(m=>loc(m)).map((m, i) => {
+            const photo = m.image ? contextImage(m.image) : null;
             // Prefer the straightened plate where a photo was shot at an angle.
-            const photoSrc = photo ? (photo.sketch ? photo.sketch.photo : photo.srcset[0].src) : null;
+            const photoSrc = photo?.src;
             return (
               <article key={m.id} ref={(el) => (cardsRef.current[i] = el)} className={`jcard ${i % 2 === 0 ? 'is-up' : 'is-down'} ${active === i ? 'is-active' : ''}`}>
                 <div className="jcard-inner">
@@ -193,10 +197,9 @@ export default function Journey() {
                     <span>{m.sub}</span>
                   </p>
                   <h3 className="jcard-title">{m.title}</h3>
-                  <p className="jcard-text">{m.text}</p>
+                  <p className="jcard-text">{m.term ? <>{m.text} <Term id={m.term}>{m.term === 'six-seven' ? '6–7' : m.term}</Term>{m.term==='six-seven'&&<> {c('years old.')}</>}</> : m.text}</p>
                   {m.project && (
-                    <button type="button" className="jcard-link" onClick={() => setState({ project: m.project })}>
-                      The project <ArrowUpRightIcon size={14} weight="bold" />
+                    <button type="button" className="jcard-link" onClick={() => setState({ project: m.project })}> <L text={"The project"} /> <ArrowUpRightIcon size={14} weight="bold" />
                     </button>
                   )}
                 </div>
@@ -210,15 +213,15 @@ export default function Journey() {
           <div className="journey-live">
             {isLive ? (
               <span>
-                <span className="journey-dot" aria-hidden="true" /> Live: {liveLabel}
+                <span className="journey-dot" aria-hidden="true" /> {c('Live')}: {liveLabel}
               </span>
             ) : (
               <span>
-                Previewing {season.name}, {phase}
+                {c('Previewing')} {ls(season).english}, {c(PHASES.find(p=>p.id===phase)?.label || phase)}
               </span>
             )}
             <button type="button" className="journey-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
-              {open ? 'Done' : 'Change season'}
+              {c(open ? 'Done' : 'Change season')}
             </button>
             {!isLive && (
               <button
@@ -228,26 +231,24 @@ export default function Journey() {
                   setSeasonPick('live');
                   setPhasePick('live');
                 }}
-              >
-                Back to live
-              </button>
+              > <L text={"Back to live"} /> </button>
             )}
           </div>
           {open && (
             <div className="journey-pickers">
               <div className="journey-chips">
                 {SEASONS.map((s) => (
-                  <button key={s.id} type="button" className="journey-chip" aria-pressed={season.id === s.id && seasonPick !== 'live'} onClick={() => setSeasonPick(s.id === liveSeason.id && seasonPick !== 'live' ? 'live' : s.id)} title={`${s.name}: ${s.english}`}>
+                  <button key={s.id} type="button" className="journey-chip" aria-pressed={season.id === s.id && seasonPick !== 'live'} onClick={() => setSeasonPick(s.id === liveSeason.id && seasonPick !== 'live' ? 'live' : s.id)} title={`${s.name}: ${ls(s).english}`}>
                     <i style={{ background: s.accent.day.fill }} />
                     {s.name}
-                    <span className="journey-chip-en">{s.english}</span>
+                    <span className="journey-chip-en">{ls(s).english}</span>
                   </button>
                 ))}
               </div>
               <div className="journey-chips">
                 {PHASES.map((p) => (
                   <button key={p.id} type="button" className="journey-chip" aria-pressed={phasePick === p.id} onClick={() => setPhasePick(phasePick === p.id ? 'live' : p.id)}>
-                    {p.label}
+                    <L text={p.label}/>
                   </button>
                 ))}
               </div>
@@ -263,6 +264,14 @@ export default function Journey() {
           ))}
         </ol>
       </div>
+      <details className="wrap journey-readable">
+        <summary>{c('Read the whole journey')}</summary>
+        <ol>{journey.map(m=>loc(m)).map(m=><li key={m.id}>
+          <p className="t-label">{m.when} · {m.sub}</p><h3>{m.title}</h3>
+          <p>{m.text}{m.term&&<> <Term id={m.term}>{m.term==='six-seven'?'6–7':m.term}</Term>{m.term==='six-seven'&&<> {c('years old.')}</>}</>}</p>
+          {m.image&&<img src={contextImage(m.image).src} alt="" loading="lazy"/>}
+        </li>)}</ol>
+      </details>
     </section>
   );
 }

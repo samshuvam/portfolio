@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { useEffect, useRef, useState } from 'react';
 import { CloudLightningIcon, PlusIcon } from '@phosphor-icons/react';
 import { Term } from '../ui/Term';
@@ -81,6 +82,7 @@ function project(f, seconds) {
 }
 
 export default function AirspaceLab() {
+  const c=useCopy();
   const canvasRef = useRef(null);
   const sim = useRef({ flights: [], storms: [], conflicts: [], resolved: 0, seen: new Map() });
   const [stats, setStats] = useState({ flying: 0, resolved: 0 });
@@ -328,21 +330,17 @@ export default function AirspaceLab() {
               sound.click();
             }}
           >
-            <PlusIcon size={13} weight="bold" /> Add an aircraft
-          </button>
+            <PlusIcon size={13} weight="bold" /> <L text={"Add an aircraft"} /> </button>
           <span className="chip">
-            <CloudLightningIcon size={14} /> Click the map to drop a storm cell
-          </span>
+            <CloudLightningIcon size={14} /> <L text={"Click the map to drop a storm cell"} /> </span>
         </div>
         <p className="lab-stats t-mono">
           {stats.flying} in the air, {stats.resolved} {stats.resolved === 1 ? 'conflict' : 'conflicts'} avoided
         </p>
       </div>
       <canvas ref={canvasRef} className="lab-canvas" aria-label="Simulated eVTOL traffic over the Kathmandu valley. Click to add a storm cell." />
-      <p className="lab-note">
-        Each aircraft projects its <Term id="4d-trajectory">4D path</Term> ten seconds ahead (dots every two seconds). When two projections meet at the same level and time, one climbs or holds. Storm cells force a detour. A sketch of the idea behind the{' '}
-        <Term id="uam">UAM</Term> air traffic research, over places I know.
-      </p>
+      <p className="lab-note"> <L text={"Each aircraft projects its"} /> <Term id="4d-trajectory"> <L text={"4D path"} /> </Term> ten seconds ahead (dots every two seconds). When two projections meet at the same level and time, one climbs or holds. Storm cells force a detour. A sketch of the idea behind the{' '}
+        <Term id="uam"> <L text={"UAM"} /> </Term> <L text={"air traffic research, over places I know."} /> </p>
     </div>
   );
 }

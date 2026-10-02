@@ -20,7 +20,7 @@ const write = (key, value) => {
 const parseEggs = () => {
   try {
     const list = JSON.parse(read('ss-eggs', '[]'));
-    return Array.isArray(list) ? list : [];
+    return Array.isArray(list) ? [...new Set(list.filter(id => typeof id === 'string'))] : [];
   } catch {
     return [];
   }
@@ -39,7 +39,7 @@ const initialLang = (() => {
 })();
 
 let state = {
-  themePref: read('ss-theme', 'auto'), // 'auto' | 'day' | 'night'
+  themePref: ['auto','day','night'].includes(read('ss-theme')) ? read('ss-theme') : 'auto',
   yap: read('ss-yap') === '1',
   // Master audio switch (ambient tone + effects). On by default; nothing
   // plays until the visitor's first click or key press.

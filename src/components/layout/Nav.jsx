@@ -7,16 +7,21 @@ import { useNow, formatNptClock } from '../../lib/world';
 import { ScrollTrigger, scrollToTarget, lockScroll } from '../../lib/motion';
 import { findEgg } from '../../lib/eggs';
 import { sound } from '../../lib/sound';
+import LangSwitch from './LangSwitch';
+import { useT, useLocalize, localDigits } from '../../i18n';
+import dict from '../../i18n/ui/core';
+import overlay from '../../i18n/content/waypoints';
 import './nav.css';
+import { useResolvedTheme } from '../ThemeSync';
 
 const links = waypoints.filter((w) => w.nav);
-const THEME_ORDER = ['auto', 'day', 'night'];
-const THEME_LABEL = { auto: 'Theme follows the sun in Lalitpur', day: 'Day theme', night: 'Night theme' };
 
 export default function Nav() {
+  const t = useT(dict), loc = useLocalize(overlay);
   const [active, setActive] = useState('top');
   const [hidden, setHidden] = useState(false);
   const themePref = useStore((s) => s.themePref);
+  const resolvedTheme = useResolvedTheme();
   const yap = useStore((s) => s.yap);
   const soundOn = useStore((s) => s.sound);
   const menu = useStore((s) => s.menu);
@@ -46,19 +51,21 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
-    lockScroll(menu);
+    lockScroll(menu, 'menu');
     if (menu) sheetRef.current?.querySelector('a,button')?.focus();
+    return () => lockScroll(false, 'menu');
   }, [menu]);
 
   const go = (id) => (e) => {
     e.preventDefault();
     setState({ menu: false });
+    lockScroll(false, 'menu');
     sound.click();
     scrollToTarget(`#${id}`);
   };
 
   const cycleTheme = () => {
-    const next = THEME_ORDER[(THEME_ORDER.indexOf(themePref) + 1) % THEME_ORDER.length];
+    const next = resolvedTheme === 'day' ? 'night' : 'day';
     setState({ themePref: next });
     sound.click();
   };
@@ -79,35 +86,36 @@ export default function Nav() {
           <span className="font-tirhuta">{'\u{114AC}\u{114B3}'}</span>
         </a>
 
-        <nav className="nav-pill" aria-label="Sections">
+        <nav className="nav-pill" aria-label={t('nav.sections')}>
           {links.map((l) => (
             <a key={l.id} href={`#${l.id}`} onClick={go(l.id)} aria-current={activeId === l.id ? 'true' : undefined}>
-              {l.label}
+              {loc(l).label}
             </a>
           ))}
         </nav>
 
         <div className="nav-tools">
-          <span className="nav-clock" title="Nepal time, UTC+5:45">
-            {formatNptClock(now)} <span>NPT</span>
+          <LangSwitch />
+          <span className="nav-clock" title={t('nav.clockTitle')}>
+            {localDigits(formatNptClock(now))} <span>NPT</span>
           </span>
-          <div className="nav-yap" role="group" aria-label="How much should Shuvam talk?">
+          <div className="nav-yap" role="group" aria-label={t('nav.yapGroup')}>
             <button type="button" aria-pressed={!yap} onClick={() => yap && toggleYap()}>
-              TL;DR
+              {t('nav.tldr')}
             </button>
             <button type="button" aria-pressed={yap} onClick={() => !yap && toggleYap()}>
-              Yap
+              {t('nav.yap')}
             </button>
           </div>
-          <button type="button" className="icon-btn" onClick={cycleTheme} aria-label={THEME_LABEL[themePref]} title={THEME_LABEL[themePref]}>
+          <button type="button" className="icon-btn" onClick={cycleTheme} aria-label={t({auto:'nav.themeAuto',day:'nav.themeDay',night:'nav.themeNight'}[themePref])} title={t({auto:'nav.themeAuto',day:'nav.themeDay',night:'nav.themeNight'}[themePref])}>
             <ThemeIcon size={17} weight="bold" />
           </button>
           <button
             type="button"
             className="icon-btn nav-hide-sm"
             aria-pressed={soundOn}
-            aria-label={soundOn ? 'Mute sound' : 'Turn on sound'}
-            title={soundOn ? 'Mute sound' : 'Turn on sound'}
+            aria-label={soundOn ? t('nav.mute') : t('nav.unmute')}
+            title={soundOn ? t('nav.mute') : t('nav.unmute')}
             onClick={() => {
               setState({ sound: !soundOn });
               if (!soundOn) setTimeout(() => sound.bowl(1.5), 30);
@@ -115,31 +123,33 @@ export default function Nav() {
           >
             {soundOn ? <SpeakerHighIcon size={17} weight="bold" /> : <SpeakerSlashIcon size={17} weight="bold" />}
           </button>
-          <button type="button" className="nav-k nav-hide-sm" onClick={() => setState({ palette: true })} aria-label="Search, ask or run a command">
+          <button type="button" className="nav-k nav-hide-sm" onClick={() => setState({ palette: true })} aria-label={t('nav.palette')}>
             <CommandIcon size={15} weight="bold" />K
           </button>
-          <button type="button" className="icon-btn nav-menu-btn" onClick={() => setState({ menu: !menu })} aria-expanded={menu} aria-label={menu ? 'Close menu' : 'Open menu'}>
+          <button type="button" className="icon-btn nav-menu-btn" onClick={() => setState({ menu: !menu })} aria-expanded={menu} aria-label={menu ? t('nav.close') : t('nav.open')}>
             {menu ? <XIcon size={18} weight="bold" /> : <ListIcon size={18} weight="bold" />}
           </button>
         </div>
       </header>
 
       <div ref={sheetRef} className={`nav-sheet ${menu ? 'is-open' : ''}`} aria-hidden={!menu} inert={!menu}>
-        <nav aria-label="All sections">
+        <nav aria-label={t('nav.all')}>
           {waypoints.map((w, i) => (
             <a key={w.id} href={`#${w.id}`} onClick={go(w.id)} style={{ transitionDelay: menu ? `${0.04 * i}s` : '0s' }}>
               <span className="t-mono">{w.code}</span>
-              {w.label}
+              {loc(w).label}
             </a>
           ))}
         </nav>
         <div className="nav-sheet-tools">
+          <LangSwitch variant="sheet" />
           <button type="button" className="btn btn-ghost btn-sm" onClick={() => setState({ palette: true, menu: false })}>
-            <CommandIcon size={15} /> Ask or search
+            <CommandIcon size={15} /> {t('nav.askSearch')}
           </button>
           <button type="button" className="btn btn-ghost btn-sm" onClick={() => setState({ sound: !soundOn })}>
-            {soundOn ? 'Sound on' : 'Sound off'}
+            {soundOn ? t('nav.soundOn') : t('nav.soundOff')}
           </button>
+          <button type="button" className="btn btn-ghost btn-sm" aria-pressed={themePref === 'auto'} onClick={() => setState({themePref:'auto'})}>{t('nav.themeAuto')}</button>
         </div>
       </div>
     </>

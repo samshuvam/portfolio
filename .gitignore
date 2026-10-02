@@ -33,3 +33,6 @@ dist-ssr
 public/photos/
 src/data/photos.generated.json
 .claude/
+
+# Local visual checks and original-file backups
+qa/

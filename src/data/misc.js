@@ -23,7 +23,7 @@ export const nowUpdated = 'Ashwin 2083 (October 2026)';
 // Testimonials only render once they are approved with a real name.
 export const testimonials = [
   { context: 'Industry systems', quote: 'Shuvam’s smart location-based option saved us and our retailers countless hours and brought clarity to a complex operational workflow.', source: 'United Lubricants', approved: false },
-  { context: 'Research', quote: 'One of the most rigorous undergraduate researchers I have mentored.', source: 'SRM University AP', approved: false },
+  { context: 'Research', quote: 'One of the most rigorous undergraduate researchers I have mentored.', source: 'SRM University', approved: false },
 ];
 
 // Gallery captions. Photos without an entry simply show no caption.

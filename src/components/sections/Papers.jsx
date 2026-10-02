@@ -1,3 +1,6 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/papers';
 import { useEffect, useRef, useState } from 'react';
 import { CheckIcon, CopyIcon, ArrowUpRightIcon } from '@phosphor-icons/react';
 import { papers, bibtex } from '../../data/papers';
@@ -6,12 +9,15 @@ import { gsap, reducedMotion } from '../../lib/motion';
 import { sound } from '../../lib/sound';
 import './papers.css';
 
-function Paper({ p, i }) {
+function Paper({ p: original, i }) {
+  const c=useCopy();
+  const loc=useLocalize(overlay);
+  const p=loc(original);
   const [copied, setCopied] = useState(false);
   const [plain, setPlain] = useState(false);
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(bibtex(p));
+      await navigator.clipboard.writeText(bibtex(original));
       setCopied(true);
       sound.success();
       setTimeout(() => setCopied(false), 2200);
@@ -33,31 +39,30 @@ function Paper({ p, i }) {
         <div className="paper-cols">
           <div>
             <p className="paper-abs">
-              <b>Abstract.</b> {p.abstract}
+              <b> <L text={"Abstract."} /> </b> {p.abstract}
             </p>
             <p className="paper-kw">
-              <b>Index terms:</b> {p.keywords.join(', ')}.
+              <b> <L text={"Index terms:"} /> </b> {p.keywords.join(', ')}.
             </p>
           </div>
           <div className={`paper-plain ${plain ? 'is-on' : ''}`}>
-            <p className="paper-plain-h">In plain words</p>
+            <p className="paper-plain-h"> <L text={"In plain words"} /> </p>
             <p>{p.plain}</p>
           </div>
         </div>
         <div className="paper-stamp" aria-label={`${p.status}, ${p.venueShort}`}>
-          <span>Accepted</span>
+          <span> <L text={"Accepted"} /> </span>
           <span>{p.venueShort}</span>
         </div>
       </div>
       <div className="paper-actions">
         <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPlain(!plain)} aria-pressed={plain}>
-          {plain ? 'Back to the abstract' : 'Explain it like I’m 12'}
+          {plain ? c("Back to the abstract") : c("Explain it like I’m 12")}
         </button>
         <button type="button" className="btn btn-ghost btn-sm" onClick={copy}>
-          {copied ? <CheckIcon size={15} weight="bold" /> : <CopyIcon size={15} />} {copied ? 'BibTeX copied' : 'Copy BibTeX'}
+          {copied ? <CheckIcon size={15} weight="bold" /> : <CopyIcon size={15} />} {copied ? c("BibTeX copied") : c("Copy BibTeX")}
         </button>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setState({ project: p.projectId })}>
-          The project <ArrowUpRightIcon size={15} weight="bold" />
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setState({ project: p.projectId })}> <L text={"The project"} /> <ArrowUpRightIcon size={15} weight="bold" />
         </button>
       </div>
     </article>
@@ -65,6 +70,7 @@ function Paper({ p, i }) {
 }
 
 export default function Papers() {
+  const c=useCopy();
   const root = useRef(null);
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -79,10 +85,9 @@ export default function Papers() {
     <section id="papers" ref={root} className="section papers" aria-labelledby="papers-title">
       <div className="wrap">
         <header className="sec-head">
-          <h2 id="papers-title" className="t-display">
-            Two papers, <span className="light">peer reviewed.</span>
+          <h2 id="papers-title" className="t-display"> <L text={"Two papers,"} /> <span className="light"> <L text={"peer reviewed."} /> </span>
           </h2>
-          <p className="t-lede">One teaches AI to remember the way people do. The other keeps aircraft from claiming the same piece of sky at the same moment. Both accepted for presentation at international conferences.</p>
+          <p className="t-lede"> <L text={"One teaches AI to remember the way people do. The other keeps aircraft from claiming the same piece of sky at the same moment. Both accepted for presentation at international conferences."} /> </p>
         </header>
         <div className="papers-desk">
           {papers.map((p, i) => (

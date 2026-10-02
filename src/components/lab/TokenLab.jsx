@@ -1,3 +1,4 @@
+import L, { useCopy } from '../../i18n/Text';
 import { useState } from 'react';
 import { Term } from '../ui/Term';
 
@@ -15,6 +16,7 @@ const SECTIONS = [
 const ALL = SECTIONS.flatMap((s, si) => s.need.map((n, ci) => ({ n, si, ci })));
 
 export default function TokenLab() {
+  const c=useCopy();
   const [budget, setBudget] = useState(2048);
   const total = ALL.reduce((a, c) => a + c.n, 0);
 
@@ -43,8 +45,7 @@ export default function TokenLab() {
     <div className="lab-demo">
       <div className="lab-controls">
         <label className="lab-slider">
-          <span>
-            Model <Term id="context-window">context window</Term> <b>{budget.toLocaleString()} tokens</b>
+          <span> <L text={"Model"} /> <Term id="context-window"> <L text={"context window"} /> </Term> <b>{budget.toLocaleString()} tokens</b>
           </span>
           <input type="range" min="512" max="4096" step="128" value={budget} onChange={(e) => setBudget(+e.target.value)} />
         </label>
@@ -52,20 +53,18 @@ export default function TokenLab() {
 
       <div className="token-grid">
         <div className="token-col">
-          <p className="token-head">
-            One big prompt <span>{Math.round(naiveCovered * 100)}% of evidence used</span>
+          <p className="token-head"> <L text={"One big prompt"} /> <span>{Math.round(naiveCovered * 100)}% of evidence used</span>
           </p>
           <div className="token-window" style={{ '--fill': Math.min(1, used / budget) }}>
             {naive.map((c, i) => (
               <span key={i} className={`token-chunk s${c.si} ${c.fits ? '' : 'is-cut'}`} style={{ flexGrow: c.n }} title={`${SECTIONS[c.si].name}: ${c.n} tokens`} />
             ))}
           </div>
-          <p className="token-caption">Chunks arrive in retrieval order. Past the budget they are simply cut, so whole sections lose their evidence.</p>
+          <p className="token-caption"> <L text={"Chunks arrive in retrieval order. Past the budget they are simply cut, so whole sections lose their evidence."} /> </p>
         </div>
 
         <div className="token-col">
-          <p className="token-head">
-            Segmented generation <span>{Math.round(segCovered * 100)}% of evidence used</span>
+          <p className="token-head"> <L text={"Segmented generation"} /> <span>{Math.round(segCovered * 100)}% of evidence used</span>
           </p>
           {SECTIONS.map((s, si) => (
             <div key={s.name} className="token-seg">
@@ -77,12 +76,10 @@ export default function TokenLab() {
               </div>
             </div>
           ))}
-          <p className="token-caption">The template plans the document first. Each section gets a full window of its own evidence, and citations are checked before anything is written.</p>
+          <p className="token-caption"> <L text={"The template plans the document first. Each section gets a full window of its own evidence, and citations are checked before anything is written."} /> </p>
         </div>
       </div>
-      <p className="lab-note">
-        A toy model of the idea. The real pipeline, measured on a 500-query benchmark, scored <b>+203%</b> over a naive <Term id="rag">RAG</Term> baseline.
-      </p>
+      <p className="lab-note"> <L text={"A toy model of the idea. The real pipeline, measured on a 500-query benchmark, scored"} /> <b>+203%</b> <L text={"over a naive"} /> <Term id="rag">RAG</Term> <L text={"baseline."} /> </p>
     </div>
   );
 }

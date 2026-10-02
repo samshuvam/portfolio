@@ -7,9 +7,9 @@
    ------------------------------------------------------------------------ */
 
 :root {
-  --accent: #f08a24; /* fills: buttons, highlights */
-  --accent-ink: #16181f; /* text sitting on an accent fill */
-  --accent-fg: #a34a00; /* accent used as text or lines on the page */
+  --accent: #256449;
+  --accent-ink: #ffffff;
+  --accent-fg: #205d43;
   --radius-card: 22px;
   --radius-input: 14px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -106,7 +106,7 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 1.2s var(--ease-in-out), color 1.2s var(--ease-in-out);
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
   html.lenis,
   html.lenis body {
@@ -194,6 +194,9 @@
   z-index: var(--z-content);
   padding-block: clamp(5rem, 12vw, 10rem);
 }
+/* Decorative rotations stay within the page while horizontal shelves retain
+   their own scroll containers. Clip doesn't create a nested scroll surface. */
+main { overflow-x: clip; }
 
 .skip-link {
   position: fixed;

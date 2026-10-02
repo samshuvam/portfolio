@@ -1,3 +1,6 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/life';
 import { useRef, useState } from 'react';
 import { ArrowsClockwiseIcon } from '@phosphor-icons/react';
 import { dishes } from '../../data/life';
@@ -9,7 +12,10 @@ import { sound } from '../../lib/sound';
 const COLORS = ['#efe6d4', '#e9b437', '#a8642b', '#f3ead8', '#f6efd9', '#d0582a', '#8a5a2e', '#d89a35', '#f1ece0', '#e6cf9c', '#8c2f24', '#c58b4e'];
 
 export default function Thali() {
+  const c=useCopy();
   const plate = useRef(null);
+  const loc=useLocalize(overlay);
+  const localizedDishes=loc(dishes,'dishes');
   const angle = useRef(0);
   const [pick, setPick] = useState(null);
   const [spinning, setSpinning] = useState(false);
@@ -41,7 +47,7 @@ export default function Thali() {
     gsap.to(plate.current, { rotation: total, svgOrigin: '150 150', duration: 2.4, ease: 'power3.out', onComplete: done });
   };
 
-  const dish = pick !== null ? dishes[pick] : null;
+  const dish = pick !== null ? localizedDishes[pick] : null;
 
   return (
     <div className="thali">
@@ -65,7 +71,7 @@ export default function Thali() {
             {Array.from({ length: 14 }, (_, i) => (
               <circle key={i} cx={128 + (i % 7) * 7} cy={146 + Math.floor(i / 7) * 8} r="1.6" fill="#e7e0cf" />
             ))}
-            {dishes.map((d, i) => {
+            {localizedDishes.map((d, i) => {
               const a = ((i * step - 90) * Math.PI) / 180;
               const x = 150 + Math.cos(a) * 96;
               const y = 150 + Math.sin(a) * 96;
@@ -89,10 +95,10 @@ export default function Thali() {
             <p className="thali-note">{dish.note}</p>
           </>
         ) : (
-          <p className="thali-note">Twelve dishes I would happily argue about for an hour. Spin to pick tonight’s.</p>
+          <p className="thali-note"> <L text={"Twelve dishes I would happily argue about for an hour. Spin to pick tonight’s."} /> </p>
         )}
         <button type="button" className="btn btn-ghost btn-sm" onClick={spin} disabled={spinning}>
-          <ArrowsClockwiseIcon size={15} weight="bold" /> {dish ? 'Spin again' : 'Spin the thali'}
+          <ArrowsClockwiseIcon size={15} weight="bold" /> {dish ? c('Spin again') : c('Spin the thali')}
         </button>
       </div>
     </div>

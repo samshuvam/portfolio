@@ -1,0 +1,395 @@
+/* Shared styles for RoverRun, KiteFight, MomoCatcher and BusDash. */
+
+.bx-root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
+  color: var(--ink);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.bx-root:focus-visible .bx-stage {
+  outline: 2px solid var(--accent-fg);
+  outline-offset: 3px;
+}
+
+.bx-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  align-items: flex-end;
+}
+.bx-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 3.5rem;
+}
+.bx-stat-label {
+  font: 500 0.66rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+html[data-lang='ne'] .bx-stat-label,
+html[data-lang='mai'] .bx-stat-label {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  font-size: 0.74rem;
+}
+.bx-stat-value {
+  font: 650 1.12rem/1.1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.bx-stat[data-tone='accent'] .bx-stat-value {
+  color: var(--accent-fg);
+}
+.bx-stat[data-tone='warn'] .bx-stat-value {
+  color: #c2410c;
+}
+:root[data-theme='night'] .bx-stat[data-tone='warn'] .bx-stat-value {
+  color: #fb923c;
+}
+
+.bx-pips {
+  display: inline-flex;
+  gap: 0.28rem;
+  padding-block: 0.3rem;
+}
+.bx-pip {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line-strong);
+}
+.bx-pip[data-on] {
+  background: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 70%, var(--ink));
+}
+
+.bx-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bx-stage canvas {
+  display: block;
+  touch-action: none;
+}
+
+.bx-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0.9rem;
+  background: color-mix(in oklab, var(--bg) 58%, transparent);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 2;
+  animation: bx-fade 0.3s var(--ease-out) both;
+}
+.bx-card {
+  width: min(100%, 25rem);
+  max-height: 100%;
+  overflow: auto;
+  padding: 1.1rem 1.2rem 1.15rem;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.bx-kicker {
+  font: 500 0.68rem/1.2 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-fg);
+  margin-bottom: 0.35rem;
+}
+.bx-title {
+  font: 700 clamp(1.25rem, 4.4vw, 1.6rem) / 1.08 var(--font-display);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+.bx-card p {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.bx-card p + p {
+  margin-top: 0.45rem;
+}
+.bx-card .bx-joke {
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--line-strong);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+.bx-big {
+  font: 700 2.2rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-fg);
+  margin: 0.2rem 0 0.35rem;
+}
+.bx-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+.bx-actions .btn {
+  min-height: 2.75rem;
+}
+.bx-keys {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.bx-keys li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+.bx-keys b {
+  flex: none;
+  min-width: 5.6rem;
+  font: 500 0.7rem/1.3 var(--font-mono);
+  color: var(--ink);
+}
+
+.bx-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.bx-pads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.bx-pad {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 2.9rem;
+  min-height: 2.9rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 0.88rem/1 var(--font-sans);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.15s var(--ease-out), background-color 0.2s, border-color 0.2s;
+}
+.bx-pad[data-wide] {
+  flex: 1 1 auto;
+}
+.bx-pad:active,
+.bx-pad[aria-pressed='true'] {
+  transform: scale(0.96);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.bx-pad.bx-pad-accent {
+  background: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 70%, var(--ink));
+  color: var(--accent-ink);
+}
+.bx-pad:disabled {
+  opacity: 0.45;
+}
+.bx-hint {
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+
+@keyframes bx-fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bx-overlay {
+    animation: none;
+  }
+  .bx-pad {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------ BusDash */
+
+.bd-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.2rem, 1fr));
+  gap: 0.5rem;
+  min-height: 7.5rem;
+}
+.bd-empty {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  min-height: 7.5rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: 16px;
+  font-size: 0.84rem;
+  color: var(--ink-3);
+  text-align: center;
+  padding: 0.75rem;
+}
+.bd-pax {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.55rem;
+  align-items: center;
+  min-height: 3.6rem;
+  padding: 0.55rem 0.75rem 0.7rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  overflow: hidden;
+  transition: transform 0.18s var(--ease-out), border-color 0.2s;
+}
+.bd-pax:hover {
+  border-color: var(--line-strong);
+}
+.bd-pax:active {
+  transform: scale(0.97);
+}
+.bd-pax:disabled {
+  opacity: 0.5;
+}
+.bd-pax[data-mood='angry'] {
+  border-color: #c2410c;
+}
+.bd-face {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  font: 700 0.8rem/1 var(--font-mono);
+  color: var(--accent-ink);
+}
+.bd-key {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.5rem;
+  font: 500 0.62rem/1 var(--font-mono);
+  color: var(--ink-3);
+}
+.bd-dest {
+  font: 650 0.9rem/1.15 var(--font-display);
+  padding-right: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.bd-dest[data-ok='false'] {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-3);
+}
+.bd-meta {
+  font: 500 0.7rem/1.2 var(--font-sans);
+  color: var(--ink-3);
+}
+.bd-patience {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left;
+}
+.bd-pax[data-mood='angry'] .bd-patience {
+  background: #c2410c;
+}
+.bd-fare {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+}
+.bd-fare .bx-pad {
+  min-width: 2.6rem;
+  min-height: 2.6rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.bd-fare-value {
+  min-width: 4.4rem;
+  text-align: center;
+  font: 650 1rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+.bd-smart {
+  font-size: 0.74rem;
+  color: var(--ink-3);
+}
+.bd-smart b {
+  color: var(--accent-fg);
+  font-weight: 650;
+}
+.bd-route {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.1rem;
+}
+.bd-route::-webkit-scrollbar {
+  display: none;
+}
+.bd-stop {
+  flex: none;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font: 500 0.72rem/1.2 var(--font-sans);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.bd-stop[data-state='now'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.bd-stop[data-state='ahead'] {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.bd-stop[data-police] {
+  border-style: dashed;
+}

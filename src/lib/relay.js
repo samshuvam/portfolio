@@ -9,7 +9,9 @@ export async function sendMessage(fields) {
   Object.entries(fields).forEach(([k, v]) => body.append(k, v));
   body.append('_template', 'table');
   body.append('_captcha', 'false');
-  const res = await fetch(RELAY, { method: 'POST', body, headers: { Accept: 'application/json' } });
+  const res = await fetch(RELAY, { method: 'POST', body, headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`Relay answered ${res.status}`);
-  return res.json().catch(() => ({}));
+  const result = await res.json();
+  if (result.success !== true && result.success !== 'true') throw new Error(result.message || 'Relay did not accept the message');
+  return result;
 }

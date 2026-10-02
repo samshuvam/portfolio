@@ -3,6 +3,8 @@
 // the gallery photos instead.
 
 export const glossary = {
+  'six-seven': {term:'6–7',kind:'Cabin humour',body:'Six or seven years old. Yes, 6–7. The childhood chapter arrived before the internet decided that was a punchline.'},
+  kalyani: {term:'Kalyani',kind:'A little personal',body:'Shuvam (Shubham) and Kalyani both carry the idea of auspiciousness and wellbeing. Shubham is commonly used as a masculine name; Kalyani as a feminine name. They share a sense of auspiciousness rather than being the same word. Here, one seat is reserved. No arrival time has been filed.'},
   // ---- AI and systems ---------------------------------------------------
   rag: { term: 'RAG', full: 'Retrieval-augmented generation', kind: 'AI', art: 'rag', body: 'Before answering, the AI looks up relevant documents and writes its answer from them, so it can cite sources instead of guessing.' },
   llm: { term: 'LLM', full: 'Large language model', kind: 'AI', art: 'tokens', body: 'Software trained on huge amounts of text to understand and write language. ChatGPT, Llama and Mistral are LLMs.' },
@@ -29,16 +31,16 @@ export const glossary = {
   'computer-vision': { term: 'Computer vision', kind: 'AI', art: 'vision', body: 'Teaching computers to understand images and video: faces, hands, roads, obstacles.' },
 
   // ---- Aviation ---------------------------------------------------------
-  evtol: { term: 'eVTOL', full: 'Electric vertical take-off and landing', kind: 'Aviation', photo: '1000024316', body: 'An electric aircraft that lifts off like a drone and flies like a small plane. Above: an EHang EH216-S I spotted.' },
+  evtol: { term: 'eVTOL', full: 'Electric vertical take-off and landing', kind: 'Aviation', art: 'evtol', body: 'An electric aircraft that lifts off like a drone and flies like a small plane. A useful bridge between helicopters, drones and conventional aircraft.' },
   uam: { term: 'UAM', full: 'Urban air mobility', kind: 'Aviation', art: 'drone', body: 'Moving people and parcels through low-altitude city airspace: air taxis, delivery drones, medical flights.' },
   '4d-trajectory': { term: '4D trajectory', kind: 'Aviation', art: 'radar', body: 'A flight path described by latitude, longitude, altitude and time. The fourth dimension is when you’ll be there.' },
   vertiport: { term: 'Vertiport', kind: 'Aviation', art: 'drone', body: 'An airport for vertical take-off aircraft. Think rooftop helipad with chargers.' },
   waypoint: { term: 'Waypoint', kind: 'Aviation', art: 'radar', body: 'A named point in the sky that routes are built from. Real ones have five-letter names, so this site’s sections do too.' },
 
   // ---- Home: Janakpur, Mithila, Nepal ------------------------------------
-  janakpur: { term: 'Janakpur Dham', kind: 'Place', photo: 'img-20260527-185937-774', body: 'Capital of Madhesh Province, about 225 km southeast of Kathmandu. Birthplace of Sita, the old heart of Mithila, and my hometown.' },
+  janakpur: { term: 'Janakpur Dham', kind: 'Place', image: 'janaki', body: 'Capital of Madhesh Province, about 225 km southeast of Kathmandu. Birthplace of Sita, the old heart of Mithila, and my hometown.' },
   sita: { term: 'Sita (Janaki)', kind: 'Culture', art: 'lotus', body: 'Daughter of King Janak, found in a furrow of a ploughed field, born in Janakpur. Janaki means "daughter of Janak".' },
-  'janaki-mandir': { term: 'Janaki Mandir', kind: 'Place', photo: 'img-20260527-185937-774', body: 'Finished in 1910 and nicknamed Nau Lakha Mandir after its nine-lakh cost. Sixty rooms of white stone and marble.' },
+  'janaki-mandir': { term: 'Janaki Mandir', kind: 'Place', image: 'janaki', body: 'Janakpur’s ornate temple to Sita, also called Janaki. Mughal and local architectural influences, three storeys and sixty rooms.' },
   mithila: { term: 'Mithila', kind: 'Culture', art: 'fish', body: 'The cultural region spanning southeastern Nepal and northern Bihar, with its own language, script, food and painting.' },
   maithili: { term: 'Maithili', kind: 'Language', art: 'script', body: 'My mother tongue, the first language of Janakpur and one of the most spoken languages in Nepal.' },
   tirhuta: { term: 'Tirhuta', full: 'Mithilakshar', kind: 'Script', art: 'script', body: 'Maithili’s own traditional script. The glyph in my logo is "shu" from my name, written in it.' },
@@ -51,7 +53,7 @@ export const glossary = {
   npt: { term: 'Nepal Time', full: 'UTC+5:45', kind: 'Time', art: 'clock', body: 'Nepal sets its clocks 5 hours 45 minutes ahead of UTC, one of the few 45-minute offsets in the world.' },
   ritu: { term: 'Ritu', kind: 'Calendar', art: 'seasons', body: 'Nepal’s six seasons: Basanta, Grishma, Barsha, Sharad, Hemanta and Shishir. Four is not enough for this country.' },
   lokta: { term: 'Lokta paper', kind: 'Craft', art: 'paper', body: 'Handmade Nepali paper from the bark of the lokta shrub. The daytime background of this site is its colour.' },
-  'prayer-wheel': { term: 'Prayer wheel', kind: 'Culture', photo: '1000095679', body: 'A cylinder carrying a mantra. Spinning it clockwise, as at Boudhanath, is said to equal reciting the prayer.' },
+  'prayer-wheel': { term: 'Prayer wheel', kind: 'Culture', art: 'diyo', body: 'A cylinder carrying a mantra. Spinning it clockwise, as at Boudhanath, is said to equal reciting the prayer.' },
   'lali-gurans': { term: 'Lali gurans', kind: 'Nature', art: 'flower', body: 'Rhododendron, Nepal’s national flower. In spring it turns whole hillsides red.' },
   everest: { term: 'Sagarmatha', full: 'Mount Everest', kind: 'Place', art: 'mountain', body: '8,848.86 m, as measured jointly by Nepal and China in 2020. The tallest point on Earth sits on Nepal’s border.' },
   pranam: { term: 'प्रणाम', full: 'Pranam', kind: 'Maithili', art: 'script', body: 'How you greet someone respectfully in Maithili, usually with folded hands.' },

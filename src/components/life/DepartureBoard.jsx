@@ -1,3 +1,6 @@
+import L, { useCopy } from '../../i18n/Text';
+import { useLocalize, localDigits } from '../../i18n';
+import overlay from '../../i18n/content/festivals';
 import { useEffect, useRef, useState } from 'react';
 import SplitFlap from './SplitFlap';
 import { useWorld } from '../../lib/world';
@@ -14,6 +17,8 @@ const code = (name, iso) => {
 const fmt = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase();
 
 export default function DepartureBoard() {
+  const c=useCopy();
+  const loc=useLocalize(overlay);
   const world = useWorld();
   const ref = useRef(null);
   const [go, setGo] = useState(false);
@@ -34,13 +39,13 @@ export default function DepartureBoard() {
 
   const fest = world.festivals.upcoming.filter((f) => f.id !== 'birthday').slice(0, 2);
   const bday = world.festivals.upcoming.find((f) => f.id === 'birthday');
-  const status = (f) => (f.days === 0 ? 'TODAY' : f.days === 1 ? 'TOMORROW' : f.days <= 7 ? 'BOARDING' : `IN ${f.days} DAYS`);
+  const status = (f) => (f.days === 0 ? c('TODAY') : f.days === 1 ? c('TOMORROW') : f.days <= 7 ? c('BOARDING') : c('IN {days} DAYS', {days: localDigits(f.days)}));
   const rows = [
-    { time: 'NOW', flight: 'SS2504', to: 'YOUR INBOX', status: 'BOARDING', hot: true },
-    ...fest.map((f) => ({ time: fmt(f.peak), flight: code(f.name, f.peak), to: f.name, status: status(f) })),
-    bday ? { time: fmt(bday.peak), flight: 'SS0425', to: 'BIRTHDAY', status: status(bday) } : null,
-    { time: 'DAILY', flight: 'MO0001', to: 'MOMO SHOP', status: 'DELAYED' },
-    { time: 'SOON', flight: 'EV0216', to: 'UAM CORRIDORS', status: 'IN RESEARCH' },
+    { time: c('NOW'), flight: 'SS2504', to: c('YOUR INBOX'), status: c('BOARDING'), hot: true },
+    ...fest.map((f) => ({ time: fmt(f.peak), flight: code(f.name, f.peak), to: loc(f).name, status: status(f) })),
+    bday ? { time: fmt(bday.peak), flight: 'SS0425', to: c('BIRTHDAY'), status: status(bday) } : null,
+    { time: c('DAILY'), flight: 'MO0001', to: c('MOMO SHOP'), status: c('DELAYED') },
+    { time: c('SOON'), flight: 'EV0216', to: c('UAM CORRIDORS'), status: c('IN RESEARCH') },
   ].filter(Boolean);
 
   return (
@@ -53,10 +58,10 @@ export default function DepartureBoard() {
         ))}
       </ul>
       <div className="board-head" aria-hidden="true">
-        <span>Time</span>
-        <span>Flight</span>
-        <span>Destination</span>
-        <span>Status</span>
+        <span> <L text={"Time"} /> </span>
+        <span> <L text={"Flight"} /> </span>
+        <span> <L text={"Destination"} /> </span>
+        <span> <L text={"Status"} /> </span>
       </div>
       {rows.map((r, i) => (
         <div key={r.flight} className={`board-row ${r.hot ? 'is-hot' : ''}`} aria-hidden="true">

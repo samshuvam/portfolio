@@ -1,4 +1,40 @@
-// Nepali (ne) and Maithili (mai) overlays for src/data/waypoints.js, keyed by item id
-// (or by the key named in that data module). Only translated fields are
-// listed; everything else falls back to English. See src/i18n/index.js.
-export default { ne: {}, mai: {} };
+// Nepali (ne) and Maithili (mai) overlays for src/data/waypoints.js, keyed by
+// waypoint id. Only `label` is translated; the five-letter codes stay.
+export default {
+  ne: {
+    top: { label: 'उडान' },
+    about: { label: 'परिचय' },
+    work: { label: 'काम' },
+    lab: { label: 'ल्याब' },
+    arcade: { label: 'खेल' },
+    papers: { label: 'शोधपत्र' },
+    logbook: { label: 'लगबुक' },
+    journey: { label: 'यात्रा' },
+    home: { label: 'जनकपुर' },
+    kanya: { label: 'कन्या' },
+    life: { label: 'जीवन' },
+    frames: { label: 'तस्बिर' },
+    wow: { label: 'जादु' },
+    now: { label: 'अहिले' },
+    contact: { label: 'सम्पर्क' },
+    landing: { label: 'अवतरण' },
+  },
+  mai: {
+    top: { label: 'उड़ान' },
+    about: { label: 'परिचय' },
+    work: { label: 'काज' },
+    lab: { label: 'लैब' },
+    arcade: { label: 'खेल' },
+    papers: { label: 'शोधपत्र' },
+    logbook: { label: 'लॉगबुक' },
+    journey: { label: 'यात्रा' },
+    home: { label: 'जनकपुर' },
+    kanya: { label: 'कन्या' },
+    life: { label: 'जिनगी' },
+    frames: { label: 'फोटो' },
+    wow: { label: 'जादू' },
+    now: { label: 'एखन' },
+    contact: { label: 'सम्पर्क' },
+    landing: { label: 'अवतरण' },
+  },
+};

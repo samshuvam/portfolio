@@ -7,6 +7,9 @@ import { featuredProjects, archiveProjects } from '../../data/projects';
 import { setState } from '../../lib/store';
 import { gsap, ScrollTrigger, reducedMotion, scrollToTarget } from '../../lib/motion';
 import { sound } from '../../lib/sound';
+import { useT, useLocalize, localDigits, useLang } from '../../i18n';
+import dict from '../../i18n/ui/work';
+import overlay from '../../i18n/content/projects';
 import './work.css';
 
 const TONES = ['tone-a', 'tone-b', 'tone-c'];
@@ -16,43 +19,44 @@ function open(id) {
   setState({ project: id });
 }
 
-function FeaturedCard({ p, i }) {
+function FeaturedCard({ p, i, total, t, lang }) {
   return (
     <article className={`stack-card ${TONES[i % 3]}`} style={{ '--i': i }} aria-labelledby={`p-${p.id}`}>
       <div className="stack-inner">
         <div className="stack-copy">
           <p className="stack-meta">
+            <span className="stack-no">{t('flightNo', { n: localDigits(String(i + 1).padStart(2, '0'), lang), total: localDigits(String(total).padStart(2, '0'), lang) })}</span>
             <span>{p.category}</span>
-            <span>{p.date}</span>
+            <span>{localDigits(p.date, lang)}</span>
             <span className="stack-status">{p.status}</span>
           </p>
           <h3 id={`p-${p.id}`} className="stack-title">
             {p.title}
           </h3>
           <p className="stack-sub">{p.subtitle}</p>
-          <p className="stack-highlight">{p.highlight}</p>
+          <p className="stack-highlight">{localDigits(p.highlight, lang)}</p>
           <p className="stack-summary">{p.summary}</p>
           <dl className="stack-metrics">
             {p.metrics.map((m) => (
               <div key={m.label}>
                 <dt>{m.label}</dt>
-                <dd>{m.value}</dd>
+                <dd>{localDigits(m.value, lang)}</dd>
               </div>
             ))}
           </dl>
           <p className="stack-terms">
-            <span>Jargon here:</span>
-            {p.terms.slice(0, 4).map((t) => (
-              <Term key={t} id={t} />
+            <span>{t('jargon')}</span>
+            {p.terms.slice(0, 4).map((term) => (
+              <Term key={term} id={term} />
             ))}
           </p>
           <div className="stack-actions">
-            <button type="button" className="btn btn-accent" onClick={() => open(p.id)}>
-              Read the case study <ArrowRightIcon size={17} weight="bold" />
+            <button type="button" className="btn btn-accent" onClick={() => open(p.id)} aria-label={t('readCaseAria', { title: p.title })}>
+              {t('readCase')} <ArrowRightIcon size={17} weight="bold" aria-hidden="true" />
             </button>
             {p.video && (
               <button type="button" className="btn btn-ghost" onClick={() => scrollToTarget('#watch')}>
-                <PlayIcon size={16} weight="fill" /> Watch the explainer
+                <PlayIcon size={16} weight="fill" aria-hidden="true" /> {t('watch')}
               </button>
             )}
           </div>
@@ -65,7 +69,7 @@ function FeaturedCard({ p, i }) {
   );
 }
 
-function Archive() {
+function Archive({ t, lang, loc }) {
   const preview = useRef(null);
   const [hover, setHover] = useState(null);
   const pos = useRef(null);
@@ -76,7 +80,10 @@ function Archive() {
     const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
     const yTo = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
     pos.current = { xTo, yTo };
-    return undefined;
+    return () => {
+      pos.current = null;
+      gsap.killTweensOf(el);
+    };
   }, []);
 
   const move = (e) => {
@@ -88,15 +95,18 @@ function Archive() {
     pos.current.yTo(y);
   };
 
-  const p = archiveProjects.find((a) => a.id === hover);
+  const raw = archiveProjects.find((a) => a.id === hover);
+  const p = raw ? loc(raw) : null;
 
   return (
     <div className="archive" onPointerMove={move} onPointerLeave={() => setHover(null)}>
       <h3 className="archive-title">
-        More flights <span className="light">in the logbook.</span>
+        {t('archiveA')} <span className="light">{t('archiveB')}</span>
       </h3>
       <ul className="archive-list">
-        {archiveProjects.map((a) => (
+        {archiveProjects.map((orig) => {
+          const a = loc(orig);
+          return (
           <li key={a.id}>
             <button
               type="button"
@@ -107,15 +117,20 @@ function Archive() {
               onFocus={() => setHover(null)}
               onClick={() => open(a.id)}
             >
-              <span className="archive-year">{a.year}</span>
-              <span className="archive-name">{a.title}</span>
+              <span className="archive-year">{localDigits(a.year, lang)}</span>
+              <span className="archive-main">
+                <span className="archive-name">{a.title}</span>
+                <span className="archive-hl-sm">{localDigits(a.highlight, lang)}</span>
+              </span>
               <span className="archive-cat">{a.category}</span>
-              <span className="archive-hl">{a.highlight}</span>
-              <ArrowUpRightIcon className="archive-arrow" size={20} weight="bold" />
+              <span className="archive-hl">{localDigits(a.highlight, lang)}</span>
+              <ArrowUpRightIcon className="archive-arrow" size={20} weight="bold" aria-hidden="true" />
             </button>
           </li>
-        ))}
+          );
+        })}
       </ul>
+      <p className="archive-joke">{t('archiveJoke')}</p>
       <div ref={preview} className={`archive-preview ${p ? 'is-on' : ''}`} aria-hidden="true">
         {p && (
           <>
@@ -132,6 +147,9 @@ function Archive() {
 
 export default function Work() {
   const root = useRef(null);
+  const t = useT(dict);
+  const lang = useLang();
+  const loc = useLocalize(overlay);
 
   useEffect(() => {
     const mm = gsap.matchMedia();
@@ -167,21 +185,19 @@ export default function Work() {
       <div className="wrap">
         <header className="work-head sec-head">
           <h2 id="work-title" className="t-display">
-            Selected <span className="light">work.</span>
+            {t('titleA')} <span className="light">{t('titleB')}</span>
           </h2>
-          <p className="t-lede">Research that got accepted, systems that shipped, and a few ideas still in the air. Every diagram here is live, and every bit of jargon has a plain-English card.</p>
-          <Yap>
-            Quick map: the bio-memory card is the IEEE paper, the +203% card is the newest result, and the eVTOL and Elser cards are still in progress, so those are the ones to ask me about.
-          </Yap>
+          <p className="t-lede">{t('lede')}</p>
+          <Yap>{localDigits(t('yap'), lang)}</Yap>
         </header>
 
         <div className="stack">
           {featuredProjects.map((p, i) => (
-            <FeaturedCard key={p.id} p={p} i={i} />
+            <FeaturedCard key={p.id} p={loc(p)} i={i} total={featuredProjects.length} t={t} lang={lang} />
           ))}
         </div>
 
-        <Archive />
+        <Archive t={t} lang={lang} loc={loc} />
       </div>
     </section>
   );

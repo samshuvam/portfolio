@@ -8,7 +8,7 @@ export const profile = {
   heroLine: 'AI, aviation and everything in between. I build AI that remembers and airspace that thinks.',
   born: { place: 'Janakpur Dham, Madhesh, Nepal', date: '25 April 2003', bs: '12 Baisakh 2060' },
   home: 'Lalitpur, Nepal',
-  university: 'SRM University AP, Andhra Pradesh, India',
+  university: 'SRM University, India',
   languages: ['Maithili', 'Nepali', 'English'],
   email: 'suvmith@gmail.com',
   phone: '+977 9819880850',
@@ -28,6 +28,6 @@ export const profile = {
 export const stats = [
   { value: '2', label: 'papers accepted', detail: 'IEEE ICAII 2026 and ICAAsT 2024', term: null },
   { value: '+203%', label: 'over naive RAG', detail: 'measured on a 500-query benchmark', term: 'rag' },
-  { value: '8.61', label: 'CGPA', detail: 'B.Tech CSE, Big Data, SRM University AP', term: null },
+  { value: '8.61', label: 'CGPA', detail: 'B.Tech CSE, Big Data, SRM University', term: null },
   { value: '7.5', label: 'IELTS band', detail: 'scientific writing and speaking', term: null },
 ];

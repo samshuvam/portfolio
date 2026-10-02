@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useWorld } from '../lib/world';
 import { useStore } from '../lib/store';
 import { seasonById } from '../data/seasons';
@@ -31,10 +31,10 @@ export default function ThemeSync() {
   const lang = useStore((s) => s.lang);
   const festival = world.festivals.isBirthday ? 'birthday' : world.festivals.active?.mode || '';
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = theme;
-    const a = season.accent[theme];
+    const a = theme === 'day' ? {fill:'#256449',ink:'#ffffff',fg:'#205d43'} : {fill:'#8fc9a5',ink:'#10241b',fg:'#a3d9b7'};
     root.style.setProperty('--accent', a.fill);
     root.style.setProperty('--accent-ink', a.ink);
     root.style.setProperty('--accent-fg', a.fg);

@@ -31,12 +31,15 @@ import Panorama from './components/fx/Panorama';
 import JanakiMandir from './components/fx/JanakiMandir';
 import { TermCardHost } from './components/ui/Term';
 import { startSmoothScroll } from './lib/motion';
+import { useAmbient } from './lib/ambient';
 import './styles/term-art.css';
 import './styles/layout.css';
+import './components/layout/tools.css';
 
 const PlaneLayer = lazy(() => import('./three/PlaneLayer'));
 
 export default function App() {
+  useAmbient();
   useEffect(() => {
     startSmoothScroll();
   }, []);
