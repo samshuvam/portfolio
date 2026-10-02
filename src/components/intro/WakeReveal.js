@@ -20,9 +20,9 @@ export function createWakeReveal(canvas) {
     draw(p){
       ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);
       ctx.drawImage(cloud,0,0);ctx.scale(dpr,dpr);ctx.globalCompositeOperation='destination-out';
-      const travel=Math.min(1,p/.52),spread=smooth(Math.max(0,(p-.16)/.84));
+      const travel=Math.min(1,p/.82),spread=smooth(Math.max(0,(p-.28)/.72));
       for(let i=0;i<=38*travel;i++){
-        const t=i/38,x=w*(-.12+1.28*t),y=h*(.83-.63*t)+Math.sin(t*7)*h*.045;
+        const t=i/38,x=w*(-.175+1.35*t),y=h*(.58-.15*t);
         const r=Math.min(w,h)*(.035+spread*1.42)+Math.sin(t*Math.PI)*h*.04;
         const g=ctx.createRadialGradient(x,y,r*.48,x,y,r);
         g.addColorStop(0,'#000');g.addColorStop(.65,'#000e');g.addColorStop(1,'transparent');

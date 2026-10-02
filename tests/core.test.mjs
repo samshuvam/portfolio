@@ -3,16 +3,22 @@ import { createAirliner as createFlightRig } from '../src/three/airlinerRig.js';
 import assert from 'node:assert/strict';
 import { KEEPSAKE_FRAMES, keepsakeFrameSvg, frameDataUrl } from '../src/lib/keepsakes.js';
 import { build } from 'vite';
-import { P, landingFromScroll, statusFor } from '../src/components/finale/timeline.js';
+import { TRAFFIC, cruiseTraffic, airportTraffic } from '../src/three/trafficSchedule.js';
 import { journey } from '../src/data/journey.js';
 import { imagery } from '../src/lib/imagery.js';
 import fs from 'node:fs';
 
-test('scroll descent is reversible, clamps safely and hands off at touchdown',()=>{
-  assert.equal(landingFromScroll(0),0);assert.equal(landingFromScroll(1),P.touchdown);
-  assert.equal(landingFromScroll(.5),P.touchdown*.5);assert.equal(landingFromScroll(-1),0);
-  assert.equal(landingFromScroll(2),P.touchdown);assert.equal(landingFromScroll(NaN),0);
-  assert.equal(statusFor(landingFromScroll(.99)),0);assert.equal(statusFor(landingFromScroll(1)),1);
+test('autonomous traffic has quiet gaps, repeatable timings and mostly arrivals',()=>{
+  assert.equal(cruiseTraffic(0).visible,false);
+  assert.equal(cruiseTraffic(24).visible,true);
+  assert.equal(cruiseTraffic(42).visible,false);
+  assert.deepEqual(cruiseTraffic(29),cruiseTraffic(161));
+  assert.equal(new Set(TRAFFIC.map(f=>f.call)).size,4);
+  assert.equal(new Set(TRAFFIC.map(f=>f.from+'→'+f.to)).size,4);
+  const waves=[0,26,52,78].map(airportTraffic);
+  assert.equal(waves.filter(f=>f.departing).length,1);
+  assert.equal(waves.filter(f=>!f.departing).length,3);
+  for(let t=0;t<300;t++){const flight=cruiseTraffic(t),ground=airportTraffic(t);assert.ok(flight.progress>=0&&flight.progress<=1);assert.ok(ground.progress>=0&&ground.progress<=1);assert.ok(TRAFFIC.includes(flight.flight));}
 });
 test('every journey milestone owns a unique, installed contextual image',()=>{
   assert.equal(journey.length,16);assert.equal(new Set(journey.map(m=>m.image)).size,16);

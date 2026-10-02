@@ -8,12 +8,13 @@ import { getWorld } from '../lib/world';
 import { getState } from '../lib/store';
 import { findEgg, toast } from '../lib/eggs';
 import { sound } from '../lib/sound';
+import { cruiseTraffic } from './trafficSchedule';
 import { getLang, translate } from '../i18n';
 
 
 // The global plane: a fixed full-screen WebGL canvas behind page content
 // (z 5). It follows a closed route in real depth and briefly approaches the
-// visitor scrolls, sweeps across fog sections when a FogReveal asks it to
+// foreground on timed passes, sweeps across fog when a FogReveal asks it to
 // (planeBus.sweep, raised above content), fades out whenever a scene borrows
 // it (planeBus.hidden) and publishes where it is on screen (planeBus.screen).
 
@@ -166,6 +167,8 @@ export default function PlaneLayer() {
     pivot.rotation.x = 0.3;
     pivot.add(plane.group);
     scene.add(pivot);
+    const passing=createAirliner({variant:'kalyani'});scene.add(passing.group);
+    const trafficLabel=document.createElement('div');trafficLabel.className='sky-traffic-label';trafficLabel.setAttribute('aria-hidden','true');document.body.appendChild(trafficLabel);
     document.fonts?.load('400 96px "Noto Sans Tirhuta"', '\u{114AC}\u{114B3}').then(() => plane.setAccent(accentNow())).catch(() => {});
 
     // ---- contrails: two fading ribbons -------------------------------------
@@ -268,13 +271,13 @@ export default function PlaneLayer() {
     let introWait = null;
     if (!reduce) {
       const startIntro = () => {
-        introTween = gsap.to(st, { intro: 1, duration: 2.8, delay:getState().intro==='done'?2.75:.25, ease: 'power3.out' });
+        introTween = gsap.to(st, { intro: 1, duration: 2.8, delay:.35, ease: 'power3.out' });
         if (!planeBus.hidden.size) sound.whoosh(0.8);
       };
-      if (getState().loaded) startIntro();
+      if (getState().loaded&&planeBus.introDone) startIntro();
       else {
         introWait = setInterval(() => {
-          if (getState().loaded) {
+          if (getState().loaded&&planeBus.introDone) {
             clearInterval(introWait);
             introWait = null;
             startIntro();
@@ -442,12 +445,11 @@ export default function PlaneLayer() {
         return new THREE.Vector3(p.x*h*camera.aspect,p.y*h,p.z);
       }));
     };measureFlightLine();window.addEventListener('resize',measureFlightLine);
+    let flightSeconds=0,heroSeconds=0;
     const routeTarget = () => {
-      const now=performance.now()/1000;
-      const page=Math.max(1,document.documentElement.scrollHeight-view.h);
-      const phase=((window.scrollY/page)*3+now*.004)%1;
+      const phase=(flightSeconds*.009+.06)%1;
       cruise.getPointAt(phase,cruisePoint);
-      const heroBlend=smooth(clamp(window.scrollY/(view.h*.75),0,1));
+      const heroBlend=smooth(clamp(Math.max(window.scrollY/(view.h*.75),(heroSeconds-7)/9),0,1));
       const hero=poseFor('top'),z=cruisePoint.z*heroBlend;
       Object.assign(target,{
         x:lerp(hero.x,cruisePoint.x,heroBlend),y:lerp(hero.y,cruisePoint.y,heroBlend),
@@ -478,7 +480,7 @@ export default function PlaneLayer() {
     // ---- the loop --------------------------------------------------------------
     const setLayer = (above) => {
       st.above = above;
-      canvas.style.zIndex = above ? String(ABOVE_Z) : '';
+      canvas.style.zIndex = planeBus.introSweep ? '105' : above ? String(ABOVE_Z) : '';
       S.above = above;
     };
     let onScreen = true;
@@ -491,6 +493,8 @@ export default function PlaneLayer() {
       const aspect = view.w / view.h;
 
       // Where should we be?
+      if(st.intro>=1){flightSeconds+=dt;heroSeconds+=dt;}
+      const introPass=planeBus.introSweep;
       const sw = planeBus.sweep;
       const sweeping = !!sw && st.intro >= 1;
       let dir = 1;
@@ -499,7 +503,7 @@ export default function PlaneLayer() {
       const landing=planeBus.landingPose;
       if(landing){const blend=landing.blend??1;Object.assign(target,{x:lerp(target.x,landing.x,blend),y:lerp(target.y,landing.y,blend),s:lerp(target.s,landing.s,blend),depth:lerp(target.depth||0,0,blend),gear:landing.gear,parked:0,inHero:false});}
       const archive=document.querySelector('.archive');
-      if(!landing&&!sweeping&&archive){const r=archive.getBoundingClientRect();if(r.top<view.h*.7&&r.bottom>view.h*.2){const p=clamp((view.h-r.top)/(view.h+r.height),0,1);Object.assign(target,{x:lerp(-.66,.66,p),y:.26+Math.sin(p*Math.PI*2)*.28,s:Math.min(.24,.48/aspect),depth:0,parked:0,inHero:false});}}
+      if(!landing&&!sweeping&&archive){const r=archive.getBoundingClientRect();if(r.top<view.h*.7&&r.bottom>view.h*.2){const p=(flightSeconds%28)/28;if(p<.65)Object.assign(target,{x:lerp(-1.25,1.25,p/.65),y:.26+Math.sin(p/.65*Math.PI*2)*.28,s:Math.min(.24,.48/aspect),depth:0,parked:0,inHero:false});}}
       if (sweeping !== st.sweeping) {
         st.sweeping = sweeping;
         if (!sweeping) st.headRight = st.vx >= 0;
@@ -513,7 +517,8 @@ export default function PlaneLayer() {
       else if(!landing&&st.intro>=1&&!target.inHero){target.x+=Math.sin(now*.34)*.07;target.y+=Math.cos(now*.48)*.045;}
 
       // Intro fly-in from off-screen right.
-      const intro = st.intro;
+      if(introPass)Object.assign(target,{x:-1.35+2.7*introPass.progress,y:1-2*introPass.y,s:isMobile()?.58:.34,depth:0,yaw:-12,gear:0,pitch:0,parked:0,inHero:false});
+      const intro = introPass?1:st.intro;
       const goalX = lerp(-1.7, target.x, intro);
       const goalY = lerp(0.42, target.y, intro);
 
@@ -541,6 +546,7 @@ export default function PlaneLayer() {
         springTo('y', goalY, intro < 1 ? 60 : landing ? 18 : 3.2, dt);
         springTo('s', lerp(0.22, target.s, intro), landing ? 18 : 3, dt);
       }
+      if(introPass){st.x=goalX;st.y=goalY;st.s=target.s;st.depth=0;}
       springTo('depth',target.depth||0,landing?12:2.5,dt);
       springTo('gear', target.gear, 2.5, dt);
       st.vx = lerp(st.vx, (st.x - prevX) / dt, 0.12);
@@ -602,8 +608,8 @@ export default function PlaneLayer() {
       // briefly if the layer has to change while the plane is in view.
       st.fade += ((planeBus.hidden.size ? 0 : 1) - st.fade) * (1 - Math.exp(-6 * dt));
       if (st.fade < 0.002) st.fade = 0;
-      const archivePass=!landing&&!sweeping&&archive&&archive.getBoundingClientRect().top<view.h*.7&&archive.getBoundingClientRect().bottom>view.h*.2;
-      const wantAbove=!!planeBus.aboveContent||archivePass||!!(landing?.touchdown);
+      const archivePass=!landing&&!sweeping&&archive&&archive.getBoundingClientRect().top<view.h*.7&&archive.getBoundingClientRect().bottom>view.h*.2&&(flightSeconds%28)/28<.65;
+      const wantAbove=!!introPass||!!planeBus.aboveContent||archivePass||!!(landing?.touchdown);
       if (wantAbove === st.above) {
         st.layerWait = 0;
         st.dipping = false;
@@ -620,6 +626,7 @@ export default function PlaneLayer() {
       onScreen = publish(dt);
       updateHover(now);
       if (opacity <= 0) {
+        trafficLabel.hidden=true;
         resetTrails();
         if (hovering) setHover(false);
         return;
@@ -673,6 +680,10 @@ export default function PlaneLayer() {
         trail.mat.uniforms.uColor.value.setRGB(lerp(1, 0.75, night), lerp(1, 0.8, night), lerp(1, 0.95, night));
       });
 
+      const traffic=cruiseTraffic(flightSeconds);
+      passing.group.visible=!reduce&&traffic.visible&&!planeBus.hidden.size&&!landing&&!introPass&&!sweeping&&heroSeconds>16;
+      if(passing.group.visible){const z=-14,h=(14-z)*Math.tan(THREE.MathUtils.degToRad(camera.fov/2));const x=traffic.direction*(-1.22+2.44*traffic.progress),y=.55-Math.sin(traffic.progress*Math.PI)*.24;passing.group.position.set(x*h*aspect,y*h,z);passing.group.scale.setScalar((isMobile()?.22:.1)*h*aspect*2/4);passing.group.rotation.set(.18,traffic.direction>0?-.3:Math.PI+.3,-traffic.direction*.05);passing.update(now,{night:night,landing:0});trafficLabel.textContent=traffic.flight.call+' · '+traffic.flight.from+' → '+traffic.flight.to;trafficLabel.style.left=((x*.5+.5)*view.w)+'px';trafficLabel.style.top=((-y*.5+.5)*view.h+18)+'px';}
+      trafficLabel.hidden=!passing.group.visible;
       renderer.render(scene, camera);
     };
 
@@ -713,7 +724,8 @@ export default function PlaneLayer() {
         sun.intensity = lerp(2.3, 0.55, night);
         scene.environmentIntensity = lerp(0.9, 0.25, night);
         plane.update(0, { night, landing: 0 });
-        renderer.render(scene, camera);
+        passing.group.visible=false;trafficLabel.hidden=true;
+      renderer.render(scene, camera);
         st.opacity = -1;
         applyOpacity();
         publish(0);
@@ -771,6 +783,7 @@ export default function PlaneLayer() {
         t.geo.dispose();
         t.mat.dispose();
       });
+      passing.dispose();trafficLabel.remove();
       plane.dispose();
       envTex.dispose();
       pmrem.dispose();

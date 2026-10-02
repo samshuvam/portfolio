@@ -8,7 +8,7 @@ import './fog.css';
 //
 // The overlay canvas sits at z 32 in the root stacking context (the wrapper
 // forms no stacking context of its own), above the section's content. While
-// the section scrolls through, a scrubbed ScrollTrigger asks the global plane
+// the section enters view, a timed sequence asks the global plane
 // for three alternating horizontal passes (planeBus.sweep) and raises it above
 // content (planeBus.aboveContent). Every frame the fog is erased along the
 // plane's path with a soft brush, plus turbulent wake particles that keep
@@ -502,7 +502,7 @@ export default function FogReveal({ variant = 'smog', children }) {
       const mid = (pass.a + pass.b) / 2;
       // Keep each pass over the section: its top and bottom as viewport
       // fractions halfway through the pass (start is 'top 75%').
-      const top = 0.75 - mid * span;
+      const top = wrap.getBoundingClientRect().top / vh;
       const bottom = top + wrap.offsetHeight / vh;
       const y = clamp(Math.max(top + 0.12, Math.min(bottom - 0.12, pass.y)), 0.14, 0.86);
       if (k !== sweep.pass) S.prev = null;
@@ -535,6 +535,7 @@ export default function FogReveal({ variant = 'smog', children }) {
       if (!S.W) sizeCanvas();
       ensureTexture();
       const rect = wrap.getBoundingClientRect();
+      if(S.engaged&&S.phase==='fog'){S.progress=Math.min(1,S.progress+dt/10);applySweep();if(S.progress>=1)complete();}
       if (S.phase === 'fog' && S.engaged && planeBus.sweep === sweep) erase(rect);
       else S.prev = null;
 
@@ -617,7 +618,7 @@ export default function FogReveal({ variant = 'smog', children }) {
       invalidateOnRefresh: true,
       onToggle: (self) => {
         if (S.phase !== 'fog') return;
-        S.progress = self.progress;
+
         S.span = Math.max(1, self.end - self.start);
         if (self.isActive) {
           S.lo = self.progress;
@@ -625,22 +626,7 @@ export default function FogReveal({ variant = 'smog', children }) {
           engage();
         } else release();
       },
-      onUpdate: (self) => {
-        if (S.phase !== 'fog') return;
-        const p = self.progress;
-        S.progress = p;
-        S.span = Math.max(1, self.end - self.start);
-        if (!self.isActive) return;
-        S.lo = Math.min(S.lo, p);
-        S.hi = Math.max(S.hi, p);
-        // Done once the visitor has flown (nearly) the whole stretch.
-        if (S.hi - S.lo > 0.9 && (p > 0.96 || p < 0.04)) {
-          complete();
-          return;
-        }
-        if (!S.engaged) engage();
-        else applySweep();
-      },
+      onUpdate: (self) => {if(self.isActive&&!S.engaged&&S.phase==='fog')engage();},
       onLeave: () => complete(),
       onLeaveBack: () => {
         if (S.hi - S.lo > 0.85) complete();

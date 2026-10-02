@@ -6,12 +6,13 @@ import { getWeather } from '../lib/weather';
 import { getState } from '../lib/store';
 import { skyColors } from '../components/hero/sky';
 import { P } from '../components/finale/timeline';
+import { airportTraffic } from './trafficSchedule';
 
 // The last scene of the site: flight SUV-1478 lands on an unknown runway and
 // taxis to a stand next to a parked aircraft named Kalyani. Everything is a
-// pure function of the scroll progress p (0..1), so scrubbing backwards and
-// forwards always shows the same frame. Sky and light follow the real sun
-// over Lalitpur.
+// pose along elapsed flight progress p (0..1); other arrivals follow their
+// own clock and disappear behind the terminal after taxiing. Sky and light
+// follow the real sun over Lalitpur.
 //
 // World layout (1 unit is roughly 10 m, distances are compressed):
 //   runway along +X from the threshold at x = 0 to x = 100, centred on z = 0,
@@ -566,6 +567,13 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
   kalyani.group.rotation.y = PARK_YAW;
   kalyani.setGear(1);
   scene.add(kalyani.group);
+  const visitor=createAirliner({variant:'kalyani'});scene.add(visitor.group);
+  const distantRunway=new THREE.Mesh(flat(100,3.5),asphalt);distantRunway.position.set(74,.025,-24);scene.add(distantRunway);
+  const distantMark=new THREE.MeshBasicMaterial({color:'#d8ded7'});
+  for(let x=29;x<120;x+=4){const stripe=new THREE.Mesh(flat(1.6,.13),distantMark);stripe.position.set(x,.033,-24);scene.add(stripe);}
+  const beaconGeo=new THREE.SphereGeometry(.055,6,4),beaconMat=new THREE.MeshBasicMaterial({color:'#b4ddbe'});
+  for(let x=26;x<123;x+=6)for(const z of [-25.8,-22.2]){const b=new THREE.Mesh(beaconGeo,beaconMat);b.position.set(x,.10,z);scene.add(b);}
+  let currentTraffic=null;
 
   document.fonts?.load('400 96px "Noto Sans Tirhuta"', '\u{114AC}\u{114B3}').then(() => !disposed && plane.setAccent(currentAccent)).catch(() => {});
   let currentAccent = accent;
@@ -658,6 +666,8 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
     const lights = p < P.rollEnd ? 1 : lerp(1, 0.25, smooth(P.rollEnd, P.parked, p));
     plane.update(t, { night, landing: lights });
     kalyani.update(t + 0.5, { night: night * 0.8, landing: 0 });
+    currentTraffic=airportTraffic(t);visitor.group.visible=currentTraffic.visible;
+    if(currentTraffic.visible){const f=currentTraffic.progress;if(currentTraffic.departing){const x=26+150*f,up=Math.max(0,(f-.42)*22);visitor.group.position.set(x,GROUND_Y+up,-24);visitor.group.rotation.set(0,0,up>0?.09:0);visitor.setGear(1-smooth(.58,.8,f));}else{const x=-105+183*Math.min(1,f/.84),taxi=smooth(.84,1,f);visitor.group.position.set(x,GROUND_Y+Math.max(0,(12-x)*GLIDE),38*taxi);visitor.group.rotation.set(0,-Math.PI/2*smooth(.82,.89,f),x<12?.04:0);visitor.setGear(1);}visitor.update(t+1,{night,landing:1});}
     landingSpot.intensity = lights * night * 90;
 
     const alt = st.pos.y - GROUND_Y;
@@ -737,6 +747,7 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
     const local=st.pos.clone().applyMatrix4(camera.matrixWorldInverse);
     const relative=camera.quaternion.clone().invert().multiply(plane.group.quaternion);
     labels.flightPose={x:centre.x,y:centre.y,s:4/(2*Math.max(.1,-local.z)*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*(view.h/view.w),quaternion:relative.toArray(),gear:smooth(P.gearDown[0],P.gearDown[1],cur)};
+    labels.traffic=currentTraffic;
     return labels;
   }
 
@@ -817,7 +828,7 @@ export function createLandingScene(canvas, { accent = '#214b39', sign = 'Destina
       cancelAnimationFrame(raf);
       raf = 0;
       plane.dispose();
-      kalyani.dispose();
+      kalyani.dispose();visitor.dispose();
       scene.traverse((o) => {
         if (o.geometry) o.geometry.dispose();
         const mats = Array.isArray(o.material) ? o.material : o.material ? [o.material] : [];

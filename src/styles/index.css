@@ -560,3 +560,5 @@ main { overflow-x: clip; }
     scroll-behavior: auto !important;
   }
 }
+
+.sky-traffic-label{position:fixed;z-index:6;pointer-events:none;transform:translate(-50%,0);font:8px var(--font-mono);letter-spacing:.09em;color:var(--ink-2);padding:.35rem .6rem;border:1px solid var(--frost-edge);background:var(--frost-surface);border-radius:99px;white-space:nowrap}.sky-traffic-label[hidden]{display:none}

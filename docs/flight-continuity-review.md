@@ -1,5 +1,7 @@
 # Flight continuity review — 2 October 2026
 
+Historical review. The later [autonomous flight revision](autonomous-flight-and-window-review.md) supersedes the scroll-driven cruise and touchdown described below.
+
 This checklist covers the owner's latest request: takeoff handoff, background cruise and approach, a separate airport terminal, final-scroll touchdown and publication. Older design requests remain recorded in the previous reviews.
 
 | Request | Implementation and verification |

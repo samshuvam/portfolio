@@ -164,31 +164,39 @@ export default function Intro() {
       clearTimeout(slowTimer);
       clearTimeout(hardTimer);
       if (!skipped) findEgg('takeoff');
-      handoff();
+      if(skipped)handoff();else setState({loaded:true,intro:'clearing'});
       const el = root.current;
       if (!el) {
+        handoff();
         stop();
         setGone(true);
         return;
       }
-      const dur = skipped ? 0.45 : 3.8;
+      const dur = skipped ? 0.45 : 6;
       if(!skipped)el.classList.add('is-handoff');
       const remove = () => {
         clearTimeout(removeTimer);
+        planeBus.introSweep=null;
+        handoff();
         stop();
         if (alive) setGone(true);
       };
       if(skipped)tweens.push(gsap.to(el,{autoAlpha:0,duration:dur,onComplete:remove}));
       else{
         const wake=createWakeReveal(el.querySelector('.intro-wake'));
-        const state={p:0};wake.draw(0);
-        tweens.push(gsap.to(state,{p:1,duration:dur,ease:'none',onUpdate:()=>wake.draw(state.p),onComplete:()=>{wake.dispose();remove();}}));
+        const state={p:0};wake.draw(0);el.querySelector('.intro-wake').style.opacity='0';
+        tweens.push(gsap.to(state,{p:1,duration:dur,ease:'none',onUpdate:()=>{
+          const p=state.p,clear=Math.max(0,Math.min(1,(p-.25)/.75));wake.draw(clear);
+          if(p<.25)el.querySelector('.intro-wake').style.opacity=String(Math.min(1,p/.12));
+          if(p>=.25&&p<.87){planeBus.introSweep={progress:(p-.25)/.62,y:.58-.15*((p-.25)/.62)};showPlane('intro');}
+          else {planeBus.introSweep=null;hidePlane('intro');}
+        },onComplete:()=>{wake.dispose();remove();}}));
         tweens.push(gsap.to(el,{autoAlpha:0,duration:.55,delay:dur-.55,ease:'power2.in'}));
       }
       // gsap runs on requestAnimationFrame, which a background tab pauses:
       // make sure the overlay still leaves.
       removeTimer = setTimeout(remove, dur * 1000 + 600);
-      if (canvasRef.current && !skipped) tweens.push(gsap.to(canvasRef.current, { opacity:0, filter:'blur(9px)', duration:.55, ease:'power1.inOut' }));
+      if (canvasRef.current && !skipped) tweens.push(gsap.to(canvasRef.current, { opacity:0, filter:'blur(9px)', duration:.4, delay:.5, ease:'power1.inOut' }));
     };
     skipRef.current = () => finish(true);
 
@@ -294,6 +302,7 @@ export default function Intro() {
       window.removeEventListener('resize', size);
       tweens.forEach((tw) => tw.kill());
       stop();
+      planeBus.introSweep=null;
       skipRef.current = () => {};
       if (!finished) {
         lockScroll(false, 'intro');

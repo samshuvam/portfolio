@@ -2,20 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import { AirplaneLandingIcon, ChatCircleDotsIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
 import { gsap, reducedMotion, scrollToTarget } from '../../lib/motion';
 import { planeBus } from '../../three/planeBus';
+import { TRAFFIC } from '../../three/trafficSchedule';
 import Footer from '../layout/Footer';
 import { findEgg } from '../../lib/eggs';
-import { sound } from '../../lib/sound';
 import { useT, useLang, localDigits } from '../../i18n';
 import dict from '../../i18n/ui/finale';
-import { P, statusFor, landingFromScroll } from './timeline';
+import { P, statusFor } from './timeline';
 import release from '../../data/release.generated.json';
 import './finale.css';
 
-// The airport lives beneath the final chapters. Scrolling reaches touchdown;
-// rollout and taxi then continue automatically with the same global aircraft.
+// Scrolling brings the airport into view. Flight, touchdown and taxi use
+// elapsed time, so arrivals keep moving while the visitor watches.
 
 const accentNow = () => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#214b39';
-function Board({ t, status, live }) {
+function Board({ t, status, live, traffic }) {
   const states = [t('st0'), t('st1'), t('st2'), t('st3')];
   return (
     <div className="fin-board" role="group" aria-label={t('boardTitle')}>
@@ -49,6 +49,7 @@ function Board({ t, status, live }) {
             </td>
             <td className="is-live">{t('gateFuture')}</td>
           </tr>
+          {TRAFFIC.map(f=><tr key={f.call}><td>{f.call}</td><td>{f.from}<small className="traffic-destination">→ {f.to}</small></td><td className={traffic?.call===f.call?'is-live':'is-dim'}>{traffic?.call===f.call?traffic.status:'EXPECTED'}</td><td className="is-dim">{f.call==='SHUV-ACB'?'09R':'27L'}</td></tr>)}
           <tr>
             <td>9N-KLY</td>
             <td className="is-dim">TBF</td>
@@ -93,14 +94,16 @@ function Card({ t, className = '', onFocus }) {
 export default function Finale() {
   const t=useT(dict),lang=useLang(),reduced=useRef(reducedMotion()).current;
   const [progress,setProgress]=useState(reduced?1:0),[ready,setReady]=useState(false),[failed,setFailed]=useState(false);
+  const [traffic,setTraffic]=useState(null);
   const sectionRef=useRef(null),trackRef=useRef(null),stageRef=useRef(null),canvasRef=useRef(null),sceneRef=useRef(null);
   useEffect(()=>{sceneRef.current?.setSign(t('sign'));},[lang]);
   useEffect(()=>{
-    let alive=true,scene,ro,observer,raf=0,taxi=null,egged=false,active=false,q=0,touched=false;
+    let alive=true,scene,ro,observer,raf=0,taxi=null,egged=false,active=false,q=0,trafficKey='';
     const clock={p:reduced?1:0},smooth=t=>t*t*(3-2*t),clamp=v=>Math.max(0,Math.min(1,v));
     const publish=(p,labels)=>{
       if(!active||!labels.flightPose){planeBus.landingPose=null;return;}
-      const blend=smooth(clamp((q-.3)/.5));
+      const flight=labels.traffic;if(flight){const state=flight.visible?(flight.departing?'DEPARTING':'LANDING'):'EXPECTED',key=flight.flight.call+state;if(key!==trafficKey){trafficKey=key;setTraffic({call:flight.flight.call,status:state});}}
+      const blend=smooth(clamp((q-.15)/.6));
       planeBus.landingPose={...labels.flightPose,blend,touchdown:p>=P.touchdown};
     };
     const draw=()=>{
@@ -120,9 +123,7 @@ export default function Finale() {
       if(!active){scene?.stop();planeBus.landingPose=null;taxi?.pause();}
       else if(!reduced){scene?.start();taxi?.resume();}
       if(reduced){clock.p=1;draw();return;}
-      if(q<.9995){taxi?.kill();taxi=null;touched=false;clock.p=landingFromScroll(q);draw();}
-      else if(!taxi&&scene){clock.p=Math.max(clock.p,P.touchdown);if(!touched){touched=true;sound.whoosh(.4);}draw();taxi=gsap.to(clock,{p:1,duration:(1-clock.p)*28,ease:'none',onUpdate:draw});}
-    };
+      if(!taxi&&scene&&active){taxi=gsap.to(clock,{p:1,duration:(1-clock.p)*68,ease:'none',onUpdate:draw});}    };
     const schedule=()=>{if(!raf)raf=requestAnimationFrame(update);};
     const pointer=e=>{if(active&&e.pointerType==='mouse')scene?.setPointer((e.clientX/innerWidth-.5)*.65,(e.clientY/innerHeight-.5)*.65);};
     window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);window.addEventListener('pointermove',pointer,{passive:true});
@@ -142,11 +143,11 @@ export default function Finale() {
     return()=>{alive=false;cancelAnimationFrame(raf);taxi?.kill();ro?.disconnect();observer?.disconnect();layout.disconnect();environment.disconnect();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.removeEventListener('pointermove',pointer);scene?.dispose();sceneRef.current=null;planeBus.landingPose=null;document.documentElement.classList.remove('airport-in-view');};
   },[reduced]);
   const status=statusFor(progress);
-  const boarding={en:['BOARDING / THE NEXT CHAPTER','PASSENGER','SHUVAM SINGH','DESTINATION','TO BE ANNOUNCED','SEAT','25A + 25B?','STILL FLYING','Scroll slowly. Touch down at the end; we’ll taxi from there.'],ne:['बोर्डिङ / अर्को अध्याय','यात्रु','शुवम सिंह','गन्तव्य','पछि घोषणा हुनेछ','सिट','25A + 25B?','अझै उड्दै','बिस्तारै स्क्रोल गर्नुहोस्। अन्त्यमा अवतरण, त्यसपछि ट्याक्सी।'],mai:['बोर्डिङ / अगिला अध्याय','यात्री','शुवम सिंह','गन्तव्य','बादमे घोषणा होयत','सीट','25A + 25B?','एखनो उड़ैत','धीरे स्क्रोल करू। अन्तमे अवतरण, तकर बाद ट्याक्सी।']}[lang];
+  const boarding={en:['BOARDING / THE NEXT CHAPTER','PASSENGER','SHUVAM SINGH','DESTINATION','TO BE ANNOUNCED','SEAT','25A + 25B?','STILL FLYING','The airport keeps moving. Stay a while and watch the arrivals.'],ne:['बोर्डिङ / अर्को अध्याय','यात्रु','शुवम सिंह','गन्तव्य','पछि घोषणा हुनेछ','सिट','25A + 25B?','अझै उड्दै','विमानस्थल चलिरहन्छ। केही बेर बसेर आगमन हेर्नुहोस्।'],mai:['बोर्डिङ / अगिला अध्याय','यात्री','शुवम सिंह','गन्तव्य','बादमे घोषणा होयत','सीट','25A + 25B?','एखनो उड़ैत','विमानस्थल चलैत रहैत अछि। कनेक ठहरि कए आगमन देखू।']}[lang];
   return <><div className="airport-world" aria-hidden="true"><canvas ref={canvasRef} className="airport-world-canvas" hidden={failed}/></div><section id="airport" ref={sectionRef} className={`fin airport-finale ${reduced?'is-reduced':''}`} aria-labelledby="fin-title">
     <div className="airport-concourse wrap">
       <header className="fin-head"><p className="t-label fin-kicker"><AirplaneLandingIcon size={18}/>{t('kicker')}</p><h2 id="fin-title" className="t-display fin-title">{t('title')}</h2><p className="t-lede">{t('imagination')}</p></header>
-      <div className="airport-gate-grid"><Card t={t}/><Board t={t} status={status} live/></div>
+      <div className="airport-gate-grid"><Card t={t}/><Board t={t} status={status} traffic={traffic} live/></div>
       <div className="arrival-boarding"><p className="t-label">{boarding[0]}</p><div><span>{boarding[1]}<b>{boarding[2]}</b></span><span>{boarding[3]}<b>JKR → TBA</b><small>{boarding[4]}</small></span><span>{boarding[5]}<b>{boarding[6]}</b></span><strong>SUV-1478<small>{boarding[7]}</small></strong></div><span className="boarding-barcode" aria-hidden="true"/></div>
     </div>
     <Footer airport/>

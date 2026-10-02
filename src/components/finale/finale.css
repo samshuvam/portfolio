@@ -465,3 +465,5 @@
 @media(prefers-reduced-motion:reduce){.terminal-service-road i,.airport-footer .footer-grid::before,.terminal-overhead-sign i{animation:none}.airport-world{display:none}.airport-touchdown{background:linear-gradient(#254b3d,#142c24)}.airport-touchdown .airport-runway-end{color:#fff}}
 .airport-touchdown .airport-runway-sign{top:16px;bottom:auto;left:2rem;right:2rem;max-width:none;padding:1rem 1.3rem;display:grid;grid-template-columns:1fr 1fr;gap:.25rem 2rem;align-items:center}.airport-touchdown .airport-runway-sign>.t-label{grid-column:1 / -1}.airport-touchdown .airport-runway-sign h3{font-size:1.25rem;margin:.25rem 0}.airport-touchdown .airport-runway-sign p{font-size:.8rem;margin:0}
 @media(max-width:560px){.airport-touchdown .airport-runway-sign{left:1rem;right:1rem;grid-template-columns:1fr;gap:.3rem;padding:.8rem 1rem}.airport-touchdown .airport-runway-sign h3{font-size:1rem}.airport-touchdown .airport-runway-sign p{font-size:.7rem}}
+
+.traffic-destination{display:block;font-size:9px;margin-top:.3rem;color:var(--ink-2)}.fin-board td{font-size:clamp(8px,.8vw,12px)}.fin-board .is-live{color:var(--route-olive)}
