@@ -11,6 +11,7 @@ import { planeBus, hidePlane, showPlane } from '../../three/planeBus';
 import { useT, localDigits } from '../../i18n';
 import dict from '../../i18n/ui/intro';
 import './intro.css';
+import { createWakeReveal } from './WakeReveal';
 
 // The opening scene. First visit in a session: Flight SUV-1478 lines up on
 // runway 27 at Janakpur and takes off (Three.js, src/three/TakeoffScene.js),
@@ -170,19 +171,24 @@ export default function Intro() {
         setGone(true);
         return;
       }
-      const dur = skipped ? 0.45 : 2.6;
+      const dur = skipped ? 0.45 : 3.8;
       if(!skipped)el.classList.add('is-handoff');
       const remove = () => {
         clearTimeout(removeTimer);
         stop();
         if (alive) setGone(true);
       };
-      tweens.push(gsap.to(el, { autoAlpha: 0, duration: dur, ease: 'power1.inOut', onComplete: remove }));
-      if(!skipped)tweens.push(gsap.fromTo(el.querySelector('.intro-handoff-mist'),{opacity:.85,xPercent:-12,scale:1.1},{opacity:0,xPercent:35,scale:1.7,duration:dur,ease:'power2.inOut'}));
+      if(skipped)tweens.push(gsap.to(el,{autoAlpha:0,duration:dur,onComplete:remove}));
+      else{
+        const wake=createWakeReveal(el.querySelector('.intro-wake'));
+        const state={p:0};wake.draw(0);
+        tweens.push(gsap.to(state,{p:1,duration:dur,ease:'none',onUpdate:()=>wake.draw(state.p),onComplete:()=>{wake.dispose();remove();}}));
+        tweens.push(gsap.to(el,{autoAlpha:0,duration:.55,delay:dur-.55,ease:'power2.in'}));
+      }
       // gsap runs on requestAnimationFrame, which a background tab pauses:
       // make sure the overlay still leaves.
       removeTimer = setTimeout(remove, dur * 1000 + 600);
-      if (canvasRef.current && !skipped) tweens.push(gsap.to(canvasRef.current, { opacity:0, filter:'blur(14px)', duration:1.9, ease:'power1.inOut' }));
+      if (canvasRef.current && !skipped) tweens.push(gsap.to(canvasRef.current, { opacity:0, filter:'blur(9px)', duration:.55, ease:'power1.inOut' }));
     };
     skipRef.current = () => finish(true);
 
@@ -355,7 +361,7 @@ export default function Intro() {
     <div ref={root} className="intro intro-cinema" style={{ background: bg }} role="region" aria-label={t('region')}>
       <canvas ref={canvasRef} className="intro-canvas" aria-hidden="true" />
       <div className="intro-scrim" aria-hidden="true" />
-      <div className="intro-handoff-mist" aria-hidden="true" />
+      <canvas className="intro-wake" aria-hidden="true"/><div className="intro-handoff-mist" aria-hidden="true" />
 
       <header className="intro-strip">
         <p className="intro-flight">

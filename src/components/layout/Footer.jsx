@@ -22,20 +22,21 @@ export default function Footer({airport=false}) {
 
   return (
     <footer ref={terminal} className={`footer ${airport?'airport-footer':''}`} aria-label={airport?'Airport terminal':'Footer'} onPointerMove={move} onPointerLeave={()=>{terminal.current.style.setProperty('--airport-x','0');terminal.current.style.setProperty('--airport-y','0');}}>
-      {airport&&<div className="terminal-blueprint" aria-hidden="true"><div className="terminal-tower"><span/><span/><span/><i/></div><div className="terminal-piers"><span>A01</span><span>A02</span><span>A03</span><span>A04</span></div><svg viewBox="0 0 1200 700" preserveAspectRatio="none"><path d="M0 630H210Q340 630 340 500V90M340 420H1000M650 420V155M980 420V90"/><path d="M0 665H250Q385 665 385 535V90M385 470H1080"/></svg></div>}
+      {airport&&<div className="terminal-blueprint" aria-hidden="true"><div className="terminal-tower"><span/><span/><span/><i/></div><div className="terminal-service-road"><i/><i/><i/></div><div className="terminal-piers"><span>A01</span><span>A02</span><span>A03</span><span>A04</span></div><svg viewBox="0 0 1200 700" preserveAspectRatio="none"><path d="M0 630H210Q340 630 340 500V90M340 420H1000M650 420V155M980 420V90"/><path d="M0 665H250Q385 665 385 535V90M385 470H1080"/></svg></div>}
       <div className="wrap">
+        {airport&&<div className="terminal-overhead-sign"><span>✈ SHUVAM / TERMINAL 01</span><span>ARRIVALS ↓ &nbsp; CONNECTIONS ↗ &nbsp; OPEN DESTINATIONS</span><i aria-hidden="true"/></div>}
         <h2 className="footer-big">
           {t('footer.big')} <span className="light">{t('footer.bigLight')}</span>
         </h2>
         <div className="footer-grid">
-          <div>
+          <div data-gate="A01 / CONTROL TOWER">
             <p className="footer-k">{t('footer.arrival')}</p>
             <p className="footer-clock">{localDigits(formatNptClock24(now))}</p>
             <p className="footer-sub">
               {t('footer.place')} <span className="font-deva">{world.bs.np}</span>
             </p>
           </div>
-          <nav aria-label="Footer">
+          <nav aria-label="Footer" data-gate="A02 / DEPARTURES">
             <p className="footer-k">{t('footer.waypoints')}</p>
             <ul className="footer-links">
               {waypoints.slice(1).map((w) => (
@@ -54,7 +55,7 @@ export default function Footer({airport=false}) {
               ))}
             </ul>
           </nav>
-          <div>
+          <div data-gate="A03 / CONNECTIONS">
             <p className="footer-k">{t('footer.elsewhere')}</p>
             <ul className="footer-links">
               <li>
@@ -74,7 +75,7 @@ export default function Footer({airport=false}) {
               </li>
             </ul>
           </div>
-          <div className="footer-actions">
+          <div className="footer-actions" data-gate="A04 / BOARDING">
             <button type="button" className="btn btn-ghost" onClick={() => setState({ passport: true })}>
               <StampIcon size={18} weight="duotone" /> {t('footer.passport', { n: localDigits(eggs.length), total: localDigits(EGGS.length) })}
             </button>

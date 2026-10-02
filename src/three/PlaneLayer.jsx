@@ -9,10 +9,10 @@ import { getState } from '../lib/store';
 import { findEgg, toast } from '../lib/eggs';
 import { sound } from '../lib/sound';
 import { getLang, translate } from '../i18n';
-import { waypoints } from '../data/waypoints';
+
 
 // The global plane: a fixed full-screen WebGL canvas behind page content
-// (z 5). It parks at one pose per section and swoops between them as the
+// (z 5). It follows a closed route in real depth and briefly approaches the
 // visitor scrolls, sweeps across fog sections when a FogReveal asks it to
 // (planeBus.sweep, raised above content), fades out whenever a scene borrows
 // it (planeBus.hidden) and publishes where it is on screen (planeBus.screen).
@@ -59,9 +59,7 @@ const TOAST = {
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const smooth = (t) => t * t * (3 - 2 * t);
-const smoother = (t) => t * t * t * (t * (t * 6 - 15) + 10);
 const lerp = (a, b, t) => a + (b - a) * t;
-const quad = (a, c, b, t) => (1 - t) * (1 - t) * a + 2 * (1 - t) * t * c + t * t * b;
 const wrapAngle = (a) => ((((a + 180) % 360) + 360) % 360) - 180;
 
 // Clicks on these never reach the plane.
@@ -202,24 +200,6 @@ export default function PlaneLayer() {
         t.mat.uniforms.uStrength.value = 0;
       });
 
-    // ---- section geometry ----------------------------------------------------
-    // One anchor per waypoint: the scroll position (viewport centre) at which
-    // the first screen of that section is centred.
-    let route = [];
-    const measure = () => {
-      const y = window.scrollY;
-      const vh = window.innerHeight;
-      route = waypoints
-        .map((w) => {
-          const el = document.getElementById(w.id);
-          if (!el) return null;
-          const r = el.getBoundingClientRect();
-          return { id: w.id, anchor: r.top + y + Math.min(r.height, vh * 1.6) / 2 };
-        })
-        .filter(Boolean)
-        .sort((a, b) => a.anchor - b.anchor);
-    };
-
     const view = { w: 1, h: 1 };
     const resize = () => {
       view.w = window.innerWidth;
@@ -228,12 +208,11 @@ export default function PlaneLayer() {
       renderer.setSize(view.w, view.h, false);
       camera.aspect = view.w / view.h;
       camera.updateProjectionMatrix();
-      measure();
+
     };
     resize();
     window.addEventListener('resize', resize);
-    const ro = new ResizeObserver(() => measure());
-    ro.observe(document.body);
+
 
     const halfH = () => camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     const halfW = () => halfH() * camera.aspect;
@@ -256,6 +235,7 @@ export default function PlaneLayer() {
       x: -1.6,
       y: 0.35,
       s: 0.3,
+      depth:0,
       yaw: -24,
       pitch: 0,
       roll: 0,
@@ -288,7 +268,7 @@ export default function PlaneLayer() {
     let introWait = null;
     if (!reduce) {
       const startIntro = () => {
-        introTween = gsap.to(st, { intro: 1, duration: 2.4, delay:getState().intro==='done'?1.25:.25, ease: 'power3.out' });
+        introTween = gsap.to(st, { intro: 1, duration: 2.8, delay:getState().intro==='done'?2.75:.25, ease: 'power3.out' });
         if (!planeBus.hidden.size) sound.whoosh(0.8);
       };
       if (getState().loaded) startIntro();
@@ -446,65 +426,36 @@ export default function PlaneLayer() {
       st[key] += (goal - st[key]) * (1 - Math.exp(-k * dt));
     };
 
+    // A closed, spatial cruise route. Scroll moves us along it; time keeps
+    // the aircraft flying when the reader pauses. Depth changes are real Z.
+    const cruise=new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-.76,.36,-7),new THREE.Vector3(-.22,.66,-15),
+      new THREE.Vector3(.76,.35,-10),new THREE.Vector3(.61,-.5,-6),
+      new THREE.Vector3(-.18,-.59,-14),new THREE.Vector3(-.77,-.25,-9)
+    ],true,'catmullrom',.45);
+    const cruisePoint=new THREE.Vector3();
+    const flightLineGeo=new THREE.BufferGeometry(),flightLineMat=new THREE.LineBasicMaterial({color:'#4e8871',transparent:true,opacity:.12,depthWrite:false});
+    const flightLine=new THREE.Line(flightLineGeo,flightLineMat);flightLine.visible=!reduce;scene.add(flightLine);
+    const measureFlightLine=()=>{
+      flightLineGeo.setFromPoints(cruise.getPoints(180).map(p=>{
+        const h=(camera.position.z-p.z)*Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+        return new THREE.Vector3(p.x*h*camera.aspect,p.y*h,p.z);
+      }));
+    };measureFlightLine();window.addEventListener('resize',measureFlightLine);
     const routeTarget = () => {
-      const vh = view.h;
-      const aspect = view.w / view.h;
-      const mobile = isMobile();
-      const probe = window.scrollY + vh / 2;
-      if (!route.length) {
-        const P = poseFor('top');
-        Object.assign(target, { x: P.x, y: P.y, s: P.s, yaw: P.yaw, gear: 0, pitch: 0, parked: 1, inHero: true });
-        return;
-      }
-      let i = 0;
-      while (i < route.length - 1 && route[i + 1].anchor <= probe) i++;
-      const a = route[i];
-      const b = route[i + 1] || a;
-      let t = 0;
-      if (b !== a) {
-        // Travel through the whole chapter instead of parking until its end.
-        const gap = b.anchor - a.anchor;
-        t = clamp((probe-a.anchor)/Math.max(1,gap),0,1);
-      }
-      const e = smoother(t);
-      const A = poseFor(a.id);
-      const B = poseFor(b.id);
-
-      // A curved leg in aspect-correct space that bows towards the middle of
-      // the screen (open space), bigger for longer legs.
-      const ax = A.x * aspect;
-      const bx = B.x * aspect;
-      const mx = (ax + bx) / 2;
-      const my = (A.y + B.y) / 2;
-      const dX = bx - ax;
-      const dY = B.y - A.y;
-      const dist = Math.hypot(dX, dY) || 1;
-      const px = -dY / dist;
-      const py = dX / dist;
-      const lean = px * mx + py * my;
-      let side = lean > 0 ? -1 : 1;
-      if (Math.abs(lean) < 0.05) side = i % 2 ? -1 : 1;
-      const bend = B.glide ? 0 : side * Math.min(0.95, 0.24 + dist * 0.3);
-      const cx = (mx + px * bend) / aspect;
-      const cy = my + py * bend;
-      target.x = quad(A.x, cx, B.x, e);
-      target.y = quad(A.y, cy, B.y, e);
-      // Mid-leg the plane comes closer to the camera, then settles.
-      const bump = B.glide ? 0 : Math.max(A.s, B.s) * (mobile ? 0.35 : 0.6);
-      target.s = lerp(A.s, B.s, e) + bump * Math.sin(Math.PI * e);
-      target.gear = lerp(A.gear || 0, B.gear || 0, e);
-      target.pitch = lerp(A.pitch || 0, B.pitch || 0, e);
-      target.yaw = e < 0.5 ? A.yaw : B.yaw;
-      target.parked = 1 - Math.sin(Math.PI * e);
-      target.inHero = a.id === 'top' && t < 0.05;
-
-      // Keep the whole aircraft on screen (the hero may be bigger).
-      const hero = target.inHero || (a.id === 'top' && b.id === 'top');
-      target.s = Math.min(target.s, ((hero ? 1.2 : 0.62) * view.h) / view.w);
-      const maxX = Math.max(0, 1 - target.s * 0.78 - 0.02);
-      const maxY = Math.max(0, 1 - target.s * aspect * 0.5 - 0.05);
-      target.x = clamp(target.x, -maxX, maxX);
-      target.y = clamp(target.y, -maxY, maxY);
+      const now=performance.now()/1000;
+      const page=Math.max(1,document.documentElement.scrollHeight-view.h);
+      const phase=((window.scrollY/page)*3+now*.004)%1;
+      cruise.getPointAt(phase,cruisePoint);
+      const heroBlend=smooth(clamp(window.scrollY/(view.h*.75),0,1));
+      const hero=poseFor('top'),z=cruisePoint.z*heroBlend;
+      Object.assign(target,{
+        x:lerp(hero.x,cruisePoint.x,heroBlend),y:lerp(hero.y,cruisePoint.y,heroBlend),
+        depth:z,s:lerp(hero.s,(isMobile()?.47:.23)*14/(14-z),heroBlend),
+        yaw:-24,gear:0,pitch:0,parked:0,inHero:heroBlend<.2
+      });
+      flightLine.visible=heroBlend>.4&&!planeBus.landingPose&&!planeBus.sweep;
+      flightLineMat.color.set(getState().themePref==='night'?'#8bbaa1':'#4e8871');
     };
 
     const sweepTarget = (sw) => {
@@ -520,6 +471,7 @@ export default function PlaneLayer() {
       target.yaw = dir > 0 ? -12 : 192;
       target.parked = 0;
       target.inHero = false;
+      target.depth=0;
       return dir;
     };
 
@@ -545,9 +497,9 @@ export default function PlaneLayer() {
       if (sweeping) dir = sweepTarget(sw);
       else routeTarget();
       const landing=planeBus.landingPose;
-      if(landing){Object.assign(target,{x:landing.x,y:landing.y,s:landing.s,gear:landing.gear,parked:0,inHero:false});}
+      if(landing){const blend=landing.blend??1;Object.assign(target,{x:lerp(target.x,landing.x,blend),y:lerp(target.y,landing.y,blend),s:lerp(target.s,landing.s,blend),depth:lerp(target.depth||0,0,blend),gear:landing.gear,parked:0,inHero:false});}
       const archive=document.querySelector('.archive');
-      if(!landing&&!sweeping&&archive){const r=archive.getBoundingClientRect();if(r.top<view.h*.7&&r.bottom>view.h*.2){const p=clamp((view.h-r.top)/(view.h+r.height),0,1);Object.assign(target,{x:lerp(-.66,.66,p),y:.26+Math.sin(p*Math.PI*2)*.28,s:Math.min(.24,.48/aspect),parked:0,inHero:false});}}
+      if(!landing&&!sweeping&&archive){const r=archive.getBoundingClientRect();if(r.top<view.h*.7&&r.bottom>view.h*.2){const p=clamp((view.h-r.top)/(view.h+r.height),0,1);Object.assign(target,{x:lerp(-.66,.66,p),y:.26+Math.sin(p*Math.PI*2)*.28,s:Math.min(.24,.48/aspect),depth:0,parked:0,inHero:false});}}
       if (sweeping !== st.sweeping) {
         st.sweeping = sweeping;
         if (!sweeping) st.headRight = st.vx >= 0;
@@ -589,6 +541,7 @@ export default function PlaneLayer() {
         springTo('y', goalY, intro < 1 ? 60 : landing ? 18 : 3.2, dt);
         springTo('s', lerp(0.22, target.s, intro), landing ? 18 : 3, dt);
       }
+      springTo('depth',target.depth||0,landing?12:2.5,dt);
       springTo('gear', target.gear, 2.5, dt);
       st.vx = lerp(st.vx, (st.x - prevX) / dt, 0.12);
       st.vy = lerp(st.vy, (st.y - prevY) / dt, 0.12);
@@ -632,11 +585,11 @@ export default function PlaneLayer() {
       st.shake = Math.max(0, st.shake - dt * 0.8);
 
       // Apply to the model.
-      const hw = halfW();
-      const hh = halfH();
+      const hh=(camera.position.z-st.depth)*Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+      const hw=hh*camera.aspect;
       const shakeX = st.shake ? (Math.random() - 0.5) * 0.06 * st.shake : 0;
       const shakeY = st.shake ? (Math.random() - 0.5) * 0.06 * st.shake : 0;
-      pivot.position.set(st.x * hw + shakeX, st.y * hh + shakeY, 0);
+      pivot.position.set(st.x * hw + shakeX, st.y * hh + shakeY, st.depth);
       const scale = (st.s * hw * 2) / 4;
       pivot.scale.setScalar(scale);
       plane.group.rotation.order = 'YZX';
@@ -649,7 +602,8 @@ export default function PlaneLayer() {
       // briefly if the layer has to change while the plane is in view.
       st.fade += ((planeBus.hidden.size ? 0 : 1) - st.fade) * (1 - Math.exp(-6 * dt));
       if (st.fade < 0.002) st.fade = 0;
-      const wantAbove = !!planeBus.aboveContent || !target.inHero;
+      const archivePass=!landing&&!sweeping&&archive&&archive.getBoundingClientRect().top<view.h*.7&&archive.getBoundingClientRect().bottom>view.h*.2;
+      const wantAbove=!!planeBus.aboveContent||archivePass||!!(landing?.touchdown);
       if (wantAbove === st.above) {
         st.layerWait = 0;
         st.dipping = false;
@@ -794,14 +748,13 @@ export default function PlaneLayer() {
     });
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-season', 'data-theme'] });
 
-    const measureTimer = setInterval(measure, 2500);
 
     return () => {
       gsap.ticker.remove(tick);
       introTween?.kill();
       gsap.killTweensOf(st);
       clearInterval(introWait);
-      clearInterval(measureTimer);
+
       clearInterval(reducedTimer);
       window.removeEventListener('resize', resize);
       if (still) window.removeEventListener('resize', still);
@@ -810,9 +763,10 @@ export default function PlaneLayer() {
       window.removeEventListener('click', onClick);
       document.removeEventListener('visibilitychange', onVis);
       if (hovering) document.documentElement.style.cursor = '';
-      ro.disconnect();
+
       mo.disconnect();
       heroIO?.disconnect();
+      window.removeEventListener('resize',measureFlightLine);flightLineGeo.dispose();flightLineMat.dispose();
       trails.forEach((t) => {
         t.geo.dispose();
         t.mat.dispose();

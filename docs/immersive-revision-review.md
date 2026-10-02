@@ -1,6 +1,6 @@
 # Immersive portfolio revision — 2 October 2026
 
-This is the current review. The two earlier review files describe previously published revisions and have been superseded where the owner requested another design.
+This records the previous revision. The flight and airport rows are superseded by flight-continuity-review.md. The two earlier review files describe previously published revisions and have been superseded where the owner requested another design.
 
 | Owner request | Final implementation |
 | --- | --- |

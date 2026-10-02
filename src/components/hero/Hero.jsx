@@ -32,8 +32,8 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       if (reducedMotion()) return;
       const split = new SplitText('.hero-line-text', { type: 'chars', charsClass: 'hero-char' });
-      gsap.from(split.chars, { yPercent: 115, rotate: 7, duration: 1.25, stagger: 0.04, ease: 'power4.out', delay: 0.1 });
-      gsap.from('.hero-reveal', { y: 26, autoAlpha: 0, duration: 1.1, stagger: 0.09, delay: 0.55, ease: 'power3.out' });
+      gsap.from(split.chars, { yPercent: 115, rotate: 7, duration: 1.25, stagger: 0.04, ease: 'power4.out', delay: 0.45 });
+      gsap.from('.hero-reveal', { y: 26, autoAlpha: 0, duration: 1.1, stagger: 0.09, delay: 1.05, ease: 'power3.out' });
       const st = { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true };
       gsap.to('.hero-line-1', { xPercent: -7, ease: 'none', scrollTrigger: st });
       gsap.to('.hero-line-2', { xPercent: 6, ease: 'none', scrollTrigger: { ...st } });

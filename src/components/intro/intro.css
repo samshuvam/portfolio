@@ -245,3 +245,8 @@ html[data-lang='mai'] .intro-calm-mark {
     transition: none;
   }
 }
+
+/* The departing aircraft opens a cloud corridor onto the live hero. */
+.intro-wake{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;z-index:3}.intro.is-handoff{background:transparent!important}.intro.is-handoff .intro-wake{opacity:1}.intro.is-handoff .intro-handoff-mist{display:none}.intro.is-handoff .intro-canvas{transition:none}
+
+.intro.is-handoff :is(.intro-strip,.intro-radio,.intro-scrim,.intro-skip){visibility:hidden}
