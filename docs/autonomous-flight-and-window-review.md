@@ -1,5 +1,7 @@
 # Autonomous flight and window seats — 2 October 2026
 
+Historical review. The [cabin and airport observation revision](cabin-and-airport-observation-review.md) replaces the photo layer, magnified window, and main-aircraft landing described here.
+
 This review covers the latest owner request. It supersedes the previous scroll-controlled flight and landing behaviour.
 
 | Request | Delivered |

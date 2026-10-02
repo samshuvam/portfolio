@@ -3,7 +3,7 @@ import { createAirliner as createFlightRig } from '../src/three/airlinerRig.js';
 import assert from 'node:assert/strict';
 import { KEEPSAKE_FRAMES, keepsakeFrameSvg, frameDataUrl } from '../src/lib/keepsakes.js';
 import { build } from 'vite';
-import { TRAFFIC, cruiseTraffic, airportTraffic } from '../src/three/trafficSchedule.js';
+import { TRAFFIC, cruiseTraffic, airportTraffic, observationTraffic } from '../src/three/trafficSchedule.js';
 import { journey } from '../src/data/journey.js';
 import { imagery } from '../src/lib/imagery.js';
 import fs from 'node:fs';
@@ -19,6 +19,15 @@ test('autonomous traffic has quiet gaps, repeatable timings and mostly arrivals'
   assert.equal(waves.filter(f=>f.departing).length,1);
   assert.equal(waves.filter(f=>!f.departing).length,3);
   for(let t=0;t<300;t++){const flight=cruiseTraffic(t),ground=airportTraffic(t);assert.ok(flight.progress>=0&&flight.progress<=1);assert.ok(ground.progress>=0&&ground.progress<=1);assert.ok(TRAFFIC.includes(flight.flight));}
+});
+test('airport observation traffic keeps the main flight airborne and arrivals on separate timing',()=>{
+  const calls=new Set();let arrivals=0,departures=0;
+  for(let t=0;t<192;t++)for(let slot=0;slot<2;slot++){const flight=observationTraffic(t,slot);calls.add(flight.flight.call);assert.notEqual(flight.flight.call,'SUV-1478');if(flight.visible){assert.ok(flight.p>=0&&flight.p<1);if(flight.depart)departures++;else arrivals++;}}
+  assert.equal(calls.size,4);assert.ok(arrivals>departures*2);
+  assert.equal(observationTraffic(75,0).visible,false);
+  assert.equal(observationTraffic(0,0).status,'ON APPROACH');
+  assert.equal(observationTraffic(43,0).status,'LANDED');
+  assert.equal(observationTraffic(56,0).status,'TAXI / TERMINAL');
 });
 test('every journey milestone owns a unique, installed contextual image',()=>{
   assert.equal(journey.length,16);assert.equal(new Set(journey.map(m=>m.image)).size,16);

@@ -1,7 +1,7 @@
 """Paint an A350 UV atlas, preserving the source model's geometry and cockpit.
 
 Source: amvlab/aircraft-models, A350_nologo.glb, CC BY 4.0.
-The UV paint follows the user's Suvmith Air forest/lime reference livery.
+The UV paint follows the user's Suvmith Air refined pearl/evergreen livery.
 """
 import io, json, struct
 from pathlib import Path
@@ -48,7 +48,7 @@ brand = Image.new('RGB',(1000,250),'#f5f7f1')
 brand_draw = ImageDraw.Draw(brand)
 brand_font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',116)
 brand_draw.text((28,52),'Suvmith',font=brand_font,fill='#073f32')
-brand_draw.text((515,52),'Air',font=brand_font,fill='#70b92c')
+brand_draw.text((515,52),'Air',font=brand_font,fill='#ae9e6c')
 brand_draw.text((40,190),'I N T E L L I G E N C E   I N S I D E',font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',27),fill='#153e31')
 brand_draw.line([(48,46),(114,10),(166,44),(190,22),(222,45)],fill='#16573e',width=8)
 brand_art=np.array(brand)
@@ -80,8 +80,8 @@ for triangle in indices:
         ridge=np.maximum(.18+.32*np.maximum(0,1-np.abs(tx-.53)/.18),.18+.21*np.maximum(0,1-np.abs(tx-.78)/.13))
         fin_paint=np.zeros((*x.shape,3),dtype=np.uint8);fin_paint[:]=[6,62,49]
         fin_paint[(ty>.12)&(ty<ridge)]=[245,248,236]
-        fin_paint[(ty>ridge)&(ty<ridge+.025)]=[126,183,40]
-        fin_paint[(ty>.62-tx*.22)&(ty<.70-tx*.22)]=[126,183,40]
+        fin_paint[(ty>ridge)&(ty<ridge+.025)]=[176,158,102]
+        fin_paint[(ty>.62-tx*.22)&(ty<.70-tx*.22)]=[176,158,102]
         patch[inside]=fin_paint[inside]
         fin_mask[lo[1]:hi[1]+1,lo[0]:hi[0]+1] |= inside
         continue
@@ -97,7 +97,9 @@ for triangle in indices:
     long=np.clip((12.5-coords[:,:,1])/64.6,0,1)
     sx = np.clip((long*(art_w-1)).astype(int),0,art_w-1)
     sy = np.clip(((.327 + (coords[:,:,2]+3)/6*.331)*(art_h-1)).astype(int),0,art_h-1)
-    paint = side_art[sy,sx]
+    paint = np.full((*x.shape,3),[244,246,239],dtype=np.uint8)
+    engraving=(long>.40)&(long<.82)&(coords[:,:,2]>-1.35)&(coords[:,:,2]<.7)
+    paint[engraving]=side_art[sy,sx][engraving]
     # Deepen the fine engraving so it survives the small aircraft's mipmaps.
     line=(np.max(paint,axis=2)-np.min(paint,axis=2)<25)&(np.max(paint,axis=2)<225)
     paint[line]=(paint[line]*.73).astype(np.uint8)
@@ -105,17 +107,20 @@ for triangle in indices:
     forest=coords[:,:,2]>boundary
     paint[forest]=[6,62,49]
     ribbon=(coords[:,:,2]>boundary)&(coords[:,:,2]<boundary+.28+.2*np.sin(long*16)**2)
-    paint[ribbon]=[118,180,25]
+    paint[ribbon]=[176,158,102]
     lower=(coords[:,:,2]>boundary+.7)&(coords[:,:,2]<boundary+.84)&(long>.24)
     paint[lower]=[62,121,36]
     # Typography must read correctly on both sides. A world-space image
     # reverses lettering on one flank; native lettering uses side-aware U.
-    logo_area=(coords[:,:,1]>-4)&(coords[:,:,1]<9.5)&(coords[:,:,2]>-2.25)&(coords[:,:,2]<1.0)
-    u=np.clip((coords[:,:,1]+4)/13.5,0,1)
+    logo_area=(coords[:,:,1]>-12)&(coords[:,:,1]<1.5)&(coords[:,:,2]>-1.8)&(coords[:,:,2]<-.20)&(np.abs(coords[:,:,0])>1.15)
+    u=np.clip((coords[:,:,1]+12)/13.5,0,1)
     u=np.where(coords[:,:,0]<0,u,1-u)
-    v=np.clip((coords[:,:,2]+2.25)/3.25,0,1)
+    v=np.clip((coords[:,:,2]+1.8)/1.6,0,1)
     logo=brand_art[(v*249).astype(int),(u*999).astype(int)]
     paint[logo_area]=logo[logo_area]
+    # Keep the nose and cockpit surround clean: no mural, stretched letters
+    # or ribbon crosses the radome. Original A350 cockpit glass stays above.
+    paint[coords[:,:,1]>4.8]=[244,246,239]
     patch = pixels[lo[1]:hi[1]+1,lo[0]:hi[0]+1]
     patch[inside] = paint[inside]
 
@@ -138,7 +143,7 @@ def label(x,y,text,points=26,color='#214b39',rotation=0):
 for y in [123,310]: label(620,y,'SUV-1478',7)
 for y in [786,966]: label(250,y,'NO ETA.',7,color='#f4f7eb')
 engine_layer=Image.new('RGBA',(size,size));eng=ImageDraw.Draw(engine_layer)
-eng.polygon([(1488,310),(1507,306),(1568,626),(1545,633)],fill='#78b521')
+eng.polygon([(1488,310),(1507,306),(1568,626),(1545,633)],fill='#ae9e6c')
 eng.polygon([(1495,493),(1535,451),(1553,478),(1580,429),(1631,493),(1605,479),(1581,454),(1571,476),(1552,491),(1536,477)],fill='#f2f6ea')
 engine_alpha=np.array(engine_layer.getchannel('A'));engine_alpha[~engine_mask]=0;engine_layer.putalpha(Image.fromarray(engine_alpha));image.paste(engine_layer,(0,0),engine_layer)
 
