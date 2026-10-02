@@ -46,5 +46,71 @@
     "prompt": "Use case: illustration-story. Asset type: tasteful subtle cultural illustration for Janakpur Vivah Panchami, wide 16:9. Primary request: dignified traditional Mithila painting of the marriage of Sita and Rama, the couple beneath a small ceremonial canopy, red and green floral garlands, lotus and fish motifs, ornamental borders, intricate kachni fine ink linework on warm handmade lokta paper. Respectful devotional storytelling inspired by authentic Madhubani visual traditions, balanced composition, forest green and restrained vermilion accents, exquisite hand-painted detail. No text, no watermark, no modern clothing, no glossy cartoon or 3D toy style.",
     "mode": "generate",
     "savedPath": "public/imagery/vivah.webp"
+  },
+  {
+    "key": "window-v2",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. View from a passenger window just AHEAD of an Airbus A350 wing. Authentic swept wing receding diagonally toward a distant gently curved upward wingtip. Metallic upper surface, plausible panel seams, retracted flaps. Camera is inside the cabin looking outward above the upper wing, so flap-track fairings below the trailing edge are occluded: absolutely no rods, supports or canoe-shaped pods sticking up from the upper wing. Real wing anatomy. Clear blue sky and realistic layered clouds, a distant subtle Himalayan ridge. No window frame, no cabin interior.",
+    "mode": "generate",
+    "savedPath": "public/imagery/window-v2.webp"
+  },
+  {
+    "key": "journey-birth",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Quiet Janakpur neighbourhood at sunrise in Nepal's flat Terai, a courtyard lane with pale plaster homes and a small intricate Mithila wall motif, warm morning light, old leafy trees and subtle urban life, no fantasy mountains. A grounded memory of a birthplace, different from a temple front view.",
+    "mode": "generate",
+    "savedPath": "public/imagery/journey-birth.webp"
+  },
+  {
+    "key": "journey-hills",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Eastern Nepal Panchthar childhood landscape from a village path, lush terraced foothills, modest houses among trees, tiny school courtyard in middle distance, low clouds after rain, natural rural Koshi geography. Distinct intimate low viewpoint, no postcard mountain panorama.",
+    "mode": "generate",
+    "savedPath": "public/imagery/journey-hills.webp"
+  },
+  {
+    "key": "journey-lalitpur",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Lalitpur Nepal morning: an ordinary quiet lane near Patan with warm brick, delicate carved wooden windows, leafy plants and a young person's bicycle resting nearby. City of school days, human-scale, authentic Kathmandu Valley urban architecture. No giant pagoda filling the view.",
+    "mode": "generate",
+    "savedPath": "public/imagery/journey-lalitpur.webp"
+  },
+  {
+    "key": "journey-campus",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. An engineering student campus study setting in India, tree shaded contemporary university walkway seen through library glass, notebooks and a small model aircraft on a desk, a quiet lived-in late afternoon, no specific university logos, no people with recognizable faces.",
+    "mode": "generate",
+    "savedPath": "public/imagery/journey-campus.webp"
+  },
+  {
+    "key": "journey-friends",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. University years remembered as travel: small group of unidentifiable friends seen from behind on a green hill trail in soft golden light, a camera hanging from one backpack, relaxed adventurous atmosphere, candid editorial photograph, no posed faces, no exact identifiable location claim.",
+    "mode": "generate",
+    "savedPath": "public/imagery/journey-friends.webp"
+  },
+  {
+    "key": "sketch-arcade",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Janaki Mandir's distinctive ornate scalloped arcades and mint/pale pink detailing viewed from a quiet courtyard side, fine architectural travel photograph. Close-up of patterned white arches and delicate jali rather than the main frontal facade. Authentic Janakpur temple architecture, flat Terai setting.",
+    "mode": "generate",
+    "savedPath": "public/imagery/sketch-arcade.webp"
+  },
+  {
+    "key": "sketch-tea",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Eastern Nepal tea-growing hillside at Ilam near Panchthar, close-up sweeping rows of delicate tea shrubs in morning mist, a thin red-earth pathway and a distant simple home, rich nuanced greens. A visually distinct detail study, not a repeated village panorama.",
+    "mode": "generate",
+    "savedPath": "public/imagery/sketch-tea.webp"
+  },
+  {
+    "key": "sketch-lumbini",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Intimate close view of Lumbini Nepal archaeological red brick foundations, ancient tree roots and still reflected foliage in the sacred pool, serene soft dawn light. Archaeological textures and lotus leaf in foreground, restrained Buddhist heritage, no giant Buddha statue.",
+    "mode": "generate",
+    "savedPath": "public/imagery/sketch-lumbini.webp"
+  },
+  {
+    "key": "sketch-mithila",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. A close editorial photograph of hands of an anonymous Mithila artist painting intricate fish, lotus and floral patterns on cream handmade paper, red and dark-green natural pigment bowls, fine traditional linework and brush texture. No writing. Art-making process, not the previously used wedding composition.",
+    "mode": "generate",
+    "savedPath": "public/imagery/sketch-mithila.webp"
+  },
+  {
+    "key": "postcard-janaki",
+    "prompt": "Use case: photorealistic-natural. Editorial image for a personal Nepal aviation/engineering portfolio. Wide 16:9, refined natural forest-green and cream tones, high photographic detail. One complete scene, no collage, no text, watermark or invented logos. Janaki Mandir in Janakpur Nepal at blue hour reflected softly in a rain-wet courtyard, recognizable ornate white palace-like facade, pale pink and mint detail, warm glowing arch windows, quiet evening atmosphere, photographer framing from lower left with flower pots at edge, distinct from a daytime front elevation.",
+    "mode": "generate",
+    "savedPath": "public/imagery/postcard-janaki.webp"
   }
 ]

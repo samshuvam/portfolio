@@ -13,12 +13,11 @@ import { Lotus } from './MithilaMotifs';
 const ZOOM = 1.7;
 const LENS = 150;
 
-// A sketchbook of home. Each plate is a pen-and-wash drawing generated from
-// one of my photos; the brass lens shows the photograph underneath.
+// Contextual AI artwork, with a drawn treatment and a lens into its detail.
 export default function Sketchbook() {
   const c=useCopy();
   const loc=useLocalize(overlay);
-  const items = [{id:'janaki',title:c('Janaki Mandir'),note:c('A palace of arches and domes, at the heart of Janakpur.')},{id:'panchthar',title:c('Panchthar'),note:c('Green hills, childhood paths, and a quieter kind of home.')},{id:'lumbini',title:c('Lumbini'),note:c('A sacred garden, a birthplace, and a little stillness.')},{id:'vivah',title:c('Vivah Panchami'),note:c('Sita and Rama’s wedding, in the language of Mithila painting.')}].map(p=>({...p,photo:contextImage(p.id)}));
+  const items = [{id:'janaki',title:c('Janaki Mandir'),note:c('A palace of arches and domes, at the heart of Janakpur.')},{id:'panchthar',title:c('Ilam tea gardens'),note:c('A green horizon, a little east of my childhood hills.')},{id:'lumbini',title:c('Lumbini'),note:c('A sacred garden, a birthplace, and a little stillness.')},{id:'vivah',title:c('Mithila painting'),note:c('Fish, lotus, and the hands that keep the tradition alive.')}].map(p=>({...p,photo:contextImage({'janaki':'sketch-arcade','panchthar':'sketch-tea','lumbini':'sketch-lumbini','vivah':'sketch-mithila'}[p.id])}));
   const [page, setPage] = useState(0);
   const [lens, setLens] = useState({ x: 0.5, y: 0.45 });
   const seen = useRef(new Set());

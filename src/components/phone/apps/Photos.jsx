@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { CaretLeftIcon, CaretRightIcon, ImageSquareIcon, XIcon } from '@phosphor-icons/react';
-import { imagery } from '../../../lib/imagery';
-const photos=Object.values(imagery).map(p=>({...p,caption:p.id==='vivah'?'Mithila / Vivah':p.id==='research'?'An engineering desk':p.id==='window'?'The window seat':p.id[0].toUpperCase()+p.id.slice(1)}));
+import { KEEPSAKE_FRAMES, frameDataUrl } from '../../../lib/keepsakes';
+const photos=KEEPSAKE_FRAMES.map(f=>({id:f.id,src:frameDataUrl(f),caption:f.name,color:f.palette[1]}));
 import { useT, useLang, localDigits } from '../../../i18n';
+import { useCopy } from '../../../i18n/Text';
 import miscOverlay from '../../../i18n/content/misc';
 import dict from '../../../i18n/ui/phone';
 import { usePhone, useBack } from '../os';
@@ -14,6 +15,7 @@ const thumb = (p) => p.srcset?.[0]?.src || p.tex || p.src;
 
 function Viewer({ index, onIndex, onClose }) {
   const t = useT(dict);
+  const c=useCopy();
   const lang = useLang();
   const ctx = usePhone();
   const captions = (lang !== 'en' && miscOverlay?.[lang]?.photoCaptions) || {};
@@ -66,7 +68,7 @@ function Viewer({ index, onIndex, onClose }) {
     else if (dx > 60) go(-1);
   };
   if (!p) return null;
-  const caption = captions[p.id] || p.caption;
+  const caption = captions[p.id] || c(p.caption);
   return (
     <div className="sos-viewer" role="dialog" aria-label={t('ph.viewer')} onKeyDown={onKey}>
       <div className="sos-viewer-top">
@@ -112,6 +114,7 @@ function Viewer({ index, onIndex, onClose }) {
 
 export default function Photos() {
   const t = useT(dict);
+  const c=useCopy();
   const lang = useLang();
   const [open, setOpen] = useState(null);
   const cells = useRef([]);
@@ -122,7 +125,7 @@ export default function Photos() {
     requestAnimationFrame(() => cells.current[i]?.focus({ preventScroll: true }));
   };
   return (
-    <AppShell title={t('app.photos')} sub={t('ph.sub', { n: localDigits(photos.length, lang) })} className="sos-photos" flush>
+    <AppShell title={c('Nepal frames')} sub={c('20 original frames, ready for a keepsake.')} className="sos-photos" flush>
       {photos.length ? (
         <ul className="sos-ph-grid">
           {photos.map((p, i) => (
@@ -134,7 +137,7 @@ export default function Photos() {
                 }}
                 className="sos-ph-cell"
                 style={{ background: p.color }}
-                aria-label={p.caption || t('ph.photoN', { n: localDigits(i + 1, lang) })}
+                aria-label={c(p.caption) || t('ph.photoN', { n: localDigits(i + 1, lang) })}
                 onClick={() => {
                   last.current = i;
                   setOpen(i);

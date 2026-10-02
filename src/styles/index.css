@@ -7,6 +7,14 @@
    ------------------------------------------------------------------------ */
 
 :root {
+  /* Plain CSS components also need these tokens. @theme inline alone only
+     exposes them to generated utilities, leaving var() declarations invalid. */
+  --font-display: 'Bricolage Grotesque Variable', 'Noto Sans Devanagari Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Geist Variable', 'Noto Sans Devanagari Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+  --font-deva: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif;
+  --font-tirhuta: 'Noto Sans Tirhuta', serif;
+  --font-tibetan: 'Noto Serif Tibetan', serif;
   --accent: #256449;
   --accent-ink: #ffffff;
   --accent-fg: #205d43;

@@ -1,11 +1,11 @@
 import { memo, useId, useMemo } from 'react';
 import { useWorld } from '../../lib/world';
 import { useWeather } from '../../lib/weather';
-import { contextImage } from '../../lib/imagery';
+import { KEEPSAKE_FRAMES, frameDataUrl } from '../../lib/keepsakes';
 import { skyColors, rgbToCss, mix } from '../hero/sky';
 
 // Wallpapers are drawn in code (Mithila art, a live Himalaya sky, the
-// season's pigment) or reuse the site's own photos. `tone` tells the OS
+// season's pigment). No section photograph is repeated. `tone` tells the OS
 // whether text on top should be light or dark.
 export const WALLPAPERS = [
   { id: 'forest', tone: 'dark' },
@@ -183,16 +183,17 @@ function Season() {
   );
 }
 
-function Photo({id}){const p=contextImage(id);return <div className="sos-wall-photo"><img src={p?.src||'/imagery/panchthar.webp'} alt="" decoding="async"/></div>;}
-function Janaki(){return <Photo id="janaki"/>;}
-function Forest(){return <div className="sos-forest"><img src="/imagery/panchthar.webp" alt=""/><svg viewBox="0 0 360 780" preserveAspectRatio="xMidYMid slice"><path d="M-30 730 Q140 450 225 480 T390 330" fill="none" stroke="#a3d9b7" strokeWidth="1" strokeDasharray="3 9" opacity=".45"/><circle cx="225" cy="480" r="4" fill="#dcebdc"/><text x="38" y="690" fill="#c5dec9" fontSize="12" letterSpacing="5">SS / STILL FLYING</text></svg></div>;}
+function Photo({id}){const f=KEEPSAKE_FRAMES.find(f=>f.id===id);return f?<div className="sos-wall-photo" style={{background:f.palette[1]}}><img src={frameDataUrl(f)} alt="" decoding="async"/></div>:<Forest/>;}
+function Janaki(){return <svg className="sos-wall-svg" viewBox="0 0 360 780" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="360" height="780" fill="#eee8d8"/><circle cx="270" cy="235" r="90" fill="#d0dbc4"/><g fill="none" stroke="#497560" strokeWidth="2"><path d="M30 560H330V430H30Z M45 430V380Q60 335 75 380V430 M285 430V380Q300 335 315 380V430 M100 430Q100 380 130 375Q160 380 160 430 M200 430Q200 380 230 375Q260 380 260 430 M75 340V360 M300 340V360"/>{[50,105,160,215,270].map(x=><path key={x} d={`M${x} 555V480Q${x+20} 450 ${x+40} 480V555`}/>)}</g><text x="35" y="640" fill="#3d6856" fontSize="12" letterSpacing="4">JANAKPUR / HOME</text></svg>;}
+function Forest(){return <svg className="sos-wall-svg" viewBox="0 0 360 780" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="360" height="780" fill="#183d32"/>{Array.from({length:22},(_,i)=><path key={i} d={`M-90 ${240+i*27}Q130 ${80+i*26} 230 ${320+i*18}T480 ${250+i*24}`} fill="none" stroke={i%3?'#a8c2a0':'#d6dabc'} strokeWidth=".8" opacity=".18"/>)}<path d="M-30 730Q140 450 225 480T390 330" fill="none" stroke="#a3d9b7" strokeWidth="1" strokeDasharray="3 9" opacity=".5"/><circle cx="225" cy="480" r="4" fill="#dcebdc"/><text x="38" y="690" fill="#c5dec9" fontSize="12" letterSpacing="4">SS / STILL FLYING</text></svg>;}
+function Boudha(){return <svg className="sos-wall-svg" viewBox="0 0 360 780" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="360" height="780" fill="#253e3b"/><circle cx="180" cy="340" r="100" fill="#d9cda7" opacity=".12"/><g fill="none" stroke="#e2d4a4" strokeWidth="2"><path d="M30 560H330M65 540Q70 420 180 420Q290 420 295 540 M155 420V350H205V420 M165 350L180 290L195 350 M175 290V265 M160 367Q170 360 178 367 M184 367Q194 360 202 367 M70 560V585H290V560"/></g><text x="65" y="650" fill="#e2d4a4" fontSize="12" letterSpacing="4">A LITTLE STILLNESS</text></svg>;}
 function WallpaperInner({ id }) {
   const node = useMemo(() => {
     if (id === 'forest') return <Forest />;
     if (id === 'himalaya') return <Himalaya />;
     if (id === 'janaki') return <Janaki />;
     if (id === 'season') return <Season />;
-    if (id === 'boudha') return <Photo id="lumbini" />;
+    if (id === 'boudha') return <Boudha />;
     if (id?.startsWith('art:')) return <Photo id={id.slice(4)} />;
     return <Mithila />;
   }, [id]);

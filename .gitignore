@@ -36,3 +36,5 @@ src/data/photos.generated.json
 
 # Local visual checks and original-file backups
 qa/
+src/data/release.generated.json
+public/build-info.json

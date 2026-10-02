@@ -1,12 +1,26 @@
 import { test } from 'node:test';
 import { createAirliner as createFlightRig } from '../src/three/airlinerRig.js';
 import assert from 'node:assert/strict';
+import { KEEPSAKE_FRAMES, keepsakeFrameSvg, frameDataUrl } from '../src/lib/keepsakes.js';
 import { build } from 'vite';
 
 // Use the same module resolution and import.meta.glob transformation as the app.
 const bundle = await build({ configFile:false, logLevel:'error', ssr:{noExternal:true}, build:{ssr:'tests/subjects.js',write:false,minify:false,target:'es2022'} });
 const entry = bundle.output.find(file => file.type === 'chunk' && file.isEntry);
 const {ask,sendMessage,toTirhuta,romanToDeva,localize,computeWorld} = await import('data:text/javascript;base64,'+Buffer.from(entry.code).toString('base64'));
+
+test('all twenty Nepal keepsake frames have unique art, unique filters and an export watermark',()=>{
+  assert.equal(KEEPSAKE_FRAMES.length,20);
+  for(const field of ['id','name','filter'])assert.equal(new Set(KEEPSAKE_FRAMES.map(f=>f[field])).size,20);
+  assert.equal(new Set(KEEPSAKE_FRAMES.map(f=>keepsakeFrameSvg(f))).size,20);
+  for(const frame of KEEPSAKE_FRAMES){
+    const svg=keepsakeFrameSvg(frame);
+    assert.match(svg,/width="1200" height="1600"/);
+    assert.match(svg,/SHUVAMSINGH.COM.NP · NEPAL KEEPSAKE/);
+    assert.doesNotMatch(svg,/<script|https?:\/\/(?!www.w3.org)/);
+    assert.equal(decodeURIComponent(frameDataUrl(frame).split(',')[1]),svg);
+  }
+});
 
 test('assistant answers canonical facts in all three languages and accepts Devanagari queries',()=>{
   assert.match(ask('Which papers were accepted?','en').text,/IEEE ICAII/);

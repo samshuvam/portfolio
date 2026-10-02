@@ -131,7 +131,9 @@ export default {
     "art.stock": "Stock",
     "art.books": "Books",
     "art.people": "People",
-    "art.scriptCaption": "Mithila, in Tirhuta"
+    "art.scriptCaption": "Mithila, in Tirhuta",
+    "art.janaki": "Janaki Mandir arches",
+    "art.plane": "Aircraft silhouette"
   },
   "ne": {
     "hero.label": "परिचय",
@@ -265,7 +267,9 @@ export default {
     "art.stock": "मौज्दात",
     "art.books": "हिसाब",
     "art.people": "मानिस",
-    "art.scriptCaption": "तिरहुतामा मिथिला"
+    "art.scriptCaption": "तिरहुतामा मिथिला",
+    "art.janaki": "जानकी मन्दिरका मेहराब",
+    "art.plane": "विमानको आकृति"
   },
   "mai": {
     "hero.label": "परिचय",
@@ -399,6 +403,8 @@ export default {
     "art.stock": "माल",
     "art.books": "हिसाब",
     "art.people": "लोक",
-    "art.scriptCaption": "तिरहुता मे मिथिला"
+    "art.scriptCaption": "तिरहुता मे मिथिला",
+    "art.janaki": "जानकी मन्दिरक मेहराब",
+    "art.plane": "विमानक आकृति"
   }
 };

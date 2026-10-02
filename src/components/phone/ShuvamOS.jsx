@@ -78,7 +78,7 @@ export default function ShuvamOS({ scale = 1 }) {
   lockedRef.current = locked;
   const visible = (inView || fs) && pageVisible;
   const frameless = fs && vp.w <= 560;
-  const stageScale = fs ? (frameless ? 1 : Math.max(0.5, Math.min(1.15, (vp.h - 48) / DEVICE.h, (vp.w - 40) / DEVICE.w))) : scale;
+  const stageScale = fs ? (frameless ? 1 : Math.max(0.25, Math.min(1.15, (vp.h - 48) / DEVICE.h, (vp.w - 40) / DEVICE.w))) : scale;
 
   // ---- placement: the device lives in a host node that moves between the
   // inline slot and <body> (full screen) without remounting the OS.

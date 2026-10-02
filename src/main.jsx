@@ -10,6 +10,7 @@ import '@fontsource/noto-sans-tirhuta/400.css';
 import '@fontsource-variable/noto-sans-devanagari';
 import './styles/index.css';
 import App from './App.jsx';
+import './styles/frost.css';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

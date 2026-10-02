@@ -402,5 +402,7 @@ const arts = {
 export default function TermArt({ art, image }) {
   const p = image ? contextImage(image) : null;
   if(p) return <img src={p.src} alt="" loading="lazy" decoding="async" />;
+  if(art==='janaki')return <S k="janaki"><path d="M30 102H270V48H30Z M45 48V32Q60 4 75 32V48 M225 48V32Q240 4 255 32V48 M90 48Q90 15 115 12Q140 15 140 48 M160 48Q160 15 185 12Q210 15 210 48" className="ta-line"/>{[45,100,155,210].map(x=><path key={x} d={`M${x} 102V76Q${x+16} 55 ${x+32} 76V102`} className="ta-line"/>)}</S>;
+  if(art==='plane')return <S k="plane"><path d="M25 65Q12 57 25 53H125L150 16H172L155 53H237L260 35H279L267 59L279 83H260L237 65H155L172 105H150L125 65Z" className="ta-line"/><path d="M58 46H98M65 72H102" className="ta-line"/></S>;
   return arts[art] || arts.tokens;
 }

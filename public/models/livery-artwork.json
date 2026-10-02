@@ -1,0 +1,10 @@
+{
+  "prompt": "Use case: product-brand-artwork. Generate a new transparent-background aircraft fuselage decal inspired by the delicate Nepal heritage line drawings on the two supplied Suvmith Air livery references. Output a single exceptionally fine dark olive-green line-art mural, wide 5:1 composition with lots of transparent negative space and softly tapering ends. From left to right: small rhododendron flowering branch, Janaki Mandir ornate domes and arches, a graceful female figure as classical Mithila art inspired by Sita (tasteful traditional clothing), Buddha stupa with prayer flags, Himalayan foothill outlines, a lotus branch at right. Fine hand-engraved outlines only, elegant precise artwork, subtle shading by sparse hatch lines, one muted olive-green ink. No plane, no scenery photo, no livery stripes, no lettering or logo. Preserve the motif style of the references, not their photorealistic airplane. This decal will be placed on both sides of a custom 3D A350.",
+  "mode": "generate with supplied reference images",
+  "references": [
+    "Suvmith Air_ Himalayan Livery Showcase.png",
+    "Suvmith Air_ Himalayan Livery alternate Showcase.png"
+  ],
+  "savedPath": "public/models/nepal-mural.png",
+  "application": "Transparent Nepal engraving painted into the original A350 UV atlas by scripts/build-aircraft.py"
+}

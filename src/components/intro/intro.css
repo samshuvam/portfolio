@@ -23,6 +23,7 @@
 .intro-canvas.is-ready {
   opacity: 1;
 }
+.intro-handoff-mist{position:absolute;inset:-25%;opacity:0;pointer-events:none;background:radial-gradient(ellipse at 28% 55%,#e0ebe9ee 0%,#d2e0dfbb 12%,transparent 40%),radial-gradient(ellipse at 70% 40%,#e5eeecd9 0%,#dce6e499 18%,transparent 48%);filter:blur(24px);mix-blend-mode:screen}.intro.is-handoff .intro-strip,.intro.is-handoff .intro-radio,.intro.is-handoff .intro-scrim,.intro.is-handoff .intro-skip{transition:opacity .45s;opacity:0}.intro.is-handoff{pointer-events:none}
 
 .intro-scrim {
   position: absolute;

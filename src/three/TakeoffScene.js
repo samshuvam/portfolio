@@ -23,7 +23,7 @@ export const TIMELINE = {
   liftoff: 5.8,
   gearUp: [6.25, 7.0],
   tilt: 8.2,
-  dissolve: 9.3,
+  dissolve: 8.35,
   end: 10.3,
 };
 

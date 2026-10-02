@@ -196,8 +196,7 @@ export default function Home() {
           </div>
         </div>
 
-        <h3 className="nepal-title"> <L text={"And Nepal,"} /> <span className="light"> <L text={"in six cells."} /> </span>
-        </h3>
+        <h3 className="nepal-title"><L text="Nepal, beyond the postcard."/></h3>
         <div className="nepal-bento">
           <NepalMap />
           <div className="nb-cell nb-flag">

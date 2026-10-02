@@ -9,6 +9,7 @@ import { useT, useLocalize, localDigits } from '../../i18n';
 import dict from '../../i18n/ui/core';
 import overlay from '../../i18n/content/waypoints';
 import './footer.css';
+import release from '../../data/release.generated.json';
 
 export default function Footer() {
   const t = useT(dict), loc = useLocalize(overlay);
@@ -83,6 +84,7 @@ export default function Footer() {
           </p>
           <p>{t('footer.follows')}</p>
         </div>
+        <div className="footer-release"><span>DEPLOYMENT / {release.code}</span><span>{release.npt} · {release.shortCommit}</span></div>
       </div>
     </footer>
   );

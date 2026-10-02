@@ -9,7 +9,8 @@ import ExplodedPhone from './ExplodedPhone';
 import { Term } from '../ui/Term';
 import { gadgets } from '../../data/life';
 import { photos } from '../../lib/photos';
-import { contextImage } from '../../lib/imagery';
+import TermArt from '../ui/TermArt';
+import { KEEPSAKE_FRAMES, frameDataUrl } from '../../lib/keepsakes';
 import { setState, useStore } from '../../lib/store';
 import { findEgg } from '../../lib/eggs';
 import { gsap, reducedMotion, scrollToTarget } from '../../lib/motion';
@@ -52,8 +53,7 @@ export default function Life() {
   const c=useCopy();
   const root = useRef(null);
   const loc=useLocalize(overlay);
-  const spotted = contextImage('window');
-  const stack = ['janaki','panchthar','lumbini'].map(contextImage);
+  const stack = [0,3,10].map(i=>({id:KEEPSAKE_FRAMES[i].id,src:frameDataUrl(KEEPSAKE_FRAMES[i])}));
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -84,12 +84,10 @@ export default function Life() {
                 <p className="life-kicker"> <L text={"Aviation, always"} /> </p>
                 <p className="life-big"> <L text={"Plane spotter. Will look up mid-sentence."} /> </p>
               </div>
-              {spotted && (
                 <figure className="life-spotted">
-                  <img src={spotted.src} alt="An illustrated window-seat view over the Himalaya" loading="lazy" />
+                  <TermArt art="plane"/>
                   <figcaption>{c('Always the window seat.')}</figcaption>
                 </figure>
-              )}
             </div>
             <DepartureBoard />
           </div>

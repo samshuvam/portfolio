@@ -31,7 +31,7 @@ export function preloadAirliner() {
         mesh.castShadow = mesh.receiveShadow = true;
         template.add(mesh);
       });
-      template.name = 'A350 / SS2504 / Ideas inside';
+      template.name = 'A350 / Suvmith Air / Intelligence inside';
       return template;
     }).catch(error => { templatePromise = undefined; throw error; });
   }

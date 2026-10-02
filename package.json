@@ -7,9 +7,9 @@
     "test": "node --test tests/core.test.mjs",
     "check": "node scripts/check.mjs src/main.jsx",
     "photos": "node scripts/build-photos.mjs",
-    "predev": "node scripts/build-photos.mjs",
+    "predev": "node scripts/stamp-build.mjs && node scripts/build-photos.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/build-photos.mjs",
+    "prebuild": "node scripts/stamp-build.mjs && node scripts/build-photos.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

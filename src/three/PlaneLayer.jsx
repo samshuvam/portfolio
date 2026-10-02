@@ -288,7 +288,7 @@ export default function PlaneLayer() {
     let introWait = null;
     if (!reduce) {
       const startIntro = () => {
-        introTween = gsap.to(st, { intro: 1, duration: 2.4, delay:0.25, ease: 'power3.out' });
+        introTween = gsap.to(st, { intro: 1, duration: 2.4, delay:getState().intro==='done'?1.25:.25, ease: 'power3.out' });
         if (!planeBus.hidden.size) sound.whoosh(0.8);
       };
       if (getState().loaded) startIntro();

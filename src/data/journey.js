@@ -7,7 +7,7 @@ export const journey = [
     "title": "First light in Janakpur",
     "text": "Born in the city of Sita, into the sound of Maithili and the everyday warmth of Mithila.",
     "tag": "Life",
-    "image": "janaki"
+    "image": "journey-birth"
   },
   {
     "id": "panchthar",
@@ -17,7 +17,7 @@ export const journey = [
     "text": "My first childhood chapter unfolded in Panchthar, near Ilam. Hills, open air and a small world that felt enormous. I stayed until I was about",
     "term": "six-seven",
     "tag": "Life",
-    "image": "panchthar"
+    "image": "journey-hills"
   },
   {
     "id": "school",
@@ -34,7 +34,7 @@ export const journey = [
     "title": "A new chapter in the Valley",
     "text": "Moved to Lalitpur for Classes 11 and 12. A new city, new routines and a wider view of what came next.",
     "tag": "Study",
-    "image": "himalaya"
+    "image": "journey-lalitpur"
   },
   {
     "id": "srm",
@@ -43,7 +43,7 @@ export const journey = [
     "title": "Computer science, and a bigger world",
     "text": "B.Tech in Computer Science and Engineering, specialising in Big Data. Student council, photography club, volunteering and the first ideas that became working systems.",
     "tag": "Study",
-    "image": "research"
+    "image": "journey-campus"
   },
   {
     "id": "university-life",
@@ -52,7 +52,7 @@ export const journey = [
     "title": "There was life between the builds",
     "text": "Friends, campus events, camera walks, travel and the occasional plan that started with “let’s just go.” The dates blur; the stories do not.",
     "tag": "Life",
-    "image": "window"
+    "image": "journey-friends"
   },
   {
     "id": "bus",

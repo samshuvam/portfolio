@@ -170,17 +170,19 @@ export default function Intro() {
         setGone(true);
         return;
       }
-      const dur = skipped ? 0.45 : 0.95;
+      const dur = skipped ? 0.45 : 2.6;
+      if(!skipped)el.classList.add('is-handoff');
       const remove = () => {
         clearTimeout(removeTimer);
         stop();
         if (alive) setGone(true);
       };
-      tweens.push(gsap.to(el, { autoAlpha: 0, duration: dur, ease: 'power2.inOut', onComplete: remove }));
+      tweens.push(gsap.to(el, { autoAlpha: 0, duration: dur, ease: 'power1.inOut', onComplete: remove }));
+      if(!skipped)tweens.push(gsap.fromTo(el.querySelector('.intro-handoff-mist'),{opacity:.85,xPercent:-12,scale:1.1},{opacity:0,xPercent:35,scale:1.7,duration:dur,ease:'power2.inOut'}));
       // gsap runs on requestAnimationFrame, which a background tab pauses:
       // make sure the overlay still leaves.
       removeTimer = setTimeout(remove, dur * 1000 + 600);
-      if (canvasRef.current && !skipped) tweens.push(gsap.to(canvasRef.current, { opacity:0, duration:0.9, ease:'power2.out' }));
+      if (canvasRef.current && !skipped) tweens.push(gsap.to(canvasRef.current, { opacity:0, filter:'blur(14px)', duration:1.9, ease:'power1.inOut' }));
     };
     skipRef.current = () => finish(true);
 
@@ -353,6 +355,7 @@ export default function Intro() {
     <div ref={root} className="intro intro-cinema" style={{ background: bg }} role="region" aria-label={t('region')}>
       <canvas ref={canvasRef} className="intro-canvas" aria-hidden="true" />
       <div className="intro-scrim" aria-hidden="true" />
+      <div className="intro-handoff-mist" aria-hidden="true" />
 
       <header className="intro-strip">
         <p className="intro-flight">

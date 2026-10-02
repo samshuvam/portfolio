@@ -4,7 +4,7 @@ import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { Term } from '../ui/Term';
 import Yap from '../ui/Yap';
 import { profile, stats } from '../../data/profile';
-import { contextImage } from '../../lib/imagery';
+import TermArt from '../ui/TermArt';
 import { portrait } from '../../lib/photos';
 import { gsap, reducedMotion } from '../../lib/motion';
 import { useWorld } from '../../lib/world';
@@ -14,10 +14,9 @@ import overlay from '../../i18n/content/profile';
 import './about.css';
 
 function Pill({ photo, children, label }) {
-  const p = photo ? contextImage(photo) : null;
   return (
     <span className="pill-img" aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} aria-label={label}>
-      {p ? <img src={p.src} alt="" loading="lazy" /> : children}
+      {photo ? <TermArt art={photo==='janaki'?'janaki':photo==='window'?'plane':'tokens'}/> : children}
     </span>
   );
 }
