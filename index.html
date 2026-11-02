@@ -1,78 +1,453 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Shuvam Singh · AI, aviation and everything in between</title>
-    <meta name="description" content="Shuvam Singh, AI systems engineer from Janakpur, Nepal. Memory architectures for LLMs, AI for air traffic, context engineering, and systems people trust. Two accepted papers (IEEE ICAII 2026, ICAAsT 2024)." />
-    <meta name="author" content="Shuvam Singh" />
-    <meta name="keywords" content="Shuvam Singh, samshuvam, suvmith, AI engineer Nepal, Janakpur, RAG, context engineering, bio memory, continual learning, eVTOL, air traffic management, SRM University" />
-    <meta name="theme-color" content="#0c0f1a" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f2eee6" media="(prefers-color-scheme: light)" />
-    <link rel="canonical" href="https://shuvamsingh.com.np/" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuvam Singh Technologies — AI Systems & Intelligent Solutions</title>
+    <meta name="description" content="Shuvam Singh Technologies delivers cutting-edge AI systems, intelligent automation, and custom machine learning solutions for businesses across industries.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://shuvamsingh.com.np/" />
-    <meta property="og:title" content="Shuvam Singh · AI, aviation and everything in between" />
-    <meta property="og:description" content="AI that remembers, airspace that thinks, and systems people trust. Built from Janakpur, Nepal." />
-    <meta property="og:image" content="https://shuvamsingh.com.np/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@suvmith" />
-    <meta name="twitter:title" content="Shuvam Singh · AI, aviation and everything in between" />
-    <meta name="twitter:description" content="AI that remembers, airspace that thinks, and systems people trust. Built from Janakpur, Nepal." />
-    <meta name="twitter:image" content="https://shuvamsingh.com.np/og-image.png" />
+        :root {
+            --primary: #0a0f1c;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --surface: #111827;
+            --surface-2: #1e293b;
+            --border: #1e293b;
+            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Shuvam Singh",
-        "alternateName": ["samshuvam", "suvmith"],
-        "url": "https://shuvamsingh.com.np/",
-        "image": "https://shuvamsingh.com.np/og-image.png",
-        "jobTitle": "AI Systems Engineer",
-        "birthPlace": { "@type": "Place", "name": "Janakpur, Nepal" },
-        "homeLocation": { "@type": "Place", "name": "Lalitpur, Nepal" },
-        "alumniOf": { "@type": "CollegeOrUniversity", "name": "SRM University" },
-        "knowsLanguage": ["Maithili", "Nepali", "English"],
-        "sameAs": ["https://github.com/samshuvam", "https://x.com/suvmith", "https://www.instagram.com/sam.shuvam"]
-      }
-    </script>
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 15, 28, 0.85);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 72px;
+        }
+        .logo {
+            font-weight: 700; font-size: 1.15rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            font-weight: 500; transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta {
+            background: var(--accent); color: #fff; border: none;
+            padding: 0.55rem 1.4rem; border-radius: 8px;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
+            transition: background 0.2s; text-decoration: none;
+        }
+        .nav-cta:hover { background: var(--accent-hover); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+        .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 6rem 2rem 4rem;
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(139,92,246,0.06) 0%, transparent 60%);
+            animation: drift 20s ease-in-out infinite alternate;
+        }
+        @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(-3%, 3%); } }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.4rem 1rem; border-radius: 50px;
+            background: var(--surface-2); border: 1px solid var(--border);
+            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.2rem); font-weight: 800;
+            line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+        }
+        .hero h1 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.15rem; color: var(--text-muted);
+            max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.8;
+        }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--accent); color: #fff; border: none;
+            padding: 0.85rem 2rem; border-radius: 10px;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-secondary {
+            background: transparent; color: var(--text); border: 1px solid var(--border);
+            padding: 0.85rem 2rem; border-radius: 10px;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .btn-secondary:hover { background: var(--surface-2); }
+
+        /* ── SECTIONS ── */
+        section { padding: 6rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+            letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.2;
+        }
+        .section-desc { color: var(--text-muted); max-width: 600px; font-size: 1.05rem; margin-bottom: 3.5rem; }
+
+        /* ── SERVICES ── */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .service-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        .service-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); }
+        .service-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: var(--gradient-1); display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; margin-bottom: 1.5rem;
+        }
+        .service-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .service-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
+
+        /* ── ABOUT ── */
+        .about-section { background: var(--surface); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .stat {
+            background: var(--primary); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.5rem;
+        }
+        .stat-number {
+            font-size: 2rem; font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+        .about-text { color: var(--text-muted); font-size: 1rem; line-height: 1.8; }
+        .about-text p + p { margin-top: 1rem; }
+
+        /* ── INDUSTRIES ── */
+        .industries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        .industry-tag {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.25rem 1.5rem;
+            font-weight: 500; font-size: 0.95rem; text-align: center;
+            transition: all 0.2s;
+        }
+        .industry-tag:hover { border-color: rgba(59,130,246,0.3); background: var(--surface-2); }
+
+        /* ── CONTACT ── */
+        .contact-section { background: var(--surface); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        .contact-info h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
+        .contact-info p { color: var(--text-muted); margin-bottom: 2rem; line-height: 1.8; }
+        .contact-detail {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1rem 0; border-bottom: 1px solid var(--border);
+        }
+        .contact-detail-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: var(--surface-2); display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; flex-shrink: 0;
+        }
+        .contact-detail-label { font-size: 0.8rem; color: var(--text-muted); }
+        .contact-detail-value { font-weight: 500; font-size: 0.95rem; }
+        .contact-detail-value a { color: var(--text); text-decoration: none; }
+        .contact-detail-value a:hover { color: var(--accent); }
+
+        .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+        .contact-form input, .contact-form textarea {
+            background: var(--primary); border: 1px solid var(--border);
+            border-radius: 10px; padding: 0.9rem 1.2rem;
+            color: var(--text); font-family: inherit; font-size: 0.92rem;
+            transition: border-color 0.2s;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; border-color: var(--accent);
+        }
+        .contact-form textarea { min-height: 140px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border); padding: 3rem 2rem;
+            text-align: center;
+        }
+        footer p { color: var(--text-muted); font-size: 0.85rem; }
+        footer a { color: var(--text-muted); text-decoration: none; }
+        footer a:hover { color: var(--text); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .nav-links.active {
+                display: flex; flex-direction: column;
+                position: absolute; top: 72px; left: 0; right: 0;
+                background: rgba(10,15,28,0.98); padding: 2rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            section { padding: 4rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <div class="logo">Shuvam Singh Technologies</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#industries">Industries</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">Get in Touch</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"><span class="dot"></span> AI-First Engineering Company</div>
+            <h1>Building <span>Intelligent Systems</span> That Drive Business Forward</h1>
+            <p>We design, develop, and deploy production-grade AI solutions — from LLM-powered applications and cognitive architectures to autonomous systems and intelligent automation.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">Start a Project</a>
+                <a href="#services" class="btn-secondary">Explore Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+        <div class="container">
+            <p class="section-label">What We Do</p>
+            <h2 class="section-title">End-to-End AI Engineering</h2>
+            <p class="section-desc">From research prototypes to scalable production systems — we build AI that works in the real world.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🧠</div>
+                    <h3>LLM Systems & RAG Pipelines</h3>
+                    <p>Custom large language model integrations, retrieval-augmented generation systems, context engineering, and multi-modal AI pipelines tailored to your domain.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Intelligent Automation</h3>
+                    <p>Workflow automation powered by AI agents — from document processing and data extraction to autonomous decision-making systems that reduce operational overhead.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>AI Architecture & Consulting</h3>
+                    <p>Strategic guidance on AI adoption, technology stack selection, architecture design, and building internal AI capabilities for your engineering teams.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Predictive Analytics & ML</h3>
+                    <p>Machine learning models for forecasting, anomaly detection, classification, and optimization — deployed with monitoring and continuous improvement pipelines.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔐</div>
+                    <h3>Enterprise AI Integration</h3>
+                    <p>Seamlessly integrate AI capabilities into your existing enterprise systems — ERP, CRM, supply chain, and manufacturing platforms with secure, auditable AI layers.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>Computer Vision & IoT</h3>
+                    <p>Visual inspection systems, autonomous navigation, real-time sensor analytics, and edge AI deployments for industrial and commercial applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div>
+                    <p class="section-label">About Us</p>
+                    <h2 class="section-title">Engineering the Future with AI</h2>
+                    <div class="about-text">
+                        <p>Shuvam Singh Technologies is a research-driven AI engineering company headquartered in Nepal. Founded by Shuvam Singh — an AI systems engineer with published research in cognitive architectures, memory systems for LLMs, and aerospace AI — we bridge the gap between cutting-edge research and production-ready systems.</p>
+                        <p>Our team brings deep expertise in machine learning, natural language processing, computer vision, and distributed systems. We partner with startups, enterprises, and research institutions to build AI solutions that are reliable, scalable, and aligned with real business objectives.</p>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">25+</div>
+                            <div class="stat-label">Projects Delivered</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">4+</div>
+                            <div class="stat-label">Research Papers</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Industry Partners</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:center;">
+                    <div style="width:100%;aspect-ratio:1;border-radius:24px;background:linear-gradient(135deg,var(--surface-2),var(--primary));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:6rem;opacity:0.6;">
+                        🏢
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries -->
+    <section id="industries">
+        <div class="container">
+            <p class="section-label">Industries We Serve</p>
+            <h2 class="section-title">AI Solutions Across Sectors</h2>
+            <p class="section-desc">We bring domain-specific AI expertise to a wide range of industries.</p>
+            <div class="industries-grid">
+                <div class="industry-tag">✈️ Aerospace & Aviation</div>
+                <div class="industry-tag">🏥 Healthcare & MedTech</div>
+                <div class="industry-tag">🏭 Manufacturing & Supply Chain</div>
+                <div class="industry-tag">💰 Finance & FinTech</div>
+                <div class="industry-tag">🛒 E-Commerce & Retail</div>
+                <div class="industry-tag">🎓 Education & EdTech</div>
+                <div class="industry-tag">🌾 Agriculture & AgriTech</div>
+                <div class="industry-tag">🏗️ Infrastructure & Smart Cities</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <p class="section-label">Get in Touch</p>
+                    <h2 class="section-title">Let's Build Something Intelligent</h2>
+                    <p>Have a project in mind or want to explore how AI can transform your business? Reach out — we'd love to hear from you.</p>
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">📧</div>
+                        <div>
+                            <div class="contact-detail-label">Email</div>
+                            <div class="contact-detail-value"><a href="mailto:contact@shuvamsingh.com.np">contact@shuvamsingh.com.np</a></div>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">🌐</div>
+                        <div>
+                            <div class="contact-detail-label">Website</div>
+                            <div class="contact-detail-value"><a href="https://shuvamsingh.com.np">shuvamsingh.com.np</a></div>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">📍</div>
+                        <div>
+                            <div class="contact-detail-label">Location</div>
+                            <div class="contact-detail-value">Janakpur, Nepal</div>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! We will get back to you shortly.');">
+                    <div class="form-row">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <input type="text" placeholder="Company / Organization">
+                    <input type="text" placeholder="Subject">
+                    <textarea placeholder="Tell us about your project..."></textarea>
+                    <button type="submit" class="btn-primary" style="width:100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024–2026 Shuvam Singh Technologies. All rights reserved. &nbsp;|&nbsp; <a href="mailto:contact@shuvamsingh.com.np">contact@shuvamsingh.com.np</a></p>
+        </div>
+    </footer>
 
     <script>
-      // Pick the theme before first paint so there is no flash. The real
-      // sun position for Lalitpur is computed by the app once it boots;
-      // this is a fast approximation from Nepal time.
-      (function () {
-        try {
-          var saved = localStorage.getItem('ss-theme');
-          var mode = saved === 'day' || saved === 'night' ? saved : null;
-          if (!mode) {
-            var h = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', hour: 'numeric', hour12: false }).format(new Date()));
-            mode = h >= 6 && h < 18 ? 'day' : 'night';
-          }
-          document.documentElement.dataset.theme = mode;
-        } catch (e) {
-          document.documentElement.dataset.theme = 'night';
-        }
-      })();
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Subtle scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-card, .stat, .industry-tag, .contact-detail').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
     </script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <div id="root"></div>
-    <noscript>
-      <main style="max-width:42rem;margin:4rem auto;padding:0 1rem;font-family:system-ui,sans-serif;line-height:1.6">
-        <h1>Shuvam Singh</h1>
-        <p>AI, aviation and everything in between. AI systems engineer from Janakpur, Nepal. B.Tech CSE (Big Data), SRM University, CGPA 8.61.</p>
-        <p>Accepted papers: IEEE ICAII 2026 (Self-evolving cognitive architecture and bio-memory model) and ICAAsT 2024 (4D trajectory conflict detection).</p>
-        <p>Contact: <a href="mailto:suvmith@gmail.com">suvmith@gmail.com</a> · <a href="https://github.com/samshuvam">GitHub</a> · <a href="/CV.pdf">CV (PDF)</a></p>
-      </main>
-    </noscript>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+</body>
 </html>
