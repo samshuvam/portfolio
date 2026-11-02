@@ -3,451 +3,927 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shuvam Singh Technologies — AI Systems & Intelligent Solutions</title>
-    <meta name="description" content="Shuvam Singh Technologies delivers cutting-edge AI systems, intelligent automation, and custom machine learning solutions for businesses across industries.">
+    <title>Shuvam Singh Technologies — Applied AI & Intelligent Systems</title>
+    <meta name="description" content="Shuvam Singh Technologies builds stateful cognitive architectures, deterministic LLM context engines, and autonomous spatial intelligence for industry.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #0a0f1c;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --text: #e2e8f0;
+            --bg: #07090e;
+            --bg-subtle: #0d121c;
+            --card-bg: #111726;
+            --card-hover: #151d30;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(56, 189, 248, 0.35);
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --surface: #111827;
-            --surface-2: #1e293b;
-            --border: #1e293b;
-            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --text-dim: #64748b;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.12);
+            --accent-purple: #818cf8;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary);
-            color: var(--text);
-            line-height: 1.7;
+            font-family: var(--sans);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ── NAV ── */
-        nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            backdrop-filter: blur(20px);
-            background: rgba(10, 15, 28, 0.85);
+        /* Subtle grid background */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 50;
+            background: rgba(7, 9, 14, 0.85);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
         }
-        .nav-inner {
-            max-width: 1200px; margin: 0 auto;
-            padding: 0 2rem;
-            display: flex; align-items: center; justify-content: space-between;
-            height: 72px;
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .logo {
-            font-weight: 700; font-size: 1.15rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
         }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a {
-            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
-            font-weight: 500; transition: color 0.2s;
+        .brand-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--border-highlight);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
         }
-        .nav-links a:hover { color: var(--text); }
-        .nav-cta {
-            background: var(--accent); color: #fff; border: none;
-            padding: 0.55rem 1.4rem; border-radius: 8px;
-            font-weight: 600; font-size: 0.85rem; cursor: pointer;
-            transition: background 0.2s; text-decoration: none;
+        .brand-title {
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.01em;
         }
-        .nav-cta:hover { background: var(--accent-hover); }
+        .brand-sub {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-        .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
-
-        /* ── HERO ── */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 6rem 2rem 4rem;
-            position: relative; overflow: hidden;
+        nav.desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
         }
-        .hero::before {
-            content: ''; position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.08) 0%, transparent 60%),
-                        radial-gradient(ellipse at 70% 80%, rgba(139,92,246,0.06) 0%, transparent 60%);
-            animation: drift 20s ease-in-out infinite alternate;
-        }
-        @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(-3%, 3%); } }
-
-        .hero-content { position: relative; z-index: 1; max-width: 800px; }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.4rem 1rem; border-radius: 50px;
-            background: var(--surface-2); border: 1px solid var(--border);
-            font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2rem;
+        nav.desktop-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
             font-weight: 500;
+            transition: color 0.15s ease;
         }
-        .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.2rem); font-weight: 800;
-            line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+        nav.desktop-nav a:hover {
+            color: var(--text-main);
         }
-        .hero h1 span {
-            background: var(--gradient-1);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            font-size: 1.15rem; color: var(--text-muted);
-            max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.8;
-        }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn-primary {
-            background: var(--accent); color: #fff; border: none;
-            padding: 0.85rem 2rem; border-radius: 10px;
-            font-weight: 600; font-size: 0.95rem; cursor: pointer;
-            transition: all 0.2s; text-decoration: none;
-        }
-        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
-        .btn-secondary {
-            background: transparent; color: var(--text); border: 1px solid var(--border);
-            padding: 0.85rem 2rem; border-radius: 10px;
-            font-weight: 600; font-size: 0.95rem; cursor: pointer;
-            transition: all 0.2s; text-decoration: none;
-        }
-        .btn-secondary:hover { background: var(--surface-2); }
-
-        /* ── SECTIONS ── */
-        section { padding: 6rem 2rem; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .section-label {
-            font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem;
-        }
-        .section-title {
-            font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
-            letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.2;
-        }
-        .section-desc { color: var(--text-muted); max-width: 600px; font-size: 1.05rem; margin-bottom: 3.5rem; }
-
-        /* ── SERVICES ── */
-        .services-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .service-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 16px; padding: 2rem;
-            transition: all 0.3s ease;
-        }
-        .service-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); }
-        .service-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            background: var(--gradient-1); display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; margin-bottom: 1.5rem;
-        }
-        .service-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
-        .service-card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
-
-        /* ── ABOUT ── */
-        .about-section { background: var(--surface); }
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
-        .stat {
-            background: var(--primary); border: 1px solid var(--border);
-            border-radius: 12px; padding: 1.5rem;
-        }
-        .stat-number {
-            font-size: 2rem; font-weight: 800;
-            background: var(--gradient-1);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
-        .about-text { color: var(--text-muted); font-size: 1rem; line-height: 1.8; }
-        .about-text p + p { margin-top: 1rem; }
-
-        /* ── INDUSTRIES ── */
-        .industries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .industry-tag {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 1.25rem 1.5rem;
-            font-weight: 500; font-size: 0.95rem; text-align: center;
+        .btn-talk {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            text-decoration: none;
             transition: all 0.2s;
         }
-        .industry-tag:hover { border-color: rgba(59,130,246,0.3); background: var(--surface-2); }
-
-        /* ── CONTACT ── */
-        .contact-section { background: var(--surface); }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-        .contact-info h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
-        .contact-info p { color: var(--text-muted); margin-bottom: 2rem; line-height: 1.8; }
-        .contact-detail {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 1rem 0; border-bottom: 1px solid var(--border);
+        .btn-talk:hover {
+            background: rgba(56, 189, 248, 0.18);
+            border-color: var(--accent);
+            transform: translateY(-1px);
         }
-        .contact-detail-icon {
-            width: 40px; height: 40px; border-radius: 10px;
-            background: var(--surface-2); display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; flex-shrink: 0;
-        }
-        .contact-detail-label { font-size: 0.8rem; color: var(--text-muted); }
-        .contact-detail-value { font-weight: 500; font-size: 0.95rem; }
-        .contact-detail-value a { color: var(--text); text-decoration: none; }
-        .contact-detail-value a:hover { color: var(--accent); }
 
-        .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-        .contact-form input, .contact-form textarea {
-            background: var(--primary); border: 1px solid var(--border);
-            border-radius: 10px; padding: 0.9rem 1.2rem;
-            color: var(--text); font-family: inherit; font-size: 0.92rem;
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 160px 0 100px;
+            position: relative;
+        }
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .hero-pill .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5.2vw, 56px);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            max-width: 880px;
+            margin-bottom: 24px;
+        }
+        .hero h1 .highlight {
+            color: #fff;
+            background: linear-gradient(135deg, #38bdf8 20%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-desc {
+            font-size: clamp(16px, 1.9vw, 19px);
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 680px;
+            margin-bottom: 40px;
+        }
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 64px;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 28px;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #090d16;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background: #ffffff;
+            box-shadow: 0 0 24px rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 24px;
+            border-radius: 8px;
+            background: var(--bg-subtle);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            border-color: var(--text-dim);
+            background: var(--card-bg);
+        }
+
+        /* Metric Bar */
+        .metric-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 24px;
+            border-radius: 12px;
+            background: rgba(13, 18, 28, 0.6);
+            border: 1px solid var(--border);
+        }
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .metric-val {
+            font-family: var(--mono);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* Section Headings */
+        section {
+            padding: 96px 0;
+            position: relative;
+        }
+        .section-tag {
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(26px, 3.5vw, 36px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 640px;
+            line-height: 1.7;
+            margin-bottom: 56px;
+        }
+
+        /* Products / Systems Grid */
+        .systems-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .system-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .system-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .system-card:hover {
+            border-color: var(--border-highlight);
+            background: var(--card-hover);
+            transform: translateY(-3px);
+        }
+        .system-card:hover::before {
+            opacity: 1;
+        }
+        .system-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .system-badge {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        .system-highlight {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 600;
+        }
+        .system-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+        }
+        .system-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        .system-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .spec-tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        /* Research & Validation Section */
+        .research-section {
+            background: var(--bg-subtle);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .research-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .paper-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+        }
+        .paper-venue {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-purple);
+            background: rgba(129, 140, 248, 0.1);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+        }
+        .paper-card h4 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .paper-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .paper-stats {
+            display: flex;
+            gap: 20px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        .paper-stats strong {
+            color: var(--text-main);
+        }
+
+        /* Capabilities / Process */
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .cap-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+        }
+        .cap-num {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .cap-card h4 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .cap-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* Contact & Verification */
+        .contact-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            padding: 48px;
+            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+        }
+        .contact-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .contact-info p {
+            color: var(--text-muted);
+            font-size: 14.5px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .info-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            width: 80px;
+            padding-top: 2px;
+        }
+        .info-val {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+        .info-val a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .info-val a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 12px;
+            font-family: var(--mono);
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .form-input, .form-textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--text-main);
+            font-family: var(--sans);
+            font-size: 14px;
             transition: border-color 0.2s;
         }
-        .contact-form input:focus, .contact-form textarea:focus {
-            outline: none; border-color: var(--accent);
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
         }
-        .contact-form textarea { min-height: 140px; resize: vertical; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+        .btn-submit {
+            background: var(--accent);
+            color: #07090e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .btn-submit:hover {
+            background: #7dd3fc;
+        }
 
-        /* ── FOOTER ── */
+        /* Footer */
         footer {
-            border-top: 1px solid var(--border); padding: 3rem 2rem;
-            text-align: center;
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+            background: var(--bg);
         }
-        footer p { color: var(--text-muted); font-size: 0.85rem; }
-        footer a { color: var(--text-muted); text-decoration: none; }
-        footer a:hover { color: var(--text); }
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-dim);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .footer-links a:hover {
+            color: var(--text-muted);
+        }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hamburger { display: flex; }
-            .nav-links.active {
-                display: flex; flex-direction: column;
-                position: absolute; top: 72px; left: 0; right: 0;
-                background: rgba(10,15,28,0.98); padding: 2rem;
-                border-bottom: 1px solid var(--border);
+        /* Responsive */
+        @media (max-width: 900px) {
+            .systems-grid, .research-grid, .capabilities-grid, .contact-wrap {
+                grid-template-columns: 1fr;
             }
-            .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .form-row { grid-template-columns: 1fr; }
-            section { padding: 4rem 1.25rem; }
+            .metric-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .contact-wrap {
+                padding: 24px;
+            }
+        }
+        @media (max-width: 640px) {
+            nav.desktop-nav {
+                display: none;
+            }
+            .hero {
+                padding-top: 120px;
+            }
+            .metric-bar {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-inner">
-            <div class="logo">Shuvam Singh Technologies</div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#industries">Industries</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <a href="#contact" class="nav-cta">Get in Touch</a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </nav>
+    <div class="bg-grid"></div>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge"><span class="dot"></span> AI-First Engineering Company</div>
-            <h1>Building <span>Intelligent Systems</span> That Drive Business Forward</h1>
-            <p>We design, develop, and deploy production-grade AI solutions — from LLM-powered applications and cognitive architectures to autonomous systems and intelligent automation.</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn-primary">Start a Project</a>
-                <a href="#services" class="btn-secondary">Explore Services</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services -->
-    <section id="services">
-        <div class="container">
-            <p class="section-label">What We Do</p>
-            <h2 class="section-title">End-to-End AI Engineering</h2>
-            <p class="section-desc">From research prototypes to scalable production systems — we build AI that works in the real world.</p>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🧠</div>
-                    <h3>LLM Systems & RAG Pipelines</h3>
-                    <p>Custom large language model integrations, retrieval-augmented generation systems, context engineering, and multi-modal AI pipelines tailored to your domain.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">⚙️</div>
-                    <h3>Intelligent Automation</h3>
-                    <p>Workflow automation powered by AI agents — from document processing and data extraction to autonomous decision-making systems that reduce operational overhead.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏗️</div>
-                    <h3>AI Architecture & Consulting</h3>
-                    <p>Strategic guidance on AI adoption, technology stack selection, architecture design, and building internal AI capabilities for your engineering teams.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Predictive Analytics & ML</h3>
-                    <p>Machine learning models for forecasting, anomaly detection, classification, and optimization — deployed with monitoring and continuous improvement pipelines.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🔐</div>
-                    <h3>Enterprise AI Integration</h3>
-                    <p>Seamlessly integrate AI capabilities into your existing enterprise systems — ERP, CRM, supply chain, and manufacturing platforms with secure, auditable AI layers.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🚀</div>
-                    <h3>Computer Vision & IoT</h3>
-                    <p>Visual inspection systems, autonomous navigation, real-time sensor analytics, and edge AI deployments for industrial and commercial applications.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="about-grid">
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="#" class="brand">
+                <div class="brand-badge">SST</div>
                 <div>
-                    <p class="section-label">About Us</p>
-                    <h2 class="section-title">Engineering the Future with AI</h2>
-                    <div class="about-text">
-                        <p>Shuvam Singh Technologies is a research-driven AI engineering company headquartered in Nepal. Founded by Shuvam Singh — an AI systems engineer with published research in cognitive architectures, memory systems for LLMs, and aerospace AI — we bridge the gap between cutting-edge research and production-ready systems.</p>
-                        <p>Our team brings deep expertise in machine learning, natural language processing, computer vision, and distributed systems. We partner with startups, enterprises, and research institutions to build AI solutions that are reliable, scalable, and aligned with real business objectives.</p>
-                    </div>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <div class="stat-number">25+</div>
-                            <div class="stat-label">Projects Delivered</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">4+</div>
-                            <div class="stat-label">Research Papers</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">10+</div>
-                            <div class="stat-label">Industry Partners</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">3+</div>
-                            <div class="stat-label">Years Experience</div>
-                        </div>
-                    </div>
+                    <div class="brand-title">Shuvam Singh Technologies</div>
+                    <div class="brand-sub">Applied AI & Systems Engineering</div>
                 </div>
-                <div style="display:flex;align-items:center;justify-content:center;">
-                    <div style="width:100%;aspect-ratio:1;border-radius:24px;background:linear-gradient(135deg,var(--surface-2),var(--primary));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:6rem;opacity:0.6;">
-                        🏢
-                    </div>
-                </div>
-            </div>
+            </a>
+            <nav class="desktop-nav">
+                <a href="#systems">Core Systems</a>
+                <a href="#research">Research & Proof</a>
+                <a href="#capabilities">Engineering</a>
+                <a href="#contact">Contact</a>
+                <a href="#contact" class="btn-talk">Initiate Pilot</a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <!-- Industries -->
-    <section id="industries">
-        <div class="container">
-            <p class="section-label">Industries We Serve</p>
-            <h2 class="section-title">AI Solutions Across Sectors</h2>
-            <p class="section-desc">We bring domain-specific AI expertise to a wide range of industries.</p>
-            <div class="industries-grid">
-                <div class="industry-tag">✈️ Aerospace & Aviation</div>
-                <div class="industry-tag">🏥 Healthcare & MedTech</div>
-                <div class="industry-tag">🏭 Manufacturing & Supply Chain</div>
-                <div class="industry-tag">💰 Finance & FinTech</div>
-                <div class="industry-tag">🛒 E-Commerce & Retail</div>
-                <div class="industry-tag">🎓 Education & EdTech</div>
-                <div class="industry-tag">🌾 Agriculture & AgriTech</div>
-                <div class="industry-tag">🏗️ Infrastructure & Smart Cities</div>
-            </div>
-        </div>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-pill">
+                    <span class="status-dot"></span>
+                    <span>Commercializing Lab-Grade AI Research</span>
+                </div>
+                <h1>Engineering <span class="highlight">Stateful Memory</span>, Deterministic LLM Engines & Autonomous Systems.</h1>
+                <p class="hero-desc">
+                    We transition peer-reviewed cognitive architectures and spatial intelligence into production-grade systems for aviation, enterprise knowledge, and field robotics.
+                </p>
+                <div class="hero-actions">
+                    <a href="#systems" class="btn-primary">Explore Core Technologies</a>
+                    <a href="#contact" class="btn-secondary">Request Technical Briefing</a>
+                </div>
 
-    <!-- Contact -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <p class="section-label">Get in Touch</p>
-                    <h2 class="section-title">Let's Build Something Intelligent</h2>
-                    <p>Have a project in mind or want to explore how AI can transform your business? Reach out — we'd love to hear from you.</p>
-                    <div class="contact-detail">
-                        <div class="contact-detail-icon">📧</div>
+                <!-- Verified Metrics -->
+                <div class="metric-bar">
+                    <div class="metric-item">
+                        <span class="metric-val">+203%</span>
+                        <span class="metric-label">RAG Retention vs. Baseline</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val">94.2%</span>
+                        <span class="metric-label">Bio-Memory Persistence</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val">4D</span>
+                        <span class="metric-label">Trajectory Conflict Detection</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val">45 FPS</span>
+                        <span class="metric-label">Edge Vision Processing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Systems / Products Section -->
+        <section id="systems">
+            <div class="container">
+                <div class="section-tag">[ Production Systems & Deployments ]</div>
+                <h2 class="section-title">Applied AI Platforms Built for High-Stakes Operations</h2>
+                <p class="section-subtitle">
+                    Our architectures solve the critical bottlenecks of standard AI implementations: memory drift, hallucination, latency, and real-time physical autonomy.
+                </p>
+
+                <div class="systems-grid">
+                    <!-- System 1: Segmented Generation -->
+                    <div class="system-card">
                         <div>
-                            <div class="contact-detail-label">Email</div>
-                            <div class="contact-detail-value"><a href="mailto:contact@shuvamsingh.com.np">contact@shuvamsingh.com.np</a></div>
+                            <div class="system-top">
+                                <span class="system-badge">ORCHESTRATION ENGINE</span>
+                                <span class="system-highlight">3.4x Token Efficiency</span>
+                            </div>
+                            <h3>ContextStream // Segmented Generation</h3>
+                            <p>
+                                An end-to-end context orchestration pipeline for long-form synthesis under constrained token budgets. Employs dynamic template planning and iterative window injection to eliminate fact drift and citation loss across multi-stage reasoning.
+                            </p>
+                        </div>
+                        <div class="system-specs">
+                            <span class="spec-tag">Vector Graph Memory</span>
+                            <span class="spec-tag">Dynamic Planning</span>
+                            <span class="spec-tag">llama.cpp / Ollama</span>
+                            <span class="spec-tag">Benchmarked (500+ Queries)</span>
                         </div>
                     </div>
-                    <div class="contact-detail">
-                        <div class="contact-detail-icon">🌐</div>
+
+                    <!-- System 2: Bio-Memory Architecture -->
+                    <div class="system-card">
                         <div>
-                            <div class="contact-detail-label">Website</div>
-                            <div class="contact-detail-value"><a href="https://shuvamsingh.com.np">shuvamsingh.com.np</a></div>
+                            <div class="system-top">
+                                <span class="system-badge">COGNITIVE ARCHITECTURE</span>
+                                <span class="system-highlight">IEEE ICAII 2026 Accepted</span>
+                            </div>
+                            <h3>BioMemory Core // Continual Learning Layer</h3>
+                            <p>
+                                Bio-inspired stateful memory system combining semantic vectors, knowledge graphs, and an Ebbinghaus decay curve. Enables AI agents and enterprise assistants to acquire lifelong user context without catastrophic forgetting or expensive re-training cycles.
+                            </p>
+                        </div>
+                        <div class="system-specs">
+                            <span class="spec-tag">LoRA Adaptation</span>
+                            <span class="spec-tag">Sleep Consolidation</span>
+                            <span class="spec-tag">ChromaDB</span>
+                            <span class="spec-tag">Zero Full-Retraining</span>
                         </div>
                     </div>
-                    <div class="contact-detail">
-                        <div class="contact-detail-icon">📍</div>
+
+                    <!-- System 3: AeroAI / Airspace Control -->
+                    <div class="system-card">
                         <div>
-                            <div class="contact-detail-label">Location</div>
-                            <div class="contact-detail-value">Janakpur, Nepal</div>
+                            <div class="system-top">
+                                <span class="system-badge">AEROSPACE AUTONOMY</span>
+                                <span class="system-highlight">ICAAsT Publication</span>
+                            </div>
+                            <h3>AeroRoute 4D // Airspace Conflict Intelligence</h3>
+                            <p>
+                                Autonomous 4D trajectory conflict detection and airspace corridor management for urban air mobility (eVTOL) and UAV delivery networks. Computes collision-free separation assurance in sub-second kinematic intervals.
+                            </p>
+                        </div>
+                        <div class="system-specs">
+                            <span class="spec-tag">4D Kinematics</span>
+                            <span class="spec-tag">Trajectory Prediction</span>
+                            <span class="spec-tag">Autonomous Separation</span>
+                            <span class="spec-tag">Simulated ATM Layer</span>
+                        </div>
+                    </div>
+
+                    <!-- System 4: Autonomous Robotics Vision -->
+                    <div class="system-card">
+                        <div>
+                            <div class="system-top">
+                                <span class="system-badge">EMBEDDED ROBOTICS</span>
+                                <span class="system-highlight">Field Tested in Nepal</span>
+                            </div>
+                            <h3>TerrainPilot // Unstructured Ground Navigation</h3>
+                            <p>
+                                Vision-first perception stack and world models engineered for autonomous ground delivery in unstructured, non-standard terrains. Bypasses GPS dependency through local topographic semantic mapping and dynamic obstacle avoidance.
+                            </p>
+                        </div>
+                        <div class="system-specs">
+                            <span class="spec-tag">World Models</span>
+                            <span class="spec-tag">Edge Vision</span>
+                            <span class="spec-tag">OpenCV / PyTorch</span>
+                            <span class="spec-tag">Sub-Centimeter Mapping</span>
                         </div>
                     </div>
                 </div>
-                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! We will get back to you shortly.');">
-                    <div class="form-row">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
-                    </div>
-                    <input type="text" placeholder="Company / Organization">
-                    <input type="text" placeholder="Subject">
-                    <textarea placeholder="Tell us about your project..."></textarea>
-                    <button type="submit" class="btn-primary" style="width:100%;">Send Message</button>
-                </form>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Research & Rigor -->
+        <section id="research" class="research-section">
+            <div class="container">
+                <div class="section-tag">[ Academic Foundations ]</div>
+                <h2 class="section-title">Validated Through Peer-Reviewed AI Research</h2>
+                <p class="section-subtitle">
+                    Unlike surface-level wrapper agencies, our systems are grounded in original mathematical formulation and conference-accepted research.
+                </p>
+
+                <div class="research-grid">
+                    <div class="paper-card">
+                        <span class="paper-venue">IEEE ICAII 2026</span>
+                        <h4>Self-Evolving Cognitive Architecture with Bio-Memory Modeling for Continual LLM Adaptation</h4>
+                        <p>
+                            Addresses catastrophic forgetting in continual learning. Formulates an asynchronous sleep-phase memory consolidation mechanism paired with parameter-efficient rank-stabilized LoRA updates.
+                        </p>
+                        <div class="paper-stats">
+                            <span>Author: <strong>Shuvam Singh</strong></span>
+                            <span>Target: <strong>Consumer Edge GPUs</strong></span>
+                            <span>Retention: <strong>94.2%</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="paper-card">
+                        <span class="paper-venue">ICAAsT Conference</span>
+                        <h4>Autonomous 4D Trajectory Conflict Detection in High-Density Urban Airspace Corridors</h4>
+                        <p>
+                            Models dynamic spatial-temporal airspace corridors for autonomous drone fleets and eVTOL operations. Formulates predictive convergence algorithms for non-cooperative multi-agent flight paths.
+                        </p>
+                        <div class="paper-stats">
+                            <span>Author: <strong>Shuvam Singh</strong></span>
+                            <span>Domain: <strong>Air Traffic Management (ATM)</strong></span>
+                            <span>Horizon: <strong>Real-time</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engineering Capabilities -->
+        <section id="capabilities">
+            <div class="container">
+                <div class="section-tag">[ Core Capabilities ]</div>
+                <h2 class="section-title">How We Partner with Engineering Teams</h2>
+                <p class="section-subtitle">
+                    We work with high-growth technology companies and research organizations to design, benchmark, and deploy custom AI infrastructure.
+                </p>
+
+                <div class="capabilities-grid">
+                    <div class="cap-card">
+                        <div class="cap-num">01 / ARCHITECTURE</div>
+                        <h4>Custom Context & RAG Pipelines</h4>
+                        <p>
+                            Custom retrieval orchestration, semantic vector spaces, and document chunking pipelines that exceed off-the-shelf framework accuracy by 2x.
+                        </p>
+                    </div>
+                    <div class="cap-card">
+                        <div class="cap-num">02 / DEPLOYMENT</div>
+                        <h4>Edge & Local LLM Optimization</h4>
+                        <p>
+                            Quantization, structured JSON generation, and sub-100ms inference pipelines using llama.cpp and lightweight local models without cloud lock-in.
+                        </p>
+                    </div>
+                    <div class="cap-card">
+                        <div class="cap-num">03 / SPECIALIZED AI</div>
+                        <h4>Computer Vision & Spatial Models</h4>
+                        <p>
+                            Custom visual feature extraction, multi-camera tracking, gesture authentication, and real-time spatial analysis for industrial deployments.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Business Identification -->
+        <section id="contact">
+            <div class="container">
+                <div class="contact-wrap">
+                    <div class="contact-info">
+                        <div class="section-tag">[ Contact & Inquiries ]</div>
+                        <h3>Initiate an AI Engineering Pilot</h3>
+                        <p>
+                            Whether you need to architect custom long-context LLM pipelines, stateful agent memory, or autonomous spatial intelligence, connect directly with our engineering team.
+                        </p>
+                        <div class="info-row">
+                            <div class="info-item">
+                                <span class="info-label">Entity</span>
+                                <span class="info-val">Shuvam Singh Technologies</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Domain</span>
+                                <span class="info-val"><a href="https://shuvamsingh.com.np">shuvamsingh.com.np</a></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Inquiries</span>
+                                <span class="info-val"><a href="mailto:contact@shuvamsingh.com.np">contact@shuvamsingh.com.np</a></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Office</span>
+                                <span class="info-val">Janakpur & Kathmandu, Nepal</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Founder</span>
+                                <span class="info-val">Shuvam Singh (Lead Systems Engineer)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Inquiry received. The engineering team will review your specs and respond to your domain email shortly.');">
+                        <div class="form-group">
+                            <label>Full Name / Title</label>
+                            <input type="text" class="form-input" placeholder="e.g. David Vance, Head of AI" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Work Email</label>
+                            <input type="email" class="form-input" placeholder="name@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Technical Scope</label>
+                            <select class="form-input" style="color:var(--text-main);background:var(--bg);">
+                                <option>ContextStream // Segmented Generation Deployment</option>
+                                <option>BioMemory // Continual Learning Integration</option>
+                                <option>AeroAI // 4D Trajectory Systems</option>
+                                <option>Custom Enterprise RAG & Local LLM Infrastructure</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Details / Token Budget</label>
+                            <textarea class="form-textarea" placeholder="Describe system requirements, current latency constraints, and deployment targets..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Submit System Inquiry &rarr;</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024–2026 Shuvam Singh Technologies. All rights reserved. &nbsp;|&nbsp; <a href="mailto:contact@shuvamsingh.com.np">contact@shuvamsingh.com.np</a></p>
+            <div class="footer-inner">
+                <div>
+                    &copy; 2026 Shuvam Singh Technologies. All rights reserved. Registered entity for applied AI & systems research.
+                </div>
+                <div class="footer-links">
+                    <a href="#systems">Core Platforms</a>
+                    <a href="#research">Publications</a>
+                    <a href="mailto:contact@shuvamsingh.com.np">contact@shuvamsingh.com.np</a>
+                </div>
+            </div>
         </div>
     </footer>
-
-    <script>
-        // Mobile menu toggle
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('navLinks').classList.toggle('active');
-        });
-
-        // Close mobile menu on link click
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('active');
-            });
-        });
-
-        // Subtle scroll animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.service-card, .stat, .industry-tag, .contact-detail').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
-    </script>
 </body>
 </html>
